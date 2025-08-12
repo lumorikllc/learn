@@ -1,0 +1,112 @@
+/* Tailwind CSS */
+@import url('https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css');
+
+/* Custom Styles */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+
+/* Typography */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Prose Styles for Markdown Content */
+.prose h1 {
+    @apply text-3xl font-bold text-gray-900 mb-4 mt-8;
+}
+
+.prose h2 {
+    @apply text-2xl font-bold text-gray-900 mb-3 mt-6;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.prose h3 {
+    @apply text-xl font-semibold text-gray-800 mb-2 mt-4;
+}
+
+.prose p {
+    @apply text-gray-700 leading-relaxed mb-4;
+}
+
+.prose ul {
+    @apply list-disc list-inside mb-4 space-y-2;
+}
+
+.prose ul li {
+    @apply text-gray-700;
+}
+
+.prose ul li::marker {
+    @apply text-purple-500;
+}
+
+.prose strong {
+    @apply font-semibold text-gray-900;
+}
+
+.prose a {
+    @apply text-purple-600 hover:text-purple-700 underline transition;
+}
+
+.prose hr {
+    @apply my-8 border-gray-200;
+}
+
+.prose blockquote {
+    @apply border-l-4 border-purple-500 pl-4 italic text-gray-700 my-4;
+}
+
+.prose code {
+    @apply bg-gray-100 px-2 py-1 rounded text-sm font-mono text-gray-800;
+}
+
+.prose pre {
+    @apply bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto my-4;
+}
+
+/* Module Cards */
+.module-card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition;
+}
+
+/* Animations */
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+    background-size: 200% 200%;
+    animation: gradient 3s ease infinite;
+}
+
+/* Emoji Enhancement */
+h1:has(+ p:contains("📚")) {
+    @apply flex items-center gap-2;
+}
+
+/* Module Numbers with Emoji */
+h3:contains("1️⃣"), h3:contains("2️⃣"), h3:contains("3️⃣"), 
+h3:contains("4️⃣"), h3:contains("5️⃣"), h3:contains("6️⃣"), 
+h3:contains("7️⃣"), h3:contains("8️⃣"), h3:contains("9️⃣") {
+    @apply bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-lg mb-4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .prose h1 {
+        @apply text-2xl;
+    }
+    
+    .prose h2 {
+        @apply text-xl;
+    }
+    
+    .prose h3 {
+        @apply text-lg;
+    }
+}
