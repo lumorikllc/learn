@@ -16,6 +16,40 @@
     
     <!-- Styles -->
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    
+    <!-- MathJax v3 for Math Rendering -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                packages: {'[+]': ['ams', 'amsmath', 'amssymb', 'color', 'newcommand', 'configmacros']},
+                macros: {
+                    RR: '\\mathbb{R}',
+                    NN: '\\mathbb{N}',
+                    ZZ: '\\mathbb{Z}',
+                    QQ: '\\mathbb{Q}',
+                    CC: '\\mathbb{C}',
+                    norm: ['\\lVert#1\\rVert', 1],
+                    abs: ['\\lvert#1\\rvert', 1],
+                    bra: ['\\langle#1\\rvert', 1],
+                    ket: ['\\lvert#1\\rangle', 1],
+                    braket: ['\\langle#1\\rvert#2\\rangle', 2]
+                }
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            startup: {
+                ready: () => {
+                    console.log('MathJax is ready');
+                    MathJax.startup.defaultReady();
+                }
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
