@@ -14,9 +14,11 @@ body {
 
 /* iOS 26 Liquid Glass Header Effect */
 .liquid-glass-header {
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 50;
+    left: 0;
+    right: 0;
+    z-index: 9999;
     
     /* Liquid Glass Base */
     background: rgba(255, 255, 255, 0.15);
