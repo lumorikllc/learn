@@ -2,10 +2,48 @@
 layout: default
 ---
 
-<div class="metadata">
-    <strong>{{ page.title }}</strong><br>
-    Modules: {{ page.modules }} | Lessons: {{ page.lessons }}<br>
-    Published: {{ page.date | date: "%B %d, %Y" }}
-</div>
+<article class="max-w-4xl mx-auto">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-8 text-white mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <span class="px-3 py-1 bg-white/20 rounded-full text-sm">Study Plan</span>
+            <span class="text-sm opacity-90">{{ page.date | date: "%B %d, %Y" }}</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">{{ page.title }}</h1>
+        <div class="flex flex-wrap gap-4">
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="font-medium">{{ page.modules }} Modules</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="font-medium">{{ page.lessons }} Lessons</span>
+            </div>
+        </div>
+    </div>
 
-{{ content }}
+    <!-- Content -->
+    <div class="prose prose-lg max-w-none">
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            {{ content }}
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-2xl p-8 text-center">
+        <h2 class="text-2xl font-bold text-gray-900 mb-4">Ready to Start Learning?</h2>
+        <p class="text-gray-600 mb-6">Join thousands of learners using Lumorik AI to achieve their goals.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="https://ai.tutor.lumorik.com" class="px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition font-medium">
+                Start Your Journey
+            </a>
+            <a href="{{ '/' | relative_url }}" class="px-6 py-3 bg-white text-gray-700 rounded-lg border border-gray-300 hover:border-gray-400 transition font-medium">
+                Browse More Plans
+            </a>
+        </div>
+    </div>
+</article>
