@@ -3,6 +3,16 @@ layout: default
 ---
 
 <article class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Clone Button (Fixed Position) -->
+    <div class="fixed top-20 right-4 z-40 hidden sm:block" id="clone-action-bar">
+        <button onclick="initiateClone()" class="bg-gradient-to-r from-green-600 to-teal-600 text-white px-4 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 flex items-center gap-2 font-medium">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Get Full Study Plan
+        </button>
+    </div>
+
     <!-- Textbook Header -->
     <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-white mb-6 sm:mb-8">
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
@@ -76,4 +86,42 @@ layout: default
             });
         }
     });
+    
+    // Clone functionality for textbook page
+    function initiateClone() {
+        // For textbook pages, we need to extract the parent study plan URL
+        // The URL structure should be similar but we clone the whole study plan
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        
+        if (pathSegments.length < 3) {
+            console.error('Invalid URL structure for cloning');
+            alert('Unable to clone this study plan - invalid URL structure');
+            return;
+        }
+        
+        // The textbook page contains reference to parent study plan
+        const sourceUserId = pathSegments[1];  // user_id from URL
+        // For textbook, we need the parent plan ID - might be in the URL or page data
+        // Assuming the URL is /learn/{user_id}/{textbook_id} but we need plan_id
+        // If study_plan_url is available, extract from there
+        {% if page.study_plan_url %}
+        const planUrl = "{{ page.study_plan_url }}";
+        const planSegments = planUrl.split('/').filter(Boolean);
+        const sourcePlanId = planSegments[planSegments.length - 1];
+        {% else %}
+        // Fallback: use the current ID as plan ID (may need adjustment based on actual structure)
+        const sourcePlanId = pathSegments[2];
+        {% endif %}
+        
+        // Build target URL - clone the entire study plan, not just the textbook
+        const cloneUrl = `https://ai.tutor.lumorik.com/app/?action=clone&source_plan=${sourcePlanId}&source_user=${sourceUserId}`;
+        
+        // Redirect to main app
+        window.location.href = cloneUrl;
+    }
+    
+    // Only show clone button on GitHub Pages (not local development)
+    if (window.location.hostname.includes('github.io')) {
+        document.getElementById('clone-action-bar').classList.remove('hidden');
+    }
 </script>
