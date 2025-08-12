@@ -143,8 +143,8 @@
         // Build target URL with query parameters - redirect to /app/ not root
         const cloneUrl = `https://ai.tutor.lumorik.com/app/?action=clone&source_plan=${sourcePlanId}&source_user=${sourceUserId}`;
         
-        // Redirect to main app
-        window.location.href = cloneUrl;
+        // Open in new tab so user doesn't lose their place
+        window.open(cloneUrl, '_blank');
     }
     </script>
     {% endif %}
