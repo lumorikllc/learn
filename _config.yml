@@ -1,24 +1,31 @@
-title: Lumorik Learning Hub
-description: AI-Powered Study Plans and Textbooks
+# Jekyll configuration for Lumorik Learn
+title: Lumorik Learn
+description: Learn at the speed of light with AI-powered study plans
 baseurl: "/learn"
-url: "https://lumorik-ai.github.io"
+url: "https://lumorikllc.github.io"
 
-# Theme and plugins
-theme: minima
+# Build settings
+markdown: kramdown
+theme: null
+
+# Plugins
 plugins:
-  - jekyll-relative-links
   - jekyll-seo-tag
   - jekyll-sitemap
 
-# Markdown processing
-markdown: kramdown
-kramdown:
-  input: GFM
-  syntax_highlighter: rouge
-  hard_wrap: false
+# Collections
+collections:
+  content:
+    output: true
 
-# Exclude files from build
-exclude:
-  - README.md
-  - LICENSE
-  - .gitignore
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+  - scope:
+      path: "content"
+    values:
+      layout: "study-plan"
