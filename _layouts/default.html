@@ -63,12 +63,22 @@
                         </div>
                         <span class="text-lg sm:text-xl font-semibold text-gray-900 hidden sm:inline">Lumorik Learn</span>
                     </a>
-                    <div class="flex items-center space-x-3 sm:space-x-6">
+                    <div class="flex items-center space-x-3 sm:space-x-4">
                         <a href="{{ '/' | relative_url }}" class="text-gray-600 hover:text-gray-900 transition text-sm sm:text-base">Browse</a>
                         <a href="https://ai.tutor.lumorik.com" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition text-sm sm:text-base">
-                            <span class="hidden sm:inline">Create Study Plan</span>
-                            <span class="sm:hidden">Create</span>
+                            <span class="hidden sm:inline">Try Lumorik AI</span>
+                            <span class="sm:hidden">Try AI</span>
                         </a>
+                        <!-- Clone Button (only show on study plan and textbook pages) -->
+                        {% if page.layout == 'study-plan' or page.layout == 'textbook' %}
+                        <button id="header-clone-btn" onclick="initiateClone()" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition text-sm sm:text-base flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+                            </svg>
+                            <span class="hidden sm:inline">Take it as mine</span>
+                            <span class="sm:hidden">Clone</span>
+                        </button>
+                        {% endif %}
                     </div>
                 </nav>
             </div>
@@ -98,5 +108,45 @@
             </div>
         </footer>
     </div>
+    
+    <!-- Clone JavaScript (for study plan and textbook pages) -->
+    {% if page.layout == 'study-plan' or page.layout == 'textbook' %}
+    <script>
+    function initiateClone() {
+        // Parse URL to get IDs
+        const pathSegments = window.location.pathname.split('/').filter(Boolean);
+        
+        if (pathSegments.length < 3) {
+            console.error('Invalid URL structure for cloning');
+            alert('Unable to clone this study plan - invalid URL structure');
+            return;
+        }
+        
+        const sourceUserId = pathSegments[1];  // user_id from URL
+        let sourcePlanId;
+        
+        // Handle different page types
+        {% if page.layout == 'textbook' %}
+            // For textbook pages, try to get plan ID from page data or use current ID
+            {% if page.study_plan_url %}
+            const planUrl = "{{ page.study_plan_url }}";
+            const planSegments = planUrl.split('/').filter(Boolean);
+            sourcePlanId = planSegments[planSegments.length - 1];
+            {% else %}
+            sourcePlanId = pathSegments[2]; // Fallback to current ID
+            {% endif %}
+        {% else %}
+            // For study plan pages, use the plan ID directly
+            sourcePlanId = pathSegments[2];
+        {% endif %}
+        
+        // Build target URL with query parameters - redirect to /app/ not root
+        const cloneUrl = `https://ai.tutor.lumorik.com/app/?action=clone&source_plan=${sourcePlanId}&source_user=${sourceUserId}`;
+        
+        // Redirect to main app
+        window.location.href = cloneUrl;
+    }
+    </script>
+    {% endif %}
 </body>
 </html>
