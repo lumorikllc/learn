@@ -1,7 +1,7 @@
 ---
 layout: textbook
 title: "From Zero to LLM Hero: A Beginner’s Journey into Large Language Models - Overview of AI, ML, and NLP: definitions and relationships"
-date: 2025-08-12T19:14:59.762501
+date: 2025-08-12T19:24:50.483797
 study_plan_url: "https://lumorikllc.github.io/learn/content/a23f2f35-2cd5-455f-b58b-fa1815dadfd1/70473486-6b8b-41dd-b113-0f4c82c1d36e/"
 chapters: 8
 author: "a23f2f35-2cd5-455f-b58b-fa1815dadfd1"
