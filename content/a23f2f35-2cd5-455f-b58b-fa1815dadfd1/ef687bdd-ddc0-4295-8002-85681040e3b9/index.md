@@ -1,7 +1,7 @@
 ---
 layout: textbook
 title: "From Zero to LLM Hero: A Beginner’s Journey into Large Language Models"
-date: 2025-08-12T18:57:41.755138
+date: 2025-08-12T19:01:36.857465
 study_plan_url: "https://lumorikllc.github.io/learn/content/a23f2f35-2cd5-455f-b58b-fa1815dadfd1/70473486-6b8b-41dd-b113-0f4c82c1d36e/"
 chapters: 8
 author: "a23f2f35-2cd5-455f-b58b-fa1815dadfd1"
