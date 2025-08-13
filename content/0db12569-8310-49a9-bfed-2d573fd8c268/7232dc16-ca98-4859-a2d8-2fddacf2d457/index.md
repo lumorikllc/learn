@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "From Zero to Hero: Organic Social Media Blueprint for Your AI Study Agent"
-date: 2025-08-13T02:43:52.679829
+date: 2025-08-13T02:44:06.001880
 modules: 7
 lessons: 31
 author: "markmatech@gmail.com"
@@ -16,7 +16,7 @@ Learn the core principles of organic marketing and how it differs from paid camp
 
 **Topics covered:**
 
-- Define organic marketing and list its advantages over paid ads
+- [Define organic marketing and list its advantages over paid ads 📖](https://lumorikllc.github.io/learn/content/0db12569-8310-49a9-bfed-2d573fd8c268/9ef88ad2-92a5-41d4-98d9-cefd15539e4c)
 - Outline key limitations and realistic expectations for organic growth
 - Set SMART marketing goals tailored to an AI study product
 - Map the stages of the learner’s journey for job seekers and career changers
