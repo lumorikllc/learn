@@ -150,7 +150,7 @@
         
         // Build target URL with query parameters - use localhost for testing
         // Production: https://ai.tutor.lumorik.com/app/
-        const cloneUrl = `http://localhost:8081/?action=clone&source_plan=${sourcePlanId}&source_user=${sourceUserId}`;
+        const cloneUrl = `https://ai.tutor.lumorik.com/app/?action=clone&source_plan=${sourcePlanId}&source_user=${sourceUserId}`;
         
         // Open in new tab so user doesn't lose their place
         window.open(cloneUrl, '_blank');
