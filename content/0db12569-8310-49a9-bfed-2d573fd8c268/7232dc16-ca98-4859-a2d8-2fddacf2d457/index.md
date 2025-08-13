@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "From Zero to Hero: Organic Social Media Blueprint for Your AI Study Agent"
-date: 2025-08-13T02:44:06.001880
+date: 2025-08-13T02:46:52.203240
 modules: 7
 lessons: 31
 author: "markmatech@gmail.com"
