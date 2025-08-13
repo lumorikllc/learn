@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "From Zero to LLM Hero: A Beginner’s Journey into Large Language Models"
-date: 2025-08-13T02:05:00.592318
+date: 2025-08-13T02:11:58.709566
 modules: 7
 lessons: 35
 author: "markmatech@gmail.com"
