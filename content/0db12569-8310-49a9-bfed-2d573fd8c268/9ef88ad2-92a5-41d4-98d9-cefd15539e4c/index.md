@@ -1,7 +1,7 @@
 ---
 layout: textbook
 title: "From Zero to Hero: Organic Social Media Blueprint for Your AI Study Agent - Define organic marketing and list its advantages over paid ads"
-date: 2025-08-13T02:44:03.136070
+date: 2025-08-13T02:46:50.503337
 study_plan_url: "https://lumorikllc.github.io/learn/content/0db12569-8310-49a9-bfed-2d573fd8c268/7232dc16-ca98-4859-a2d8-2fddacf2d457/"
 chapters: 8
 author: "0db12569-8310-49a9-bfed-2d573fd8c268"
