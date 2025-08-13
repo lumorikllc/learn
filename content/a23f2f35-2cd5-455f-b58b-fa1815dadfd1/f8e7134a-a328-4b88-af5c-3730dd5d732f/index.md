@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "From Zero to LLM Hero: A Beginner’s Journey into Large Language Models"
-date: 2025-08-13T02:04:49.265267
+date: 2025-08-13T02:05:00.592318
 modules: 7
 lessons: 35
 author: "markmatech@gmail.com"
@@ -16,7 +16,7 @@ Get acquainted with the fundamentals of artificial intelligence and the emergenc
 
 **Topics covered:**
 
-- Overview of AI, ML, and NLP: definitions and relationships
+- [Overview of AI, ML, and NLP: definitions and relationships 📖](https://lumorikllc.github.io/learn/content/a23f2f35-2cd5-455f-b58b-fa1815dadfd1/4867e361-b2fe-4b31-ad4c-ba4f83782348)
 - What is a Large Language Model: scope and capabilities
 - Key terms: tokens, parameters, inference
 - Major LLM milestones and flagship models
