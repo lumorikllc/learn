@@ -2,6 +2,7 @@
 layout: default
 title: Published Content
 user_id: 00000000-0000-0000-0000-000000000000
+- [FAANG Interview Mastery: A Comprehensive Step-by-Step Prep Plan](./24b17389-5c20-4034-b1ed-79cbe527342b/) - Published on August 14, 2025
 ---
 
 # Published Study Plans
