@@ -10,6 +10,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Flask Foundations: From Zero to Real-World Python Web Apps](./89e7c3aa-2c50-48ec-9ebc-e873a67a5a25/) - Published on August 15, 2025
 - [📖 Flask Foundations: From Zero to Real-World Python Web Apps - Python syntax and control flow](./2b95e07c-dc78-418c-8f77-b47b15934f3a/) - Textbook published on August 15, 2025
 - [From Zero to Python Hero: A Beginner’s Journey to Building Real Applications](./6301ce34-758e-494d-8900-18f8b3fd1a03/) - Published on August 15, 2025
+- [Data Science Mastery: From Foundations to Predictive Models in 2025](./84a77050-67b9-4705-a5d4-1300ce9d6d82/) - Published on August 15, 2025
 ---
 
 # Published Study Plans
