@@ -13,6 +13,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Data Science Mastery: From Foundations to Predictive Models in 2025](./84a77050-67b9-4705-a5d4-1300ce9d6d82/) - Published on August 15, 2025
 - [Full-Stack Web Development Roadmap: From Fundamentals to Deployment (2025)](./47640791-7ce5-4cab-9dfc-974ac86f7958/) - Published on August 15, 2025
 - [Python Foundations and Automation: A Beginner’s Journey to Practical Programming in 2025](./4bc98c9e-263f-41da-bbcb-c02e5a3b1996/) - Published on August 15, 2025
+- [Mastering AI Agents and RAG: From Vector Search to Autonomous Systems](./682caf7f-6710-4390-8ca2-50d69da7bfb1/) - Published on August 15, 2025
 ---
 
 # Published Study Plans
