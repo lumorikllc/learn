@@ -6,6 +6,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Python in 30 Days: A Hands-On Roadmap for Complete Beginners](./0808324d-ab54-408f-89c2-022e62c968ef/) - Published on August 15, 2025
 - [From Markup to Mastery: A Complete Frontend Web Development Roadmap](./ecae0681-e3a6-4fe2-b46c-84785cc58fae/) - Published on August 15, 2025
 - [React Foundations: A Beginner’s Journey from Basics to Real-World Apps](./3ba9cf90-1042-4903-97be-2a092e0c9574/) - Published on August 15, 2025
+- [Interactive JavaScript Fundamentals: From Variables to the DOM](./6871710d-83f5-4796-97e5-f75ea97734c3/) - Published on August 15, 2025
 ---
 
 # Published Study Plans
