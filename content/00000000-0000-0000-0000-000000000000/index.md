@@ -9,6 +9,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Interactive JavaScript Fundamentals: From Variables to the DOM](./6871710d-83f5-4796-97e5-f75ea97734c3/) - Published on August 15, 2025
 - [Flask Foundations: From Zero to Real-World Python Web Apps](./89e7c3aa-2c50-48ec-9ebc-e873a67a5a25/) - Published on August 15, 2025
 - [📖 Flask Foundations: From Zero to Real-World Python Web Apps - Python syntax and control flow](./2b95e07c-dc78-418c-8f77-b47b15934f3a/) - Textbook published on August 15, 2025
+- [From Zero to Python Hero: A Beginner’s Journey to Building Real Applications](./6301ce34-758e-494d-8900-18f8b3fd1a03/) - Published on August 15, 2025
 ---
 
 # Published Study Plans
