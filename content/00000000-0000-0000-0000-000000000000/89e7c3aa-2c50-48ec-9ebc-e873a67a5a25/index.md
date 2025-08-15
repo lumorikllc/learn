@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "Flask Foundations: From Zero to Real-World Python Web Apps"
-date: 2025-08-15T01:32:33.629673
+date: 2025-08-15T01:32:47.607193
 modules: 7
 lessons: 35
 author: "dev@example.com"
