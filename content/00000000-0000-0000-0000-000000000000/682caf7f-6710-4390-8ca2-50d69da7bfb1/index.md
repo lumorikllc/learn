@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "Mastering AI Agents and RAG: From Vector Search to Autonomous Systems"
-date: 2025-08-15T18:44:56.015529
+date: 2025-08-15T18:45:08.783049
 modules: 7
 lessons: 28
 author: "dev@example.com"
