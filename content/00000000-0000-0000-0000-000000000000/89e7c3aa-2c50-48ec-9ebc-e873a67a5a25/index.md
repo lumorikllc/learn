@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "Flask Foundations: From Zero to Real-World Python Web Apps"
-date: 2025-08-15T01:32:22.770969
+date: 2025-08-15T01:32:33.629673
 modules: 7
 lessons: 35
 author: "dev@example.com"
@@ -16,7 +16,7 @@ Establish a solid Python foundation by covering core syntax, data handling, and 
 
 **Topics covered:**
 
-- Python syntax and control flow
+- [Python syntax and control flow 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/2b95e07c-dc78-418c-8f77-b47b15934f3a)
 - Built-in data structures (lists, dicts, sets)
 - Defining and calling functions
 - Creating virtual environments with venv
