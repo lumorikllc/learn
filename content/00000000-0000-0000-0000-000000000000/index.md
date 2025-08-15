@@ -12,6 +12,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [From Zero to Python Hero: A Beginner’s Journey to Building Real Applications](./6301ce34-758e-494d-8900-18f8b3fd1a03/) - Published on August 15, 2025
 - [Data Science Mastery: From Foundations to Predictive Models in 2025](./84a77050-67b9-4705-a5d4-1300ce9d6d82/) - Published on August 15, 2025
 - [Full-Stack Web Development Roadmap: From Fundamentals to Deployment (2025)](./47640791-7ce5-4cab-9dfc-974ac86f7958/) - Published on August 15, 2025
+- [Python Foundations and Automation: A Beginner’s Journey to Practical Programming in 2025](./4bc98c9e-263f-41da-bbcb-c02e5a3b1996/) - Published on August 15, 2025
 ---
 
 # Published Study Plans
