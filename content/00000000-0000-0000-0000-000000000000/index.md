@@ -14,6 +14,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Full-Stack Web Development Roadmap: From Fundamentals to Deployment (2025)](./47640791-7ce5-4cab-9dfc-974ac86f7958/) - Published on August 15, 2025
 - [Python Foundations and Automation: A Beginner’s Journey to Practical Programming in 2025](./4bc98c9e-263f-41da-bbcb-c02e5a3b1996/) - Published on August 15, 2025
 - [Mastering AI Agents and RAG: From Vector Search to Autonomous Systems](./682caf7f-6710-4390-8ca2-50d69da7bfb1/) - Published on August 15, 2025
+- [📖 Mastering AI Agents and RAG: From Vector Search to Autonomous Systems - Overview of transformer architecture and model capabilities](./0b99779c-af99-49ba-8aca-a4e5b49d1e63/) - Textbook published on August 15, 2025
 ---
 
 # Published Study Plans
