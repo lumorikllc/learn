@@ -1,7 +1,7 @@
 ---
 layout: study-plan
 title: "Mastering AI Agents and RAG: From Vector Search to Autonomous Systems"
-date: 2025-08-15T18:44:44.417214
+date: 2025-08-15T18:44:56.015529
 modules: 7
 lessons: 28
 author: "dev@example.com"
@@ -16,7 +16,7 @@ Get grounded in how large language models work and the core concepts behind Retr
 
 **Topics covered:**
 
-- Overview of transformer architecture and model capabilities
+- [Overview of transformer architecture and model capabilities 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/0b99779c-af99-49ba-8aca-a4e5b49d1e63)
 - Principles of prompt engineering and prompt templates
 - RAG workflow: document ingestion, retrieval, and generation
 - Key evaluation metrics for RAG (e.g., relevance, fluency)
