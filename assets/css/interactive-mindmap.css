@@ -1,0 +1,343 @@
+/* Interactive Mind Map Styles for Study Plans */
+
+/* Node animations and interactions */
+.mindmap-node {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.mindmap-node:hover {
+    filter: brightness(1.1);
+    transform: scale(1.05);
+}
+
+.mindmap-node.selected {
+    stroke-width: 3px;
+    stroke: #9333ea;
+    filter: drop-shadow(0 4px 6px rgba(147, 51, 234, 0.3));
+}
+
+/* Link styles */
+.mindmap-link {
+    fill: none;
+    stroke: #cbd5e1;
+    stroke-width: 2px;
+    transition: all 0.3s ease;
+}
+
+.mindmap-link:hover {
+    stroke: #9333ea;
+    stroke-width: 3px;
+}
+
+.mindmap-link.highlighted {
+    stroke: #9333ea;
+    stroke-width: 3px;
+    stroke-dasharray: 5, 5;
+    animation: dash 20s linear infinite;
+}
+
+@keyframes dash {
+    to {
+        stroke-dashoffset: -100;
+    }
+}
+
+/* Node type specific styles */
+.node-root {
+    fill: #9333ea;
+    filter: drop-shadow(0 4px 6px rgba(147, 51, 234, 0.2));
+}
+
+.node-module {
+    fill: #3b82f6;
+    filter: drop-shadow(0 2px 4px rgba(59, 130, 246, 0.2));
+}
+
+.node-subtopic {
+    fill: #10b981;
+}
+
+.node-with-textbook {
+    fill: #f97316;
+    stroke: #fed7aa;
+    stroke-width: 2px;
+}
+
+/* Text labels */
+.node-label {
+    font-family: system-ui, -apple-system, sans-serif;
+    fill: #1f2937;
+    pointer-events: none;
+    user-select: none;
+}
+
+.node-label.root {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.node-label.module {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.node-label.subtopic {
+    font-size: 12px;
+}
+
+/* Tooltip styles */
+.mindmap-tooltip {
+    position: absolute;
+    padding: 8px 12px;
+    background: rgba(17, 24, 39, 0.95);
+    color: white;
+    border-radius: 6px;
+    font-size: 12px;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.2s;
+    max-width: 200px;
+}
+
+.mindmap-tooltip.visible {
+    opacity: 1;
+}
+
+/* Progress indicators */
+.progress-ring {
+    transform: rotate(-90deg);
+    transform-origin: center;
+}
+
+.progress-ring-bg {
+    fill: none;
+    stroke: #e5e7eb;
+    stroke-width: 3;
+}
+
+.progress-ring-fill {
+    fill: none;
+    stroke: #10b981;
+    stroke-width: 3;
+    stroke-linecap: round;
+    transition: stroke-dasharray 0.5s ease;
+}
+
+/* Interactive controls panel */
+.mindmap-controls {
+    background: white;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mindmap-control-btn {
+    padding: 6px 12px;
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mindmap-control-btn:hover {
+    background: #e5e7eb;
+    transform: translateY(-1px);
+}
+
+.mindmap-control-btn:active {
+    transform: translateY(0);
+}
+
+/* Search functionality */
+.mindmap-search {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.mindmap-search input {
+    width: 100%;
+    padding: 8px 12px 8px 36px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.mindmap-search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+}
+
+/* Highlight search results */
+.node-highlighted {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+}
+
+/* Path animation for learning journey */
+.learning-path {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 2s ease forwards;
+}
+
+@keyframes drawPath {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mindmap-controls {
+        padding: 8px;
+    }
+    
+    .mindmap-control-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+    }
+    
+    .node-label {
+        font-size: 11px;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .mindmap-controls {
+        background: #1f2937;
+        color: #f3f4f6;
+    }
+    
+    .mindmap-control-btn {
+        background: #374151;
+        border-color: #4b5563;
+        color: #f3f4f6;
+    }
+    
+    .mindmap-control-btn:hover {
+        background: #4b5563;
+    }
+    
+    .node-label {
+        fill: #f3f4f6;
+    }
+    
+    .mindmap-link {
+        stroke: #6b7280;
+    }
+    
+    .mindmap-search input {
+        background: #1f2937;
+        border-color: #4b5563;
+        color: #f3f4f6;
+    }
+}
+
+/* Loading animation */
+.mindmap-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+}
+
+.mindmap-loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid #e5e7eb;
+    border-top-color: #9333ea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Detail panel animations */
+.detail-panel-enter {
+    animation: slideIn 0.3s ease forwards;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Interactive legend */
+.mindmap-legend {
+    background: rgba(249, 250, 251, 0.95);
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 16px;
+}
+
+.legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 16px;
+    margin-bottom: 8px;
+}
+
+.legend-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus mode */
+.mindmap-focus-mode .mindmap-node:not(.focused) {
+    opacity: 0.3;
+}
+
+.mindmap-focus-mode .mindmap-link:not(.focused) {
+    opacity: 0.2;
+}
+
+/* Print styles */
+@media print {
+    .mindmap-controls,
+    .mindmap-search {
+        display: none;
+    }
+    
+    #mindmap-svg-container {
+        height: auto !important;
+        page-break-inside: avoid;
+    }
+}
