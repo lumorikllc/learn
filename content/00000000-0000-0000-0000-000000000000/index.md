@@ -16,6 +16,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Mastering AI Agents and RAG: From Vector Search to Autonomous Systems](./682caf7f-6710-4390-8ca2-50d69da7bfb1/) - Published on August 15, 2025
 - [📖 Mastering AI Agents and RAG: From Vector Search to Autonomous Systems - Overview of transformer architecture and model capabilities](./0b99779c-af99-49ba-8aca-a4e5b49d1e63/) - Textbook published on August 15, 2025
 - [Kubernetes Mastery: From Zero to Expert](./c8ddd408-237b-44e9-b2b8-c71bc11217c3/) - Published on August 16, 2025
+- [📖 Kubernetes Mastery: From Zero to Expert - Principles of containers and orchestration](./6c7d157e-5a7f-4d55-9a8f-ff4f4917c907/) - Textbook published on August 16, 2025
 ---
 
 # Published Study Plans
