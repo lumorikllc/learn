@@ -1,0 +1,478 @@
+---
+layout: default
+---
+
+<article class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero Section -->
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-white mb-6 sm:mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-2">
+            <span class="px-3 py-1 bg-white/20 rounded-full text-xs sm:text-sm inline-block w-fit">Interactive Study Plan</span>
+            <span class="text-xs sm:text-sm opacity-90">{{ page.date | date: "%B %d, %Y" }}</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4">{{ page.title }}</h1>
+        <div class="flex flex-wrap gap-3 sm:gap-4">
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                <span class="text-sm sm:text-base font-medium">{{ page.modules }} Modules</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <span class="text-sm sm:text-base font-medium">{{ page.lessons }} Lessons</span>
+            </div>
+        </div>
+        
+        <!-- View Toggle Buttons -->
+        <div class="mt-4 flex gap-2">
+            <button id="view-mindmap" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium">
+                🗺️ Mind Map View
+            </button>
+            <button id="view-list" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-sm font-medium">
+                📝 List View
+            </button>
+        </div>
+    </div>
+
+    <!-- Interactive Visualization Container -->
+    <div id="visualization-container" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 mb-6">
+        <!-- Loading State -->
+        <div id="loading-state" class="flex flex-col items-center justify-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
+            <p class="mt-4 text-gray-600">Loading interactive visualization...</p>
+        </div>
+        
+        <!-- Mind Map View -->
+        <div id="mindmap-view" class="hidden">
+            <!-- Controls -->
+            <div class="mb-4 flex flex-wrap gap-2">
+                <button id="zoom-in" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                    ➕ Zoom In
+                </button>
+                <button id="zoom-out" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                    ➖ Zoom Out
+                </button>
+                <button id="reset-view" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                    🔄 Reset View
+                </button>
+                <button id="expand-all" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                    📖 Expand All
+                </button>
+                <button id="collapse-all" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
+                    📕 Collapse All
+                </button>
+            </div>
+            
+            <!-- SVG Container for Mind Map -->
+            <div id="mindmap-svg-container" style="width: 100%; height: 600px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
+                <svg id="mindmap-svg" width="100%" height="100%"></svg>
+            </div>
+            
+            <!-- Legend -->
+            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
+                <p class="text-sm font-medium text-gray-700 mb-2">Legend:</p>
+                <div class="flex flex-wrap gap-4 text-xs">
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-purple-600"></div>
+                        <span>Main Topic</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-blue-500"></div>
+                        <span>Module</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
+                        <span>Subtopic</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-4 h-4 rounded-full bg-orange-500"></div>
+                        <span>With Textbook 📖</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- List View (Traditional) -->
+        <div id="list-view" class="hidden prose max-w-none">
+            {{ content }}
+        </div>
+    </div>
+
+    <!-- Detail Panel (Shows on node click) -->
+    <div id="detail-panel" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 mb-6">
+        <div class="flex justify-between items-start mb-4">
+            <h2 id="detail-title" class="text-xl font-bold text-gray-900"></h2>
+            <button id="close-detail" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div id="detail-content" class="prose prose-sm"></div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-8 sm:mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 text-center">
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">Ready to Start Learning?</h2>
+        <p class="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">Join thousands of learners using Lumorik AI to achieve their goals.</p>
+        <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+            <a href="https://ai.tutor.lumorik.com" class="px-4 sm:px-6 py-2.5 sm:py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-lg hover:shadow-lg transition font-medium text-sm sm:text-base">
+                Start Your Journey
+            </a>
+            <a href="{{ '/' | relative_url }}" class="px-4 sm:px-6 py-2.5 sm:py-3 bg-white text-gray-700 rounded-lg border border-gray-300 hover:border-gray-400 transition font-medium text-sm sm:text-base">
+                Browse More Plans
+            </a>
+        </div>
+    </div>
+</article>
+
+<!-- D3.js for visualization -->
+<script src="https://d3js.org/d3.v7.min.js"></script>
+
+<!-- Mind Map Visualization Script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Parse the markdown content to extract study plan structure
+    const content = document.querySelector('.prose').innerHTML;
+    const studyPlanData = parseMarkdownToGraph(content);
+    
+    // Initialize the mind map
+    initializeMindMap(studyPlanData);
+    
+    // Setup view toggles
+    setupViewToggles();
+    
+    // Setup controls
+    setupControls();
+});
+
+function parseMarkdownToGraph(htmlContent) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    
+    const data = {
+        name: "{{ page.title }}",
+        type: "root",
+        children: []
+    };
+    
+    let currentModule = null;
+    let moduleIndex = 0;
+    
+    // Parse the HTML structure
+    const elements = doc.body.children;
+    for (let elem of elements) {
+        if (elem.tagName === 'H3' && elem.textContent.includes('Module')) {
+            // New module
+            moduleIndex++;
+            currentModule = {
+                name: elem.textContent.replace(/Module \d+: /, ''),
+                type: "module",
+                moduleNumber: moduleIndex,
+                children: []
+            };
+            data.children.push(currentModule);
+        } else if (elem.tagName === 'P' && currentModule) {
+            // Module description
+            currentModule.description = elem.textContent;
+        } else if (elem.tagName === 'UL' && currentModule) {
+            // Subtopics
+            const items = elem.querySelectorAll('li');
+            items.forEach(item => {
+                const link = item.querySelector('a');
+                const subtopic = {
+                    name: link ? link.textContent.replace(' 📖', '') : item.textContent,
+                    type: "subtopic",
+                    hasTextbook: link !== null,
+                    url: link ? link.href : null
+                };
+                currentModule.children.push(subtopic);
+            });
+        }
+    }
+    
+    return data;
+}
+
+function initializeMindMap(data) {
+    const container = document.getElementById('mindmap-svg-container');
+    const width = container.clientWidth;
+    const height = 600;
+    
+    // Clear loading state
+    document.getElementById('loading-state').classList.add('hidden');
+    document.getElementById('mindmap-view').classList.remove('hidden');
+    
+    // Create SVG
+    const svg = d3.select('#mindmap-svg')
+        .attr('width', width)
+        .attr('height', height);
+    
+    // Clear any existing content
+    svg.selectAll('*').remove();
+    
+    // Create container for zoom
+    const g = svg.append('g');
+    
+    // Setup zoom behavior
+    const zoom = d3.zoom()
+        .scaleExtent([0.3, 3])
+        .on('zoom', (event) => {
+            g.attr('transform', event.transform);
+        });
+    
+    svg.call(zoom);
+    
+    // Create tree layout
+    const treeLayout = d3.tree()
+        .size([height - 100, width - 200])
+        .separation((a, b) => (a.parent == b.parent ? 1 : 1.5));
+    
+    // Create hierarchy
+    const root = d3.hierarchy(data);
+    
+    // Apply tree layout
+    treeLayout(root);
+    
+    // Adjust positions for horizontal layout
+    root.descendants().forEach(d => {
+        [d.x, d.y] = [d.y + 100, d.x + 50]; // Swap x and y, add margins
+    });
+    
+    // Create links
+    const links = g.selectAll('.link')
+        .data(root.links())
+        .enter()
+        .append('path')
+        .attr('class', 'link')
+        .attr('d', d3.linkHorizontal()
+            .x(d => d.y)
+            .y(d => d.x))
+        .style('fill', 'none')
+        .style('stroke', '#cbd5e1')
+        .style('stroke-width', 2)
+        .style('stroke-dasharray', d => d.target.data.type === 'subtopic' ? '3,3' : 'none');
+    
+    // Create nodes
+    const nodes = g.selectAll('.node')
+        .data(root.descendants())
+        .enter()
+        .append('g')
+        .attr('class', 'node')
+        .attr('transform', d => `translate(${d.y},${d.x})`);
+    
+    // Add circles for nodes
+    nodes.append('circle')
+        .attr('r', d => {
+            if (d.data.type === 'root') return 12;
+            if (d.data.type === 'module') return 10;
+            return 8;
+        })
+        .style('fill', d => {
+            if (d.data.type === 'root') return '#9333ea';
+            if (d.data.type === 'module') return '#3b82f6';
+            if (d.data.hasTextbook) return '#f97316';
+            return '#10b981';
+        })
+        .style('stroke', '#fff')
+        .style('stroke-width', 2)
+        .style('cursor', 'pointer')
+        .on('click', (event, d) => showDetail(d.data));
+    
+    // Add labels
+    nodes.append('text')
+        .attr('dy', '.35em')
+        .attr('x', d => d.children ? -15 : 15)
+        .style('text-anchor', d => d.children ? 'end' : 'start')
+        .style('font-size', d => {
+            if (d.data.type === 'root') return '14px';
+            if (d.data.type === 'module') return '12px';
+            return '11px';
+        })
+        .style('font-weight', d => d.data.type === 'root' ? 'bold' : 'normal')
+        .text(d => {
+            let text = d.data.name;
+            if (d.data.hasTextbook) text += ' 📖';
+            return text.length > 30 ? text.substring(0, 30) + '...' : text;
+        })
+        .style('cursor', 'pointer')
+        .on('click', (event, d) => showDetail(d.data));
+    
+    // Add module numbers
+    nodes.filter(d => d.data.type === 'module')
+        .append('text')
+        .attr('dy', '-1.2em')
+        .attr('x', 0)
+        .style('text-anchor', 'middle')
+        .style('font-size', '10px')
+        .style('fill', '#6b7280')
+        .text(d => `Module ${d.data.moduleNumber}`);
+    
+    // Store references for controls
+    window.mindMapZoom = zoom;
+    window.mindMapSvg = svg;
+    window.mindMapG = g;
+    window.mindMapRoot = root;
+}
+
+function showDetail(nodeData) {
+    const panel = document.getElementById('detail-panel');
+    const title = document.getElementById('detail-title');
+    const content = document.getElementById('detail-content');
+    
+    title.textContent = nodeData.name;
+    
+    let html = '';
+    if (nodeData.type === 'root') {
+        html = `<p><strong>Complete Study Plan</strong></p>
+                <p>This comprehensive study plan contains ${nodeData.children.length} modules designed to guide you through mastering the topic.</p>`;
+    } else if (nodeData.type === 'module') {
+        html = `<p><strong>Module ${nodeData.moduleNumber}</strong></p>`;
+        if (nodeData.description) {
+            html += `<p>${nodeData.description}</p>`;
+        }
+        html += `<p>This module contains ${nodeData.children.length} subtopics.</p>`;
+    } else if (nodeData.type === 'subtopic') {
+        html = `<p><strong>Subtopic</strong></p>`;
+        if (nodeData.hasTextbook) {
+            html += `<p>📖 This topic has an associated textbook available.</p>`;
+            if (nodeData.url) {
+                html += `<p><a href="${nodeData.url}" target="_blank" class="text-purple-600 hover:text-purple-800">View Textbook →</a></p>`;
+            }
+        }
+    }
+    
+    content.innerHTML = html;
+    panel.classList.remove('hidden');
+    
+    // Scroll to detail panel
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setupViewToggles() {
+    const mindmapBtn = document.getElementById('view-mindmap');
+    const listBtn = document.getElementById('view-list');
+    const mindmapView = document.getElementById('mindmap-view');
+    const listView = document.getElementById('list-view');
+    
+    mindmapBtn.addEventListener('click', () => {
+        mindmapView.classList.remove('hidden');
+        listView.classList.add('hidden');
+        mindmapBtn.classList.add('bg-white/20');
+        mindmapBtn.classList.remove('bg-white/10');
+        listBtn.classList.add('bg-white/10');
+        listBtn.classList.remove('bg-white/20');
+    });
+    
+    listBtn.addEventListener('click', () => {
+        listView.classList.remove('hidden');
+        mindmapView.classList.add('hidden');
+        listBtn.classList.add('bg-white/20');
+        listBtn.classList.remove('bg-white/10');
+        mindmapBtn.classList.add('bg-white/10');
+        mindmapBtn.classList.remove('bg-white/20');
+    });
+    
+    // Close detail panel
+    const closeBtn = document.getElementById('close-detail');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            document.getElementById('detail-panel').classList.add('hidden');
+        });
+    }
+}
+
+function setupControls() {
+    // Zoom controls
+    document.getElementById('zoom-in').addEventListener('click', () => {
+        window.mindMapSvg.transition().duration(300).call(
+            window.mindMapZoom.scaleBy, 1.3
+        );
+    });
+    
+    document.getElementById('zoom-out').addEventListener('click', () => {
+        window.mindMapSvg.transition().duration(300).call(
+            window.mindMapZoom.scaleBy, 0.7
+        );
+    });
+    
+    document.getElementById('reset-view').addEventListener('click', () => {
+        window.mindMapSvg.transition().duration(300).call(
+            window.mindMapZoom.transform, d3.zoomIdentity
+        );
+    });
+    
+    // Expand/Collapse controls
+    document.getElementById('expand-all').addEventListener('click', () => {
+        expandAll(window.mindMapRoot);
+        updateMindMap();
+    });
+    
+    document.getElementById('collapse-all').addEventListener('click', () => {
+        collapseAll(window.mindMapRoot);
+        updateMindMap();
+    });
+}
+
+function expandAll(d) {
+    if (d._children) {
+        d.children = d._children;
+        d._children = null;
+    }
+    if (d.children) {
+        d.children.forEach(expandAll);
+    }
+}
+
+function collapseAll(d) {
+    if (d.children) {
+        d._children = d.children;
+        d.children = null;
+    }
+    if (d._children) {
+        d._children.forEach(collapseAll);
+    }
+}
+
+function updateMindMap() {
+    // Re-render the mind map with current expand/collapse state
+    const data = {
+        name: window.mindMapRoot.data.name,
+        type: window.mindMapRoot.data.type,
+        children: window.mindMapRoot.children ? 
+            window.mindMapRoot.children.map(c => c.data) : 
+            []
+    };
+    initializeMindMap(data);
+}
+</script>
+
+<style>
+/* Custom styles for mind map */
+.node circle {
+    transition: all 0.3s ease;
+}
+
+.node:hover circle {
+    transform: scale(1.2);
+    filter: brightness(1.1);
+}
+
+.link {
+    transition: all 0.3s ease;
+}
+
+.node text {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+    #mindmap-svg-container {
+        height: 400px;
+    }
+}
+</style>
