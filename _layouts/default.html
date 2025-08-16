@@ -17,6 +17,11 @@
     <!-- Styles -->
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     
+    <!-- Interactive Mind Map Styles (for interactive study plans) -->
+    {% if page.visualization %}
+    <link rel="stylesheet" href="{{ '/assets/css/interactive-mindmap.css' | relative_url }}">
+    {% endif %}
+    
     <!-- MathJax v3 for Math Rendering -->
     <script>
         window.MathJax = {
@@ -70,7 +75,7 @@
                             <span class="sm:hidden">Try AI</span>
                         </a>
                         <!-- Clone Button (only show on study plan and textbook pages) -->
-                        {% if page.layout == 'study-plan' or page.layout == 'textbook' %}
+                        {% if page.layout == 'study-plan' or page.layout == 'study-plan-interactive' or page.layout == 'textbook' %}
                         <button id="header-clone-btn" onclick="initiateClone()" class="px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:shadow-lg transition text-sm sm:text-base flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
@@ -110,7 +115,7 @@
     </div>
     
     <!-- Clone JavaScript (for study plan and textbook pages) -->
-    {% if page.layout == 'study-plan' or page.layout == 'textbook' %}
+    {% if page.layout == 'study-plan' or page.layout == 'study-plan-interactive' or page.layout == 'textbook' %}
     <script>
     function initiateClone() {
         // Parse URL to get IDs
