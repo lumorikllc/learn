@@ -135,8 +135,15 @@ layout: default
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Parse the markdown content to extract study plan structure
-    const content = document.querySelector('.prose').innerHTML;
+    const listView = document.getElementById('list-view');
+    if (!listView) {
+        console.error('List view element not found');
+        return;
+    }
+    const content = listView.innerHTML;
     const studyPlanData = parseMarkdownToGraph(content);
+    
+    console.log('Parsed study plan data:', studyPlanData);
     
     // Initialize the mind map
     initializeMindMap(studyPlanData);
@@ -198,8 +205,16 @@ function parseMarkdownToGraph(htmlContent) {
 
 function initializeMindMap(data) {
     const container = document.getElementById('mindmap-svg-container');
-    const width = container.clientWidth;
+    if (!container) {
+        console.error('Mind map container not found');
+        return;
+    }
+    
+    const width = container.clientWidth || 800;
     const height = 600;
+    
+    console.log('Initializing mind map with data:', data);
+    console.log('Container dimensions:', width, 'x', height);
     
     // Clear loading state
     document.getElementById('loading-state').classList.add('hidden');
