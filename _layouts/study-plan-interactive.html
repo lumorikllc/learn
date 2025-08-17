@@ -194,25 +194,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const positions = [];
         
         // Top (2 modules) - centered horizontally with space above for subtopics
-        const topY = 280; // More space for subtopics above (2 rows)
-        positions.push({ x: centerX - 180, y: topY, side: 'top' });
-        positions.push({ x: centerX + 20, y: topY, side: 'top' });
+        const topY = 250; // Much higher up for more spacing from center
+        const horizontalModuleSpacing = 250; // Much more horizontal spacing between modules
+        positions.push({ x: centerX - horizontalModuleSpacing/2 - moduleWidth/2, y: topY, side: 'top' });
+        positions.push({ x: centerX + horizontalModuleSpacing/2 - moduleWidth/2, y: topY, side: 'top' });
         
         // Left side (2 modules) - evenly spaced vertically
-        const leftX = 250; // Leave space for subtopics on the left
-        const sideSpacing = 200; // Vertical spacing between side modules
+        const leftX = 200; // Leave space for subtopics on the left
+        const sideSpacing = 280; // Much more vertical spacing between side modules
         positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
         positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
         
         // Right side (2 modules) - evenly spaced vertically
-        const rightX = canvasWidth - 410; // Leave space for subtopics on the right
+        const rightX = canvasWidth - 360; // Leave space for subtopics on the right
         positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
         positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
         
         // Bottom (2 modules) - centered horizontally with space below for subtopics
-        const bottomY = canvasHeight - 320; // Space for subtopics underneath
-        positions.push({ x: centerX - 180, y: bottomY, side: 'bottom' });
-        positions.push({ x: centerX + 20, y: bottomY, side: 'bottom' });
+        const bottomY = canvasHeight - 250; // Much lower for more spacing from center
+        positions.push({ x: centerX - horizontalModuleSpacing/2 - moduleWidth/2, y: bottomY, side: 'bottom' });
+        positions.push({ x: centerX + horizontalModuleSpacing/2 - moduleWidth/2, y: bottomY, side: 'bottom' });
         
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
@@ -224,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Module container box
             const moduleBox = {
                 id: `module-${idx}`,
-                text: module.name,
+                text: module.name.length > 25 ? module.name.substring(0, 25) + '...' : module.name,
                 x: x,
                 y: y,
                 width: moduleWidth,
@@ -233,7 +234,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: 'module',
                 fontSize: 13,
                 fontWeight: 'bold',
-                module: module
+                module: module,
+                maxLines: 2  // Enforce max 2 lines
             };
             boxes.push(moduleBox);
             
@@ -335,7 +337,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
-                    text: subtopic.name.length > 22 ? subtopic.name.substring(0, 22) + '...' : subtopic.name,
+                    text: subtopic.name.length > 20 ? subtopic.name.substring(0, 20) + '...' : subtopic.name,
                     x: subtopicX,
                     y: subtopicY,
                     width: subtopicWidth,
@@ -346,7 +348,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     type: 'subtopic',
                     fontSize: 10,
                     fontWeight: 'normal',
-                    hasTextbook: subtopic.hasTextbook
+                    hasTextbook: subtopic.hasTextbook,
+                    maxLines: 2  // Enforce max 2 lines
                 };
                 boxes.push(subtopicBox);
                 
@@ -383,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        // Draw text (handle multiline for long text)
+        // Draw text (handle multiline for long text, max 2 lines)
         const maxWidth = box.width - 10;
         const words = box.text.split(' ');
         let line = '';
@@ -400,6 +403,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         if (line) lines.push(line);
+        
+        // Limit to 2 lines max
+        if (lines.length > 2) {
+            lines = lines.slice(0, 2);
+            // Add ellipsis to second line if truncated
+            if (lines[1].length > 3) {
+                lines[1] = lines[1].substring(0, lines[1].length - 3) + '...';
+            }
+        }
         
         const lineHeight = box.fontSize + 4;
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
