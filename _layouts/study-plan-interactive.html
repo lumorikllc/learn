@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         boxes.push(titleBox);
         
-        // Layout modules in a grid pattern with more spacing for surrounding subtopics
+        // Layout modules in a grid pattern
         let layoutConfig;
         if (moduleCount <= 4) {
             // 2x2 grid
@@ -205,17 +205,17 @@ document.addEventListener('DOMContentLoaded', function() {
             layoutConfig = { cols: 4, rows: 2 };
         }
         
-        const moduleWidth = 160;
-        const moduleHeight = 45;
-        const spacing = 250; // More space between modules for subtopics
+        const moduleWidth = 180;
+        const moduleHeight = 220;
+        const spacing = 40;
         const startX = (canvasWidth - (layoutConfig.cols * moduleWidth + (layoutConfig.cols - 1) * spacing)) / 2;
-        const startY = 150;
+        const startY = 120;
         
         data.modules.forEach((module, idx) => {
             const col = idx % layoutConfig.cols;
             const row = Math.floor(idx / layoutConfig.cols);
-            const x = startX + col * spacing;
-            const y = startY + row * spacing;
+            const x = startX + col * (moduleWidth + spacing);
+            const y = startY + row * (moduleHeight + spacing + 80);
             
             // Module container box
             const moduleBox = {
@@ -240,35 +240,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'solid'
             });
             
-            // Add subtopic boxes AROUND the module (like satellites)
-            const subtopicWidth = 140;
-            const subtopicHeight = 28;
-            const radius = 100; // Distance from module center
+            // Add subtopic boxes below module
+            const subtopicHeight = 30;
+            const subtopicSpacing = 5;
+            const subtopicsStartY = y + 60;
             
             module.subtopics.forEach((subtopic, subIdx) => {
-                // Calculate angle for each subtopic around the module
-                const angleStep = (Math.PI * 2) / Math.max(module.subtopics.length, 4);
-                const angle = angleStep * subIdx - Math.PI / 2; // Start from top
-                
-                // Position subtopic around the module
-                const subtopicX = x + moduleWidth/2 + Math.cos(angle) * radius - subtopicWidth/2;
-                const subtopicY = y + moduleHeight/2 + Math.sin(angle) * radius - subtopicHeight/2;
-                
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
-                    text: subtopic.name.length > 20 ? subtopic.name.substring(0, 20) + '...' : subtopic.name,
-                    x: subtopicX,
-                    y: subtopicY,
-                    width: subtopicWidth,
+                    text: subtopic.name.length > 25 ? subtopic.name.substring(0, 25) + '...' : subtopic.name,
+                    x: x,
+                    y: subtopicsStartY + subIdx * (subtopicHeight + subtopicSpacing),
+                    width: moduleWidth,
                     height: subtopicHeight,
                     color: subtopic.hasTextbook 
                         ? { bg: '#f97316', border: '#ea580c', text: '#ffffff' }
                         : { bg: '#4b5563', border: '#374151', text: '#ffffff' },
                     type: 'subtopic',
-                    fontSize: 10,
+                    fontSize: 11,
                     fontWeight: 'normal',
-                    hasTextbook: subtopic.hasTextbook,
-                    parentModule: moduleBox
+                    hasTextbook: subtopic.hasTextbook
                 };
                 boxes.push(subtopicBox);
                 
@@ -353,94 +344,81 @@ document.addEventListener('DOMContentLoaded', function() {
             y: conn.to.y + conn.to.height / 2
         };
         
+        // Calculate connection points on box edges
+        let fromPoint, toPoint;
+        
+        // From point (bottom of from box)
+        if (conn.from.type === 'title') {
+            fromPoint = {
+                x: fromCenter.x,
+                y: conn.from.y + conn.from.height
+            };
+        } else {
+            fromPoint = {
+                x: conn.from.x + conn.from.width,
+                y: fromCenter.y
+            };
+        }
+        
+        // To point (top of to box)
+        if (conn.to.type === 'module' && conn.from.type === 'title') {
+            toPoint = {
+                x: toCenter.x,
+                y: conn.to.y
+            };
+        } else if (conn.to.type === 'subtopic') {
+            toPoint = {
+                x: conn.to.x,
+                y: conn.to.y + conn.to.height / 2
+            };
+        } else {
+            toPoint = {
+                x: conn.to.x,
+                y: toCenter.y
+            };
+        }
+        
         ctx.strokeStyle = conn.color || '#6b7280';
-        ctx.lineWidth = conn.style === 'arrow' ? 2 : 1;
-        ctx.globalAlpha = conn.style === 'dashed' ? 0.5 : 0.8;
+        ctx.lineWidth = 1;
         
         if (conn.style === 'dashed') {
-            ctx.setLineDash([4, 4]);
+            ctx.setLineDash([5, 5]);
         } else {
             ctx.setLineDash([]);
         }
         
         ctx.beginPath();
+        ctx.moveTo(fromPoint.x, fromPoint.y);
         
-        if (conn.from.type === 'title' && conn.to.type === 'module') {
-            // Title to module: draw from bottom of title to top of module
-            const fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
-            const toPoint = { x: toCenter.x, y: conn.to.y };
+        if (conn.style === 'arrow') {
+            // Draw curved arrow for module connections
+            const cp1x = fromPoint.x + (toPoint.x - fromPoint.x) * 0.5;
+            const cp1y = fromPoint.y;
+            const cp2x = toPoint.x - (toPoint.x - fromPoint.x) * 0.5;
+            const cp2y = toPoint.y;
             
-            // Curved path
-            const controlY = fromPoint.y + (toPoint.y - fromPoint.y) * 0.5;
-            ctx.moveTo(fromPoint.x, fromPoint.y);
-            ctx.quadraticCurveTo(fromPoint.x, controlY, toPoint.x, toPoint.y);
+            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, toPoint.x, toPoint.y);
             
-        } else if (conn.from.type === 'module' && conn.to.type === 'subtopic') {
-            // Module to subtopic: straight line from edge to edge
-            const dx = toCenter.x - fromCenter.x;
-            const dy = toCenter.y - fromCenter.y;
-            const angle = Math.atan2(dy, dx);
-            
-            // Calculate edge points
-            const fromPoint = {
-                x: fromCenter.x + Math.cos(angle) * (conn.from.width / 2),
-                y: fromCenter.y + Math.sin(angle) * (conn.from.height / 2)
-            };
-            const toPoint = {
-                x: toCenter.x - Math.cos(angle) * (conn.to.width / 2),
-                y: toCenter.y - Math.sin(angle) * (conn.to.height / 2)
-            };
-            
-            ctx.moveTo(fromPoint.x, fromPoint.y);
-            ctx.lineTo(toPoint.x, toPoint.y);
-            
-        } else if (conn.style === 'arrow') {
-            // Module to module connections: route around to avoid crossing
-            const fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
-            const toPoint = { x: conn.to.x, y: toCenter.y };
-            
-            // Check if modules are on same row
-            const sameRow = Math.abs(fromCenter.y - toCenter.y) < 50;
-            
-            if (sameRow) {
-                // Direct horizontal connection
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.lineTo(toPoint.x, toPoint.y);
-                
-                // Draw arrow
-                const arrowLength = 8;
-                ctx.moveTo(toPoint.x, toPoint.y);
-                ctx.lineTo(toPoint.x - arrowLength, toPoint.y - arrowLength/2);
-                ctx.moveTo(toPoint.x, toPoint.y);
-                ctx.lineTo(toPoint.x - arrowLength, toPoint.y + arrowLength/2);
-            } else {
-                // Route down and across for modules on different rows
-                const midX = fromPoint.x + 30;
-                const bendY = fromCenter.y + (toCenter.y > fromCenter.y ? 60 : -60);
-                
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.lineTo(midX, fromPoint.y);
-                ctx.lineTo(midX, bendY);
-                ctx.lineTo(toPoint.x - 30, bendY);
-                ctx.lineTo(toPoint.x - 30, toPoint.y);
-                ctx.lineTo(toPoint.x, toPoint.y);
-                
-                // Draw arrow
-                const arrowLength = 8;
-                ctx.moveTo(toPoint.x, toPoint.y);
-                ctx.lineTo(toPoint.x - arrowLength, toPoint.y - arrowLength/2);
-                ctx.moveTo(toPoint.x, toPoint.y);
-                ctx.lineTo(toPoint.x - arrowLength, toPoint.y + arrowLength/2);
-            }
+            // Draw arrowhead
+            const angle = Math.atan2(toPoint.y - cp2y, toPoint.x - cp2x);
+            const arrowLength = 10;
+            ctx.moveTo(toPoint.x, toPoint.y);
+            ctx.lineTo(
+                toPoint.x - arrowLength * Math.cos(angle - Math.PI / 6),
+                toPoint.y - arrowLength * Math.sin(angle - Math.PI / 6)
+            );
+            ctx.moveTo(toPoint.x, toPoint.y);
+            ctx.lineTo(
+                toPoint.x - arrowLength * Math.cos(angle + Math.PI / 6),
+                toPoint.y - arrowLength * Math.sin(angle + Math.PI / 6)
+            );
         } else {
-            // Default straight line
-            ctx.moveTo(fromCenter.x, fromCenter.y);
-            ctx.lineTo(toCenter.x, toCenter.y);
+            // Simple line
+            ctx.lineTo(toPoint.x, toPoint.y);
         }
         
         ctx.stroke();
         ctx.setLineDash([]);
-        ctx.globalAlpha = 1;
     }
     
     function draw() {
