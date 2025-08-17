@@ -37,22 +37,12 @@ layout: default
     </div>
 
     <!-- Interactive Visualization Container -->
-    <div id="visualization-container" class="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-4 sm:p-6 md:p-8 mb-6">
+    <div id="visualization-container" class="mb-6">
         
         <!-- Knowledge Graph View -->
-        <div id="knowledge-graph-view">
+        <div id="knowledge-graph-view" class="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-4 sm:p-6 md:p-8">
             <!-- Canvas for Knowledge Graph -->
-            <canvas id="knowledge-graph-canvas" style="width: 100%; height: 600px; cursor: grab;"></canvas>
-            
-            <!-- Controls Overlay -->
-            <div class="absolute top-4 right-4 bg-gray-800/90 backdrop-blur-sm rounded-lg p-2 flex flex-col gap-2">
-                <button id="reset-graph" class="p-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm" title="Reset View">
-                    🔄
-                </button>
-                <button id="toggle-physics" class="p-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm" title="Toggle Physics">
-                    ⚡
-                </button>
-            </div>
+            <canvas id="knowledge-graph-canvas" style="width: 100%; height: 700px; cursor: grab;"></canvas>
             
             <!-- Info Panel -->
             <div id="node-info" class="hidden absolute bottom-4 left-4 bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 max-w-sm">
@@ -61,9 +51,11 @@ layout: default
             </div>
         </div>
         
-        <!-- List View (Traditional) - Hidden by default -->
-        <div id="list-view" class="hidden prose prose-invert max-w-none">
-            {{ content }}
+        <!-- List View (Traditional) - Hidden by default, Light theme -->
+        <div id="list-view" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8">
+            <div class="prose max-w-none">
+                {{ content }}
+            </div>
         </div>
     </div>
 
@@ -109,7 +101,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let dragStart = { x: 0, y: 0 };
     let hoveredNode = null;
     let selectedNode = null;
-    let physics = true;
     let animationFrame = null;
     
     // Color scheme similar to reference
@@ -178,8 +169,10 @@ document.addEventListener('DOMContentLoaded', function() {
         nodes = [];
         edges = [];
         
-        const centerX = canvas.width / (2 * window.devicePixelRatio);
-        const centerY = canvas.height / (2 * window.devicePixelRatio);
+        const canvasWidth = canvas.offsetWidth;
+        const canvasHeight = canvas.offsetHeight;
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
         
         // Create root node (center)
         const rootNode = {
@@ -187,17 +180,14 @@ document.addEventListener('DOMContentLoaded', function() {
             label: data.title,
             x: centerX,
             y: centerY,
-            vx: 0,
-            vy: 0,
-            radius: 35,
+            radius: 40,
             color: colors.root,
-            type: 'root',
-            fixed: true
+            type: 'root'
         };
         nodes.push(rootNode);
         
         // Create module nodes in a circle around root
-        const moduleRadius = 200;
+        const moduleRadius = Math.min(canvasWidth, canvasHeight) * 0.35;
         data.modules.forEach((module, i) => {
             const angle = (i / data.modules.length) * Math.PI * 2 - Math.PI / 2;
             const moduleNode = {
@@ -206,9 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 shortLabel: `Module ${module.index}`,
                 x: centerX + Math.cos(angle) * moduleRadius,
                 y: centerY + Math.sin(angle) * moduleRadius,
-                vx: 0,
-                vy: 0,
-                radius: 25,
+                radius: 30,
                 color: colors.module[module.index] || colors.module[1],
                 type: 'module',
                 data: module,
@@ -225,18 +213,16 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Create subtopic nodes around each module
-            const subtopicRadius = 100;
+            const subtopicRadius = 120;
             module.subtopics.forEach((subtopic, j) => {
-                const subtopicAngle = angle + (j - module.subtopics.length / 2) * 0.3;
-                const distance = subtopicRadius + (j % 2) * 30; // Vary distance
+                const subtopicAngle = angle + (j - module.subtopics.length / 2) * 0.25;
+                const distance = subtopicRadius + (j % 2) * 20; // Vary distance
                 const subtopicNode = {
                     id: `subtopic-${i}-${j}`,
                     label: subtopic.name,
                     x: moduleNode.x + Math.cos(subtopicAngle) * distance,
                     y: moduleNode.y + Math.sin(subtopicAngle) * distance,
-                    vx: 0,
-                    vy: 0,
-                    radius: 12,
+                    radius: 15,
                     color: subtopic.hasTextbook ? colors.textbook : colors.subtopic,
                     type: 'subtopic',
                     data: subtopic,
@@ -397,58 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.restore();
     }
     
-    function applyPhysics() {
-        if (!physics) return;
-        
-        const damping = 0.95;
-        const repulsion = 5000;
-        const attraction = 0.001;
-        
-        // Apply forces
-        nodes.forEach(node => {
-            if (node.fixed) return;
-            
-            // Repulsion between all nodes
-            nodes.forEach(other => {
-                if (node === other) return;
-                
-                const dx = node.x - other.x;
-                const dy = node.y - other.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-                
-                if (distance > 0 && distance < 200) {
-                    const force = repulsion / (distance * distance);
-                    node.vx += (dx / distance) * force;
-                    node.vy += (dy / distance) * force;
-                }
-            });
-            
-            // Attraction along edges
-            edges.forEach(edge => {
-                if (edge.source === node || edge.target === node) {
-                    const other = edge.source === node ? edge.target : edge.source;
-                    const dx = other.x - node.x;
-                    const dy = other.y - node.y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance > 0) {
-                        const force = distance * attraction;
-                        node.vx += dx * force;
-                        node.vy += dy * force;
-                    }
-                }
-            });
-            
-            // Apply velocity
-            node.vx *= damping;
-            node.vy *= damping;
-            node.x += node.vx;
-            node.y += node.vy;
-        });
-    }
-    
     function animate() {
-        applyPhysics();
         drawGraph();
         animationFrame = requestAnimationFrame(animate);
     }
@@ -530,19 +465,6 @@ document.addEventListener('DOMContentLoaded', function() {
         infoPanel.classList.remove('hidden');
     }
     
-    // Controls
-    document.getElementById('reset-graph').addEventListener('click', () => {
-        camera.x = 0;
-        camera.y = 0;
-        camera.zoom = 1;
-        createGraph(studyPlanData);
-    });
-    
-    document.getElementById('toggle-physics').addEventListener('click', () => {
-        physics = !physics;
-        document.getElementById('toggle-physics').textContent = physics ? '⚡' : '🔒';
-    });
-    
     // View toggles
     document.getElementById('view-knowledge').addEventListener('click', () => {
         document.getElementById('knowledge-graph-view').classList.remove('hidden');
@@ -580,22 +502,5 @@ document.addEventListener('DOMContentLoaded', function() {
 
 #node-info {
     backdrop-filter: blur(10px);
-}
-
-/* Dark theme for list view */
-.prose-invert {
-    color: #e5e7eb;
-}
-
-.prose-invert h2, .prose-invert h3 {
-    color: #f3f4f6;
-}
-
-.prose-invert a {
-    color: #60a5fa;
-}
-
-.prose-invert strong {
-    color: #f9fafb;
 }
 </style>
