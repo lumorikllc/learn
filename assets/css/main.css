@@ -41,29 +41,27 @@ header.liquid-glass-header {
         inset 0 1px 0 rgba(255, 255, 255, 0.6),
         inset 0 -1px 0 rgba(255, 255, 255, 0.2);
     
-    /* Subtle animation for living glass effect */
-    animation: shimmer 8s ease-in-out infinite;
+    /* Remove animations - just keep static glass effect */
     position: relative;
     overflow: hidden;
 }
 
-/* Glossy overlay for extra depth */
+/* Glossy overlay for extra depth - static, no animation */
 .liquid-glass-header::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 200%;
+    left: 0;
+    width: 100%;
     height: 100%;
     background: linear-gradient(
         90deg,
         transparent,
         rgba(255, 255, 255, 0.1) 20%,
-        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.2) 50%,
         rgba(255, 255, 255, 0.1) 80%,
         transparent
     );
-    animation: gloss 12s ease-in-out infinite;
     pointer-events: none;
 }
 
