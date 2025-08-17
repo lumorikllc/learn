@@ -113,15 +113,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (rect.width < 768 && boxes.length > 0 && studyPlanData) {
             // Recalculate layout for mobile
             createLayout(studyPlanData);
-            draw();
+            // Animation loop is already running
         }
     }
     resizeCanvas();
     window.addEventListener('resize', () => {
         resizeCanvas();
-        if (boxes.length > 0) {
-            draw();
-        }
+        // Animation loop is already running
     });
     
     // Helper function to darken a color
@@ -607,6 +605,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
+    // Animation offset for flowing dashed lines
+    let animationOffset = 0;
+    
     function drawConnection(conn) {
         const fromCenter = {
             x: conn.from.x + conn.from.width / 2,
@@ -621,7 +622,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.lineWidth = conn.style === 'dashed' ? 1 : 2;
         
         if (conn.style === 'dashed') {
+            // Animated dashed line with flow from center to periphery
             ctx.setLineDash([5, 5]);
+            ctx.lineDashOffset = -animationOffset;
         } else {
             ctx.setLineDash([]);
         }
@@ -682,11 +685,17 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillStyle = '#111827';
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
         
+        // Update animation offset for flowing lines
+        animationOffset = (animationOffset + 0.5) % 10; // Animate at moderate speed
+        
         // Draw connections first
         connections.forEach(conn => drawConnection(conn));
         
         // Draw boxes on top
         boxes.forEach(box => drawBox(box));
+        
+        // Request next animation frame for continuous animation
+        requestAnimationFrame(draw);
     }
     
     // Simple hover interaction only (no dragging)
@@ -711,9 +720,7 @@ document.addEventListener('DOMContentLoaded', function() {
             canvas.style.cursor = 'default';
         }
         
-        if (prevHovered !== hoveredBox) {
-            draw();
-        }
+        // No need to call draw() - animation loop is already running
     });
     
     // View toggles
@@ -725,7 +732,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-list').classList.add('bg-white/10');
         document.getElementById('view-list').classList.remove('bg-white/20');
         resizeCanvas();
-        draw();
+        // Animation loop is already running
     });
     
     document.getElementById('view-list').addEventListener('click', () => {
@@ -739,7 +746,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize
     createLayout(studyPlanData);
-    draw();
+    draw(); // Start the animation loop once
 });
 </script>
 
