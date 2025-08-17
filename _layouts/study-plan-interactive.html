@@ -188,25 +188,28 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         boxes.push(titleBox);
         
-        // Define positions for 8 modules: 2 left, 4 bottom, 2 right
+        // Define positions for 8 modules: 3 left, 2 bottom, 3 right
         const moduleWidth = 160;
         const moduleHeight = 45;
         const positions = [];
         
-        // Left side (2 modules)
-        positions.push({ x: 50, y: centerY - 150 });
-        positions.push({ x: 50, y: centerY + 100 });
+        // Left side (3 modules) - evenly spaced vertically
+        const leftX = 220; // Leave space for subtopics on the left
+        const verticalSpacing = 180;
+        positions.push({ x: leftX, y: centerY - verticalSpacing, side: 'left' });
+        positions.push({ x: leftX, y: centerY, side: 'left' });
+        positions.push({ x: leftX, y: centerY + verticalSpacing, side: 'left' });
         
-        // Bottom (4 modules)
-        const bottomY = canvasHeight - 150;
-        const bottomSpacing = (canvasWidth - 100) / 4;
-        for (let i = 0; i < 4; i++) {
-            positions.push({ x: 50 + i * bottomSpacing, y: bottomY });
-        }
+        // Bottom (2 modules) - centered horizontally
+        const bottomY = canvasHeight - 200;
+        positions.push({ x: centerX - 180, y: bottomY, side: 'bottom' });
+        positions.push({ x: centerX + 20, y: bottomY, side: 'bottom' });
         
-        // Right side (2 modules)
-        positions.push({ x: canvasWidth - 210, y: centerY - 150 });
-        positions.push({ x: canvasWidth - 210, y: centerY + 100 });
+        // Right side (3 modules) - evenly spaced vertically
+        const rightX = canvasWidth - 380; // Leave space for subtopics on the right
+        positions.push({ x: rightX, y: centerY - verticalSpacing, side: 'right' });
+        positions.push({ x: rightX, y: centerY, side: 'right' });
+        positions.push({ x: rightX, y: centerY + verticalSpacing, side: 'right' });
         
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
@@ -240,25 +243,30 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add subtopic boxes - position based on module location
             const subtopicWidth = 140;
-            const subtopicHeight = 28;
-            const subtopicSpacing = 4;
+            const subtopicHeight = 26;
+            const subtopicSpacing = 3;
+            const side = pos.side;
+            
+            // Calculate total height needed for subtopics
+            const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + subtopicSpacing);
+            const startOffset = -totalSubtopicHeight / 2 + moduleHeight / 2;
             
             module.subtopics.forEach((subtopic, subIdx) => {
                 let subtopicX, subtopicY;
                 
                 // Position subtopics based on which side the module is on
-                if (idx < 2) {
-                    // Left side modules - subtopics to the right
-                    subtopicX = x + moduleWidth + 10;
-                    subtopicY = y - 30 + subIdx * (subtopicHeight + subtopicSpacing);
-                } else if (idx < 6) {
+                if (side === 'left') {
+                    // Left side modules - subtopics to the LEFT (like reference)
+                    subtopicX = x - subtopicWidth - 15;
+                    subtopicY = y + startOffset + subIdx * (subtopicHeight + subtopicSpacing);
+                } else if (side === 'bottom') {
                     // Bottom modules - subtopics above
-                    subtopicX = x;
-                    subtopicY = y - (module.subtopics.length - subIdx) * (subtopicHeight + subtopicSpacing) - 10;
-                } else {
-                    // Right side modules - subtopics to the left
-                    subtopicX = x - subtopicWidth - 10;
-                    subtopicY = y - 30 + subIdx * (subtopicHeight + subtopicSpacing);
+                    subtopicX = x + (moduleWidth - subtopicWidth) / 2;
+                    subtopicY = y - (module.subtopics.length - subIdx) * (subtopicHeight + subtopicSpacing) - 15;
+                } else if (side === 'right') {
+                    // Right side modules - subtopics to the RIGHT (like reference)
+                    subtopicX = x + moduleWidth + 15;
+                    subtopicY = y + startOffset + subIdx * (subtopicHeight + subtopicSpacing);
                 }
                 
                 const subtopicBox = {
@@ -286,16 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             });
             
-            // Connect adjacent modules in sequence
-            if (idx > 0) {
-                const prevModule = boxes.find(b => b.id === `module-${idx-1}`);
-                connections.push({
-                    from: prevModule,
-                    to: moduleBox,
-                    style: 'arrow',
-                    color: '#6b7280'
-                });
-            }
+            // Connect modules in learning sequence (optional - can be removed if too cluttered)
+            // We'll skip sequential connections to keep it cleaner like the reference
         });
     }
     
