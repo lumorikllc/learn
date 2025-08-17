@@ -214,8 +214,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Top (2 modules) - more vertical spacing from center
         const topY = 180; // Higher up with more spacing
-        const topLeftX = centerX - 300; // More to the left
-        const topRightX = centerX + 140; // More to the right
+        const topLeftX = centerX - 320; // More to the left with increased spacing
+        const topRightX = centerX + 160; // More to the right with increased spacing
         positions.push({ x: topLeftX, y: topY, side: 'top' });
         positions.push({ x: topRightX, y: topY, side: 'top' });
         
@@ -232,8 +232,8 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Bottom (2 modules) - more vertical spacing from center
         const bottomY = canvasHeight - 180; // Lower with more spacing
-        const bottomLeftX = centerX - 300; // More to the left
-        const bottomRightX = centerX + 140; // More to the right
+        const bottomLeftX = centerX - 320; // More to the left with increased spacing
+        const bottomRightX = centerX + 160; // More to the right with increased spacing
         positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
         positions.push({ x: bottomRightX, y: bottomY, side: 'bottom' });
         
@@ -262,11 +262,11 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             boxes.push(moduleBox);
             
-            // Connect to title
+            // Connect to title with dashed line
             connections.push({
                 from: titleBox,
                 to: moduleBox,
-                style: 'solid'
+                style: 'dashed'
             });
             
             // Add subtopic boxes - position based on module location
@@ -487,84 +487,26 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Different connection styles based on connection type
         if (conn.from.type === 'title' && conn.to.type === 'module') {
-            // Title to module connections - straight lines with quarter circles
+            // Title to module connections - straight dashed lines (same as module to subtopic)
             const side = conn.to.side || 'left';
             let fromPoint, toPoint;
-            const radius = 20; // Radius for quarter circles
             
             if (side === 'top') {
                 fromPoint = { x: fromCenter.x, y: conn.from.y };
                 toPoint = { x: toCenter.x, y: conn.to.y + conn.to.height };
-                
-                // Straight up then quarter circle to module
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                if (Math.abs(fromPoint.x - toPoint.x) > radius) {
-                    // Need horizontal adjustment
-                    const midY = fromPoint.y - Math.abs(fromPoint.y - toPoint.y) / 2;
-                    ctx.lineTo(fromPoint.x, midY);
-                    // Quarter circle
-                    const dir = toPoint.x > fromPoint.x ? 1 : -1;
-                    ctx.arcTo(fromPoint.x, midY - radius, toPoint.x, midY - radius, radius);
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                } else {
-                    // Straight line
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                }
             } else if (side === 'bottom') {
                 fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
                 toPoint = { x: toCenter.x, y: conn.to.y };
-                
-                // Straight down then quarter circle to module
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                if (Math.abs(fromPoint.x - toPoint.x) > radius) {
-                    // Need horizontal adjustment
-                    const midY = fromPoint.y + Math.abs(toPoint.y - fromPoint.y) / 2;
-                    ctx.lineTo(fromPoint.x, midY);
-                    // Quarter circle
-                    const dir = toPoint.x > fromPoint.x ? 1 : -1;
-                    ctx.arcTo(fromPoint.x, midY + radius, toPoint.x, midY + radius, radius);
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                } else {
-                    // Straight line
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                }
             } else if (side === 'left') {
                 fromPoint = { x: conn.from.x, y: fromCenter.y };
                 toPoint = { x: conn.to.x + conn.to.width, y: toCenter.y };
-                
-                // Straight left then quarter circle to module
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                if (Math.abs(fromPoint.y - toPoint.y) > radius) {
-                    // Need vertical adjustment
-                    const midX = fromPoint.x - Math.abs(fromPoint.x - toPoint.x) / 2;
-                    ctx.lineTo(midX, fromPoint.y);
-                    // Quarter circle
-                    const dir = toPoint.y > fromPoint.y ? 1 : -1;
-                    ctx.arcTo(midX - radius, fromPoint.y, midX - radius, toPoint.y, radius);
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                } else {
-                    // Straight line
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                }
             } else if (side === 'right') {
                 fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
                 toPoint = { x: conn.to.x, y: toCenter.y };
-                
-                // Straight right then quarter circle to module
-                ctx.moveTo(fromPoint.x, fromPoint.y);
-                if (Math.abs(fromPoint.y - toPoint.y) > radius) {
-                    // Need vertical adjustment
-                    const midX = fromPoint.x + Math.abs(toPoint.x - fromPoint.x) / 2;
-                    ctx.lineTo(midX, fromPoint.y);
-                    // Quarter circle
-                    const dir = toPoint.y > fromPoint.y ? 1 : -1;
-                    ctx.arcTo(midX + radius, fromPoint.y, midX + radius, toPoint.y, radius);
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                } else {
-                    // Straight line
-                    ctx.lineTo(toPoint.x, toPoint.y);
-                }
             }
+            
+            ctx.moveTo(fromPoint.x, fromPoint.y);
+            ctx.lineTo(toPoint.x, toPoint.y);
         } else if (conn.to.type === 'subtopic') {
             // Module to subtopic connections - straight dashed lines
             const side = conn.from.side || 'left';
