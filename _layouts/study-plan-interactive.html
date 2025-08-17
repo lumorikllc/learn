@@ -673,9 +673,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-knowledge').classList.remove('bg-white/20');
     });
     
-    // Initialize (don't draw since knowledge graph is hidden by default)
+    // Initialize
     createLayout(studyPlanData);
-    // draw() will be called when user clicks on Knowledge Map button
+    draw();  // Need to draw even if hidden, so it's ready when user switches to it
 });
 </script>
 
