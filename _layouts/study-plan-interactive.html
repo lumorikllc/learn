@@ -433,24 +433,56 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.strokeRect(box.x, box.y, box.width, box.height);
         }
         
+        // Draw icon for modules (outside the box)
+        // Left-side modules: icon on the right
+        // Right-side modules: icon on the left
+        if (box.type === 'module' && box.icon) {
+            ctx.font = '24px system-ui, -apple-system, sans-serif';
+            ctx.fillStyle = box.color.text;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            // Position icon based on module side
+            let iconX;
+            if (box.side === 'left') {
+                // Left modules: icon on the right side
+                iconX = box.x + box.width + 20;
+            } else if (box.side === 'right') {
+                // Right modules: icon on the left side
+                iconX = box.x - 20;
+            } else if (box.side === 'top') {
+                // Top modules: decide based on x position relative to center
+                const canvasCenter = canvas.width / (2 * dpr);
+                if (box.x < canvasCenter) {
+                    // Left-side top module: icon on right
+                    iconX = box.x + box.width + 20;
+                } else {
+                    // Right-side top module: icon on left
+                    iconX = box.x - 20;
+                }
+            } else if (box.side === 'bottom') {
+                // Bottom modules: decide based on x position relative to center
+                const canvasCenter = canvas.width / (2 * dpr);
+                if (box.x < canvasCenter) {
+                    // Left-side bottom module: icon on right
+                    iconX = box.x + box.width + 20;
+                } else {
+                    // Right-side bottom module: icon on left
+                    iconX = box.x - 20;
+                }
+            }
+            
+            ctx.fillText(box.icon, iconX, box.y + box.height / 2);
+        }
+        
         // Draw text
         ctx.fillStyle = box.color.text;
         ctx.font = `${box.fontWeight} ${box.fontSize}px system-ui, -apple-system, sans-serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        // Draw icon for modules (on the left side)
-        if (box.type === 'module' && box.icon) {
-            ctx.font = '18px system-ui, -apple-system, sans-serif';
-            ctx.fillText(box.icon, box.x + 12, box.y + box.height / 2);
-            // Reset font for text drawing
-            ctx.font = `${box.fontWeight} ${box.fontSize}px system-ui, -apple-system, sans-serif`;
-        }
-        
-        // Draw text (handle multiline for long text, max 2 lines)
-        // Adjust text position if there's an icon
-        const textOffset = (box.type === 'module' && box.icon) ? 35 : 0;
-        const maxWidth = box.width - 10 - textOffset;
+        // Draw text (handle multiline for long text, max 2 lines without ellipsis)
+        const maxWidth = box.width - 20;
         const words = box.text.split(' ');
         let line = '';
         let lines = [];
@@ -467,18 +499,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if (line) lines.push(line);
         
-        // Limit to 2 lines max
+        // Limit to 2 lines max (no ellipsis, just show what fits)
         if (lines.length > 2) {
             lines = lines.slice(0, 2);
-            // Add ellipsis to second line if truncated
-            if (lines[1].length > 3) {
-                lines[1] = lines[1].substring(0, lines[1].length - 3) + '...';
-            }
         }
         
         const lineHeight = box.fontSize + 4;
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
-        const textX = box.x + box.width / 2 + textOffset / 2; // Shift text right if there's an icon
+        const textX = box.x + box.width / 2;
         lines.forEach((text, idx) => {
             ctx.fillText(text, textX, startY + idx * lineHeight);
         });
