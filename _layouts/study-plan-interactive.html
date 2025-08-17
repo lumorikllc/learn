@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         positions.push({ x: leftX, y: centerY + verticalSpacing, side: 'left' });
         
         // Bottom (2 modules) - centered horizontally with more space below for subtopics
-        const bottomY = canvasHeight - 250; // More space for subtopics underneath
+        const bottomY = canvasHeight - 280; // More space for subtopics underneath
         positions.push({ x: centerX - 180, y: bottomY, side: 'bottom' });
         positions.push({ x: centerX + 20, y: bottomY, side: 'bottom' });
         
@@ -244,11 +244,14 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add subtopic boxes - position based on module location
             const subtopicWidth = 140;
             const subtopicHeight = 26;
-            const subtopicSpacing = 3;
             const side = pos.side;
             
-            // Calculate total height needed for subtopics
-            const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + subtopicSpacing);
+            // Different spacing for sides vs bottom
+            const sideSubtopicSpacing = 12; // More vertical spacing for sides
+            const bottomSubtopicSpacing = 10; // Horizontal spacing for bottom
+            
+            // Calculate total height needed for side subtopics
+            const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + sideSubtopicSpacing) - sideSubtopicSpacing;
             const startOffset = -totalSubtopicHeight / 2 + moduleHeight / 2;
             
             module.subtopics.forEach((subtopic, subIdx) => {
@@ -256,17 +259,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Position subtopics based on which side the module is on
                 if (side === 'left') {
-                    // Left side modules - subtopics to the LEFT (like reference)
+                    // Left side modules - subtopics to the LEFT with more vertical spacing
                     subtopicX = x - subtopicWidth - 15;
-                    subtopicY = y + startOffset + subIdx * (subtopicHeight + subtopicSpacing);
+                    subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                 } else if (side === 'bottom') {
-                    // Bottom modules - subtopics UNDERNEATH (below)
-                    subtopicX = x + (moduleWidth - subtopicWidth) / 2;
-                    subtopicY = y + moduleHeight + 15 + subIdx * (subtopicHeight + subtopicSpacing);
+                    // Bottom modules - subtopics UNDERNEATH laid out HORIZONTALLY
+                    const totalWidth = module.subtopics.length * (subtopicWidth + bottomSubtopicSpacing) - bottomSubtopicSpacing;
+                    const startX = x + (moduleWidth - totalWidth) / 2;
+                    subtopicX = startX + subIdx * (subtopicWidth + bottomSubtopicSpacing);
+                    subtopicY = y + moduleHeight + 20;
                 } else if (side === 'right') {
-                    // Right side modules - subtopics to the RIGHT (like reference)
+                    // Right side modules - subtopics to the RIGHT with more vertical spacing
                     subtopicX = x + moduleWidth + 15;
-                    subtopicY = y + startOffset + subIdx * (subtopicHeight + subtopicSpacing);
+                    subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                 }
                 
                 const subtopicBox = {
