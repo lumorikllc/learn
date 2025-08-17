@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Kubernetes Mastery: From Zero to Expert"
-date: 2025-08-17T23:33:01.623204
+date: 2025-08-17T23:33:14.182200
 modules: 8
 lessons: 40
 author: "markmatech@gmail.com"
@@ -17,7 +17,7 @@ Begin with the core concepts of container orchestration and set up a local Kuber
 
 **Topics covered:**
 
-- Principles of containers and orchestration
+- [Principles of containers and orchestration 📖](https://lumorikllc.github.io/learn/content/0db12569-8310-49a9-bfed-2d573fd8c268/d524d766-5708-4afd-be30-b636802093a0)
 - Installing Minikube/Kind or K3s for local clusters
 - kubectl commands: get, describe, apply, delete
 - Pod, Node, and Namespace concepts
