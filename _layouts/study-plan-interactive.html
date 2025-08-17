@@ -91,7 +91,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Parse study plan data
     const listView = document.getElementById('list-view');
-    const studyPlanData = parseStudyPlan(listView.innerHTML);
+    if (!listView) {
+        console.error('List view not found!');
+        return;
+    }
+    
+    // Get the prose div inside list-view
+    const proseDiv = listView.querySelector('.prose') || listView;
+    console.log('Parsing content from:', proseDiv);
+    console.log('Content HTML:', proseDiv.innerHTML.substring(0, 500));
+    
+    const studyPlanData = parseStudyPlan(proseDiv.innerHTML);
+    console.log('Parsed study plan data:', studyPlanData);
     
     // Graph state
     let nodes = [];
@@ -135,10 +146,19 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentModule = null;
         let moduleIndex = 0;
         
-        // Parse modules and subtopics
-        const elements = doc.body.children;
-        for (let elem of elements) {
+        // Parse modules and subtopics - use querySelectorAll to find all elements
+        const allElements = doc.body.querySelectorAll('*');
+        console.log('Total elements found:', allElements.length);
+        
+        // Find all H3 elements
+        const h3Elements = doc.body.querySelectorAll('h3');
+        console.log('H3 elements found:', h3Elements.length);
+        h3Elements.forEach(h3 => console.log('H3 text:', h3.textContent));
+        
+        // Parse using querySelectorAll
+        allElements.forEach(elem => {
             if (elem.tagName === 'H3' && elem.textContent.includes('Module')) {
+                console.log('Found module:', elem.textContent);
                 moduleIndex++;
                 currentModule = {
                     name: elem.textContent.replace(/Module \d+: /, ''),
@@ -147,21 +167,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     description: ''
                 };
                 planData.modules.push(currentModule);
-            } else if (elem.tagName === 'P' && currentModule && !currentModule.subtopics.length) {
+            } else if (elem.tagName === 'P' && currentModule && !currentModule.subtopics.length && elem.textContent.trim()) {
                 currentModule.description = elem.textContent;
             } else if (elem.tagName === 'UL' && currentModule) {
                 const items = elem.querySelectorAll('li');
                 items.forEach(item => {
                     const link = item.querySelector('a');
-                    currentModule.subtopics.push({
+                    const subtopic = {
                         name: link ? link.textContent.replace(' 📖', '') : item.textContent,
                         hasTextbook: link !== null,
                         url: link ? link.href : null
-                    });
+                    };
+                    currentModule.subtopics.push(subtopic);
+                    console.log('Added subtopic:', subtopic.name);
                 });
             }
-        }
+        });
         
+        console.log('Final parsed modules:', planData.modules.length);
         return planData;
     }
     
