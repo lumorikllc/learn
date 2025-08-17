@@ -241,8 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const isSmallMobile = canvasWidth < 480;
         
         // Center title box (main topic) with gradient - responsive sizing
-        const titleWidth = isSmallMobile ? 180 : isMobile ? 220 : 300;
-        const titleHeight = isSmallMobile ? 35 : isMobile ? 40 : 60;
+        const titleWidth = isSmallMobile ? 140 : isMobile ? 180 : 300;
+        const titleHeight = isSmallMobile ? 28 : isMobile ? 35 : 60;
         const titleFontSize = isSmallMobile ? 8 : isMobile ? 10 : 16;
         
         const titleBox = {
@@ -266,10 +266,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const moduleFontSize = isSmallMobile ? 7 : isMobile ? 8 : 13;
         const positions = [];
         
-        // Adjust spacing based on screen size - tighter on mobile
-        const verticalSpacing = isSmallMobile ? 60 : isMobile ? 80 : 180;
-        const horizontalSpacing = isSmallMobile ? 50 : isMobile ? 60 : 160;
-        const sideOffset = isSmallMobile ? 30 : isMobile ? 40 : 220;
+        // Adjust spacing based on screen size - MUCH tighter on mobile to use full space
+        const verticalSpacing = isSmallMobile ? 45 : isMobile ? 60 : 180;
+        const horizontalSpacing = isSmallMobile ? 35 : isMobile ? 45 : 160;
+        const sideOffset = isSmallMobile ? 10 : isMobile ? 15 : 220;
         
         // Top (2 modules)
         const topY = isMobile ? centerY - verticalSpacing : 180;
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Left side (2 modules)
         const leftX = isMobile ? sideOffset : 220;
-        const sideSpacing = isMobile ? 120 : 260;
+        const sideSpacing = isMobile ? 80 : 260;
         positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
         positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
         
@@ -330,14 +330,14 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Add subtopic boxes - make them smaller on mobile
-            const subtopicWidth = isSmallMobile ? 60 : isMobile ? 80 : 140;
-            const subtopicHeight = isSmallMobile ? 18 : isMobile ? 20 : 26;
+            const subtopicWidth = isSmallMobile ? 50 : isMobile ? 65 : 140;
+            const subtopicHeight = isSmallMobile ? 15 : isMobile ? 18 : 26;
             const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
             const side = pos.side;
             
             // Different spacing for sides vs bottom - tighter on mobile
-            const sideSubtopicSpacing = isSmallMobile ? 8 : isMobile ? 12 : 20;
-            const bottomSubtopicSpacing = isSmallMobile ? 5 : isMobile ? 8 : 15;
+            const sideSubtopicSpacing = isSmallMobile ? 5 : isMobile ? 8 : 20;
+            const bottomSubtopicSpacing = isSmallMobile ? 3 : isMobile ? 5 : 15;
             
             // Calculate total height needed for side subtopics
             const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + sideSubtopicSpacing) - sideSubtopicSpacing;
@@ -728,14 +728,14 @@ document.addEventListener('DOMContentLoaded', function() {
 /* Mobile landscape */
 @media (max-width: 768px) {
     #knowledge-graph-view {
-        height: 500px;
+        height: 380px;
     }
 }
 
 /* Mobile portrait */
 @media (max-width: 480px) {
     #knowledge-graph-view {
-        height: 400px;
+        height: 320px;
     }
 }
 </style>
