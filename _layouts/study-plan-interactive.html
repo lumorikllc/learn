@@ -80,11 +80,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set actual canvas size
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
+        // Only resize if the canvas is visible (has dimensions)
+        if (rect.width > 0 && rect.height > 0) {
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            ctx.scale(dpr, dpr);
+        }
     }
-    resizeCanvas();
+    
+    // Don't resize initially since view is hidden
+    // resizeCanvas() will be called when knowledge view is shown
     window.addEventListener('resize', resizeCanvas);
     
     // Helper function to darken a color
@@ -660,8 +665,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-knowledge').classList.remove('bg-white/10');
         document.getElementById('view-list').classList.add('bg-white/10');
         document.getElementById('view-list').classList.remove('bg-white/20');
-        resizeCanvas();
-        draw();
+        // Initialize the graph if not already done
+        initializeGraph();
+        // If already initialized, just resize and redraw
+        if (initialized) {
+            resizeCanvas();
+            draw();
+        }
     });
     
     document.getElementById('view-list').addEventListener('click', () => {
@@ -673,9 +683,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-knowledge').classList.remove('bg-white/20');
     });
     
-    // Initialize
-    createLayout(studyPlanData);
-    draw();  // Need to draw even if hidden, so it's ready when user switches to it
+    // Initialize - defer drawing until knowledge graph is shown
+    let initialized = false;
+    
+    function initializeGraph() {
+        if (!initialized) {
+            createLayout(studyPlanData);
+            resizeCanvas();
+            draw();
+            initialized = true;
+        }
+    }
 });
 </script>
 
