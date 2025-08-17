@@ -156,8 +156,21 @@ document.addEventListener('DOMContentLoaded', function() {
         allElements.forEach(elem => {
             if (elem.tagName === 'H3' && elem.textContent.includes('Module')) {
                 moduleIndex++;
+                // Extract emoji icon if present (will be at the beginning)
+                const text = elem.textContent;
+                let icon = '📚'; // Default icon
+                let name = text.replace(/Module \d+: /, '');
+                
+                // Check if first character is an emoji
+                const emojiMatch = text.match(/^([\u{1F300}-\u{1F9FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}])/u);
+                if (emojiMatch) {
+                    icon = emojiMatch[0];
+                    name = text.substring(icon.length).replace(/Module \d+: /, '').trim();
+                }
+                
                 currentModule = {
-                    name: elem.textContent.replace(/Module \d+: /, ''),
+                    name: name,
+                    icon: icon,
                     index: moduleIndex,
                     subtopics: [],
                     description: ''
@@ -244,10 +257,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const x = pos.x;
             const y = pos.y;
             
-            // Module container box
+            // Module container box with icon
             const moduleBox = {
                 id: `module-${idx}`,
                 text: module.name.length > 25 ? module.name.substring(0, 25) + '...' : module.name,
+                icon: module.icon || '📚',  // Use module icon or default
                 x: x,
                 y: y,
                 width: moduleWidth,
@@ -425,8 +439,18 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
+        // Draw icon for modules (on the left side)
+        if (box.type === 'module' && box.icon) {
+            ctx.font = '18px system-ui, -apple-system, sans-serif';
+            ctx.fillText(box.icon, box.x + 12, box.y + box.height / 2);
+            // Reset font for text drawing
+            ctx.font = `${box.fontWeight} ${box.fontSize}px system-ui, -apple-system, sans-serif`;
+        }
+        
         // Draw text (handle multiline for long text, max 2 lines)
-        const maxWidth = box.width - 10;
+        // Adjust text position if there's an icon
+        const textOffset = (box.type === 'module' && box.icon) ? 35 : 0;
+        const maxWidth = box.width - 10 - textOffset;
         const words = box.text.split(' ');
         let line = '';
         let lines = [];
@@ -454,8 +478,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const lineHeight = box.fontSize + 4;
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
+        const textX = box.x + box.width / 2 + textOffset / 2; // Shift text right if there's an icon
         lines.forEach((text, idx) => {
-            ctx.fillText(text, box.x + box.width / 2, startY + idx * lineHeight);
+            ctx.fillText(text, textX, startY + idx * lineHeight);
         });
         
         // Add textbook icon if applicable
