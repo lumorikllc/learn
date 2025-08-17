@@ -27,8 +27,8 @@ layout: default
         
         <!-- View Toggle Buttons -->
         <div class="mt-4 flex gap-2">
-            <button id="view-mindmap" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium">
-                🗺️ Mind Map View
+            <button id="view-knowledge" class="px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm font-medium">
+                🗺️ Knowledge Graph
             </button>
             <button id="view-list" class="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors text-sm font-medium">
                 📝 List View
@@ -37,80 +37,34 @@ layout: default
     </div>
 
     <!-- Interactive Visualization Container -->
-    <div id="visualization-container" class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 mb-6">
-        <!-- Loading State -->
-        <div id="loading-state" class="flex flex-col items-center justify-center py-12">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-            <p class="mt-4 text-gray-600">Loading interactive visualization...</p>
-        </div>
+    <div id="visualization-container" class="bg-gray-900 rounded-xl shadow-sm border border-gray-800 p-4 sm:p-6 md:p-8 mb-6">
         
-        <!-- Mind Map View -->
-        <div id="mindmap-view" class="hidden">
-            <!-- Controls -->
-            <div class="mb-4 flex flex-wrap gap-2">
-                <button id="zoom-in" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-                    ➕ Zoom In
+        <!-- Knowledge Graph View -->
+        <div id="knowledge-graph-view">
+            <!-- Canvas for Knowledge Graph -->
+            <canvas id="knowledge-graph-canvas" style="width: 100%; height: 600px; cursor: grab;"></canvas>
+            
+            <!-- Controls Overlay -->
+            <div class="absolute top-4 right-4 bg-gray-800/90 backdrop-blur-sm rounded-lg p-2 flex flex-col gap-2">
+                <button id="reset-graph" class="p-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm" title="Reset View">
+                    🔄
                 </button>
-                <button id="zoom-out" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-                    ➖ Zoom Out
-                </button>
-                <button id="reset-view" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-                    🔄 Reset View
-                </button>
-                <button id="expand-all" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-                    📖 Expand All
-                </button>
-                <button id="collapse-all" class="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm font-medium transition-colors">
-                    📕 Collapse All
+                <button id="toggle-physics" class="p-2 bg-gray-700 hover:bg-gray-600 rounded text-white text-sm" title="Toggle Physics">
+                    ⚡
                 </button>
             </div>
             
-            <!-- SVG Container for Mind Map -->
-            <div id="mindmap-svg-container" style="width: 100%; height: 600px; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
-                <svg id="mindmap-svg" width="100%" height="100%"></svg>
-            </div>
-            
-            <!-- Legend -->
-            <div class="mt-4 p-3 bg-gray-50 rounded-lg">
-                <p class="text-sm font-medium text-gray-700 mb-2">Legend:</p>
-                <div class="flex flex-wrap gap-4 text-xs">
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-purple-600"></div>
-                        <span>Main Topic</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-blue-500"></div>
-                        <span>Module</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-green-500"></div>
-                        <span>Subtopic</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <div class="w-4 h-4 rounded-full bg-orange-500"></div>
-                        <span>With Textbook 📖</span>
-                    </div>
-                </div>
+            <!-- Info Panel -->
+            <div id="node-info" class="hidden absolute bottom-4 left-4 bg-gray-800/90 backdrop-blur-sm rounded-lg p-4 max-w-sm">
+                <h3 id="node-title" class="text-white font-bold mb-2"></h3>
+                <p id="node-description" class="text-gray-300 text-sm"></p>
             </div>
         </div>
         
-        <!-- List View (Traditional) -->
-        <div id="list-view" class="hidden prose max-w-none">
+        <!-- List View (Traditional) - Hidden by default -->
+        <div id="list-view" class="hidden prose prose-invert max-w-none">
             {{ content }}
         </div>
-    </div>
-
-    <!-- Detail Panel (Shows on node click) -->
-    <div id="detail-panel" class="hidden bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 md:p-8 mb-6">
-        <div class="flex justify-between items-start mb-4">
-            <h2 id="detail-title" class="text-xl font-bold text-gray-900"></h2>
-            <button id="close-detail" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
-        </div>
-        <div id="detail-content" class="prose prose-sm"></div>
     </div>
 
     <!-- CTA Section -->
@@ -128,366 +82,520 @@ layout: default
     </div>
 </article>
 
-<!-- D3.js for visualization -->
-<script src="https://d3js.org/d3.v7.min.js"></script>
-
-<!-- Mind Map Visualization Script -->
+<!-- Knowledge Graph Visualization Script -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Parse the markdown content to extract study plan structure
-    const listView = document.getElementById('list-view');
-    if (!listView) {
-        console.error('List view element not found');
-        return;
+    const canvas = document.getElementById('knowledge-graph-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    function resizeCanvas() {
+        canvas.width = canvas.offsetWidth * window.devicePixelRatio;
+        canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
     }
-    const content = listView.innerHTML;
-    const studyPlanData = parseMarkdownToGraph(content);
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
     
-    console.log('Parsed study plan data:', studyPlanData);
+    // Parse study plan data
+    const listView = document.getElementById('list-view');
+    const studyPlanData = parseStudyPlan(listView.innerHTML);
     
-    // Initialize the mind map
-    initializeMindMap(studyPlanData);
+    // Graph state
+    let nodes = [];
+    let edges = [];
+    let camera = { x: 0, y: 0, zoom: 1 };
+    let isDragging = false;
+    let dragStart = { x: 0, y: 0 };
+    let hoveredNode = null;
+    let selectedNode = null;
+    let physics = true;
+    let animationFrame = null;
     
-    // Setup view toggles
-    setupViewToggles();
-    
-    // Setup controls
-    setupControls();
-});
-
-function parseMarkdownToGraph(htmlContent) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlContent, 'text/html');
-    
-    const data = {
-        name: "{{ page.title }}",
-        type: "root",
-        children: []
+    // Color scheme similar to reference
+    const colors = {
+        root: '#10b981',  // Green for main topic
+        module: {
+            1: '#3b82f6',  // Blue
+            2: '#8b5cf6',  // Purple
+            3: '#ec4899',  // Pink
+            4: '#f59e0b',  // Amber
+            5: '#ef4444',  // Red
+            6: '#06b6d4',  // Cyan
+            7: '#84cc16',  // Lime
+            8: '#6366f1'   // Indigo
+        },
+        subtopic: '#64748b',  // Slate gray
+        textbook: '#f97316',  // Orange for textbook-enabled
+        edge: '#374151',      // Gray for connections
+        text: '#ffffff',      // White text
+        background: '#111827' // Dark background
     };
     
-    let currentModule = null;
-    let moduleIndex = 0;
-    
-    // Parse the HTML structure
-    const elements = doc.body.children;
-    for (let elem of elements) {
-        if (elem.tagName === 'H3' && elem.textContent.includes('Module')) {
-            // New module
-            moduleIndex++;
-            currentModule = {
-                name: elem.textContent.replace(/Module \d+: /, ''),
-                type: "module",
-                moduleNumber: moduleIndex,
-                children: []
-            };
-            data.children.push(currentModule);
-        } else if (elem.tagName === 'P' && currentModule) {
-            // Module description
-            currentModule.description = elem.textContent;
-        } else if (elem.tagName === 'UL' && currentModule) {
-            // Subtopics
-            const items = elem.querySelectorAll('li');
-            items.forEach(item => {
-                const link = item.querySelector('a');
-                const subtopic = {
-                    name: link ? link.textContent.replace(' 📖', '') : item.textContent,
-                    type: "subtopic",
-                    hasTextbook: link !== null,
-                    url: link ? link.href : null
+    function parseStudyPlan(html) {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        const planData = {
+            title: "{{ page.title }}",
+            modules: []
+        };
+        
+        let currentModule = null;
+        let moduleIndex = 0;
+        
+        // Parse modules and subtopics
+        const elements = doc.body.children;
+        for (let elem of elements) {
+            if (elem.tagName === 'H3' && elem.textContent.includes('Module')) {
+                moduleIndex++;
+                currentModule = {
+                    name: elem.textContent.replace(/Module \d+: /, ''),
+                    index: moduleIndex,
+                    subtopics: [],
+                    description: ''
                 };
-                currentModule.children.push(subtopic);
+                planData.modules.push(currentModule);
+            } else if (elem.tagName === 'P' && currentModule && !currentModule.subtopics.length) {
+                currentModule.description = elem.textContent;
+            } else if (elem.tagName === 'UL' && currentModule) {
+                const items = elem.querySelectorAll('li');
+                items.forEach(item => {
+                    const link = item.querySelector('a');
+                    currentModule.subtopics.push({
+                        name: link ? link.textContent.replace(' 📖', '') : item.textContent,
+                        hasTextbook: link !== null,
+                        url: link ? link.href : null
+                    });
+                });
+            }
+        }
+        
+        return planData;
+    }
+    
+    function createGraph(data) {
+        nodes = [];
+        edges = [];
+        
+        const centerX = canvas.width / (2 * window.devicePixelRatio);
+        const centerY = canvas.height / (2 * window.devicePixelRatio);
+        
+        // Create root node (center)
+        const rootNode = {
+            id: 'root',
+            label: data.title,
+            x: centerX,
+            y: centerY,
+            vx: 0,
+            vy: 0,
+            radius: 35,
+            color: colors.root,
+            type: 'root',
+            fixed: true
+        };
+        nodes.push(rootNode);
+        
+        // Create module nodes in a circle around root
+        const moduleRadius = 200;
+        data.modules.forEach((module, i) => {
+            const angle = (i / data.modules.length) * Math.PI * 2 - Math.PI / 2;
+            const moduleNode = {
+                id: `module-${i}`,
+                label: module.name,
+                shortLabel: `Module ${module.index}`,
+                x: centerX + Math.cos(angle) * moduleRadius,
+                y: centerY + Math.sin(angle) * moduleRadius,
+                vx: 0,
+                vy: 0,
+                radius: 25,
+                color: colors.module[module.index] || colors.module[1],
+                type: 'module',
+                data: module,
+                angle: angle
+            };
+            nodes.push(moduleNode);
+            
+            // Connect to root
+            edges.push({
+                source: rootNode,
+                target: moduleNode,
+                color: colors.edge,
+                width: 2
+            });
+            
+            // Create subtopic nodes around each module
+            const subtopicRadius = 100;
+            module.subtopics.forEach((subtopic, j) => {
+                const subtopicAngle = angle + (j - module.subtopics.length / 2) * 0.3;
+                const distance = subtopicRadius + (j % 2) * 30; // Vary distance
+                const subtopicNode = {
+                    id: `subtopic-${i}-${j}`,
+                    label: subtopic.name,
+                    x: moduleNode.x + Math.cos(subtopicAngle) * distance,
+                    y: moduleNode.y + Math.sin(subtopicAngle) * distance,
+                    vx: 0,
+                    vy: 0,
+                    radius: 12,
+                    color: subtopic.hasTextbook ? colors.textbook : colors.subtopic,
+                    type: 'subtopic',
+                    data: subtopic,
+                    parentModule: moduleNode
+                };
+                nodes.push(subtopicNode);
+                
+                // Connect to module
+                edges.push({
+                    source: moduleNode,
+                    target: subtopicNode,
+                    color: colors.edge,
+                    width: 1,
+                    dashed: true
+                });
+            });
+            
+            // Connect adjacent modules
+            if (i > 0) {
+                edges.push({
+                    source: nodes.find(n => n.id === `module-${i-1}`),
+                    target: moduleNode,
+                    color: colors.edge,
+                    width: 1,
+                    dashed: false,
+                    curved: true
+                });
+            }
+        });
+        
+        // Connect last module to first for circular flow
+        if (data.modules.length > 1) {
+            edges.push({
+                source: nodes.find(n => n.id === `module-${data.modules.length-1}`),
+                target: nodes.find(n => n.id === 'module-0'),
+                color: colors.edge,
+                width: 1,
+                dashed: false,
+                curved: true
             });
         }
     }
     
-    return data;
-}
-
-function initializeMindMap(data) {
-    const container = document.getElementById('mindmap-svg-container');
-    if (!container) {
-        console.error('Mind map container not found');
-        return;
+    function drawGraph() {
+        // Clear canvas
+        ctx.fillStyle = colors.background;
+        ctx.fillRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
+        
+        ctx.save();
+        ctx.translate(camera.x, camera.y);
+        ctx.scale(camera.zoom, camera.zoom);
+        
+        // Draw edges
+        edges.forEach(edge => {
+            ctx.strokeStyle = edge.color;
+            ctx.lineWidth = edge.width;
+            ctx.globalAlpha = 0.6;
+            
+            if (edge.dashed) {
+                ctx.setLineDash([5, 5]);
+            } else {
+                ctx.setLineDash([]);
+            }
+            
+            ctx.beginPath();
+            
+            if (edge.curved) {
+                // Draw curved edge for module connections
+                const dx = edge.target.x - edge.source.x;
+                const dy = edge.target.y - edge.source.y;
+                const cx = edge.source.x + dx / 2 - dy * 0.2;
+                const cy = edge.source.y + dy / 2 + dx * 0.2;
+                
+                ctx.moveTo(edge.source.x, edge.source.y);
+                ctx.quadraticCurveTo(cx, cy, edge.target.x, edge.target.y);
+            } else {
+                ctx.moveTo(edge.source.x, edge.source.y);
+                ctx.lineTo(edge.target.x, edge.target.y);
+            }
+            
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        });
+        
+        ctx.setLineDash([]);
+        
+        // Draw nodes
+        nodes.forEach(node => {
+            // Draw node circle
+            ctx.fillStyle = node.color;
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = node === hoveredNode ? 3 : 2;
+            
+            ctx.beginPath();
+            ctx.arc(node.x, node.y, node.radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            if (node === hoveredNode || node === selectedNode) {
+                ctx.stroke();
+            }
+            
+            // Draw label
+            ctx.fillStyle = colors.text;
+            ctx.font = `${node.type === 'root' ? 'bold 14px' : node.type === 'module' ? 'bold 12px' : '10px'} system-ui, -apple-system, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            
+            if (node.type === 'subtopic') {
+                // Draw subtopic labels outside the node
+                const labelDistance = node.radius + 15;
+                const angle = Math.atan2(node.y - node.parentModule.y, node.x - node.parentModule.x);
+                const labelX = node.x + Math.cos(angle) * labelDistance;
+                const labelY = node.y + Math.sin(angle) * labelDistance;
+                
+                // Background for readability
+                const metrics = ctx.measureText(node.label);
+                ctx.fillStyle = colors.background + 'dd';
+                ctx.fillRect(labelX - metrics.width/2 - 2, labelY - 6, metrics.width + 4, 12);
+                
+                ctx.fillStyle = colors.text;
+                ctx.fillText(node.label, labelX, labelY);
+                
+                // Draw textbook icon if applicable
+                if (node.data && node.data.hasTextbook) {
+                    ctx.fillText('📖', node.x, node.y);
+                }
+            } else {
+                // Draw module/root labels inside
+                if (node.shortLabel) {
+                    ctx.fillText(node.shortLabel, node.x, node.y);
+                } else {
+                    // Split long labels
+                    const words = node.label.split(' ');
+                    const lines = [];
+                    let currentLine = '';
+                    
+                    words.forEach(word => {
+                        const testLine = currentLine + (currentLine ? ' ' : '') + word;
+                        const metrics = ctx.measureText(testLine);
+                        if (metrics.width > node.radius * 2.5 && currentLine) {
+                            lines.push(currentLine);
+                            currentLine = word;
+                        } else {
+                            currentLine = testLine;
+                        }
+                    });
+                    if (currentLine) lines.push(currentLine);
+                    
+                    const lineHeight = 14;
+                    const startY = node.y - (lines.length - 1) * lineHeight / 2;
+                    lines.forEach((line, i) => {
+                        ctx.fillText(line, node.x, startY + i * lineHeight);
+                    });
+                }
+            }
+        });
+        
+        ctx.restore();
     }
     
-    const width = container.clientWidth || 800;
-    const height = 600;
-    
-    console.log('Initializing mind map with data:', data);
-    console.log('Container dimensions:', width, 'x', height);
-    
-    // Clear loading state
-    document.getElementById('loading-state').classList.add('hidden');
-    document.getElementById('mindmap-view').classList.remove('hidden');
-    
-    // Create SVG
-    const svg = d3.select('#mindmap-svg')
-        .attr('width', width)
-        .attr('height', height);
-    
-    // Clear any existing content
-    svg.selectAll('*').remove();
-    
-    // Create container for zoom
-    const g = svg.append('g');
-    
-    // Setup zoom behavior
-    const zoom = d3.zoom()
-        .scaleExtent([0.3, 3])
-        .on('zoom', (event) => {
-            g.attr('transform', event.transform);
+    function applyPhysics() {
+        if (!physics) return;
+        
+        const damping = 0.95;
+        const repulsion = 5000;
+        const attraction = 0.001;
+        
+        // Apply forces
+        nodes.forEach(node => {
+            if (node.fixed) return;
+            
+            // Repulsion between all nodes
+            nodes.forEach(other => {
+                if (node === other) return;
+                
+                const dx = node.x - other.x;
+                const dy = node.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance > 0 && distance < 200) {
+                    const force = repulsion / (distance * distance);
+                    node.vx += (dx / distance) * force;
+                    node.vy += (dy / distance) * force;
+                }
+            });
+            
+            // Attraction along edges
+            edges.forEach(edge => {
+                if (edge.source === node || edge.target === node) {
+                    const other = edge.source === node ? edge.target : edge.source;
+                    const dx = other.x - node.x;
+                    const dy = other.y - node.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance > 0) {
+                        const force = distance * attraction;
+                        node.vx += dx * force;
+                        node.vy += dy * force;
+                    }
+                }
+            });
+            
+            // Apply velocity
+            node.vx *= damping;
+            node.vy *= damping;
+            node.x += node.vx;
+            node.y += node.vy;
         });
+    }
     
-    svg.call(zoom);
+    function animate() {
+        applyPhysics();
+        drawGraph();
+        animationFrame = requestAnimationFrame(animate);
+    }
     
-    // Create tree layout
-    const treeLayout = d3.tree()
-        .size([height - 100, width - 200])
-        .separation((a, b) => (a.parent == b.parent ? 1 : 1.5));
-    
-    // Create hierarchy
-    const root = d3.hierarchy(data);
-    
-    // Apply tree layout
-    treeLayout(root);
-    
-    // Adjust positions for horizontal layout
-    root.descendants().forEach(d => {
-        [d.x, d.y] = [d.y + 100, d.x + 50]; // Swap x and y, add margins
+    // Mouse interactions
+    canvas.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        dragStart.x = e.offsetX - camera.x;
+        dragStart.y = e.offsetY - camera.y;
+        canvas.style.cursor = 'grabbing';
     });
     
-    // Create links
-    const links = g.selectAll('.link')
-        .data(root.links())
-        .enter()
-        .append('path')
-        .attr('class', 'link')
-        .attr('d', d3.linkHorizontal()
-            .x(d => d.y)
-            .y(d => d.x))
-        .style('fill', 'none')
-        .style('stroke', '#cbd5e1')
-        .style('stroke-width', 2)
-        .style('stroke-dasharray', d => d.target.data.type === 'subtopic' ? '3,3' : 'none');
-    
-    // Create nodes
-    const nodes = g.selectAll('.node')
-        .data(root.descendants())
-        .enter()
-        .append('g')
-        .attr('class', 'node')
-        .attr('transform', d => `translate(${d.y},${d.x})`);
-    
-    // Add circles for nodes
-    nodes.append('circle')
-        .attr('r', d => {
-            if (d.data.type === 'root') return 12;
-            if (d.data.type === 'module') return 10;
-            return 8;
-        })
-        .style('fill', d => {
-            if (d.data.type === 'root') return '#9333ea';
-            if (d.data.type === 'module') return '#3b82f6';
-            if (d.data.hasTextbook) return '#f97316';
-            return '#10b981';
-        })
-        .style('stroke', '#fff')
-        .style('stroke-width', 2)
-        .style('cursor', 'pointer')
-        .on('click', (event, d) => showDetail(d.data));
-    
-    // Add labels
-    nodes.append('text')
-        .attr('dy', '.35em')
-        .attr('x', d => d.children ? -15 : 15)
-        .style('text-anchor', d => d.children ? 'end' : 'start')
-        .style('font-size', d => {
-            if (d.data.type === 'root') return '14px';
-            if (d.data.type === 'module') return '12px';
-            return '11px';
-        })
-        .style('font-weight', d => d.data.type === 'root' ? 'bold' : 'normal')
-        .text(d => {
-            let text = d.data.name;
-            if (d.data.hasTextbook) text += ' 📖';
-            return text.length > 30 ? text.substring(0, 30) + '...' : text;
-        })
-        .style('cursor', 'pointer')
-        .on('click', (event, d) => showDetail(d.data));
-    
-    // Add module numbers
-    nodes.filter(d => d.data.type === 'module')
-        .append('text')
-        .attr('dy', '-1.2em')
-        .attr('x', 0)
-        .style('text-anchor', 'middle')
-        .style('font-size', '10px')
-        .style('fill', '#6b7280')
-        .text(d => `Module ${d.data.moduleNumber}`);
-    
-    // Store references for controls
-    window.mindMapZoom = zoom;
-    window.mindMapSvg = svg;
-    window.mindMapG = g;
-    window.mindMapRoot = root;
-}
-
-function showDetail(nodeData) {
-    const panel = document.getElementById('detail-panel');
-    const title = document.getElementById('detail-title');
-    const content = document.getElementById('detail-content');
-    
-    title.textContent = nodeData.name;
-    
-    let html = '';
-    if (nodeData.type === 'root') {
-        html = `<p><strong>Complete Study Plan</strong></p>
-                <p>This comprehensive study plan contains ${nodeData.children.length} modules designed to guide you through mastering the topic.</p>`;
-    } else if (nodeData.type === 'module') {
-        html = `<p><strong>Module ${nodeData.moduleNumber}</strong></p>`;
-        if (nodeData.description) {
-            html += `<p>${nodeData.description}</p>`;
-        }
-        html += `<p>This module contains ${nodeData.children.length} subtopics.</p>`;
-    } else if (nodeData.type === 'subtopic') {
-        html = `<p><strong>Subtopic</strong></p>`;
-        if (nodeData.hasTextbook) {
-            html += `<p>📖 This topic has an associated textbook available.</p>`;
-            if (nodeData.url) {
-                html += `<p><a href="${nodeData.url}" target="_blank" class="text-purple-600 hover:text-purple-800">View Textbook →</a></p>`;
+    canvas.addEventListener('mousemove', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left - camera.x) / camera.zoom;
+        const y = (e.clientY - rect.top - camera.y) / camera.zoom;
+        
+        if (isDragging) {
+            camera.x = e.offsetX - dragStart.x;
+            camera.y = e.offsetY - dragStart.y;
+        } else {
+            // Check for node hover
+            hoveredNode = null;
+            nodes.forEach(node => {
+                const dx = x - node.x;
+                const dy = y - node.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                
+                if (distance < node.radius) {
+                    hoveredNode = node;
+                    canvas.style.cursor = 'pointer';
+                }
+            });
+            
+            if (!hoveredNode) {
+                canvas.style.cursor = 'grab';
             }
         }
+    });
+    
+    canvas.addEventListener('mouseup', () => {
+        isDragging = false;
+        canvas.style.cursor = 'grab';
+    });
+    
+    canvas.addEventListener('click', (e) => {
+        if (hoveredNode) {
+            selectedNode = hoveredNode;
+            showNodeInfo(selectedNode);
+        }
+    });
+    
+    canvas.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? 0.9 : 1.1;
+        camera.zoom *= delta;
+        camera.zoom = Math.max(0.5, Math.min(2, camera.zoom));
+    });
+    
+    function showNodeInfo(node) {
+        const infoPanel = document.getElementById('node-info');
+        const titleEl = document.getElementById('node-title');
+        const descEl = document.getElementById('node-description');
+        
+        titleEl.textContent = node.label;
+        
+        if (node.data) {
+            if (node.data.description) {
+                descEl.textContent = node.data.description;
+            } else if (node.data.hasTextbook) {
+                descEl.innerHTML = `📖 Textbook available<br><a href="${node.data.url}" target="_blank" class="text-blue-400 hover:underline">View content</a>`;
+            } else {
+                descEl.textContent = `${node.type === 'module' ? 'Module' : 'Subtopic'} in the learning path`;
+            }
+        } else {
+            descEl.textContent = 'Central topic of the study plan';
+        }
+        
+        infoPanel.classList.remove('hidden');
     }
     
-    content.innerHTML = html;
-    panel.classList.remove('hidden');
-    
-    // Scroll to detail panel
-    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-}
-
-function setupViewToggles() {
-    const mindmapBtn = document.getElementById('view-mindmap');
-    const listBtn = document.getElementById('view-list');
-    const mindmapView = document.getElementById('mindmap-view');
-    const listView = document.getElementById('list-view');
-    
-    mindmapBtn.addEventListener('click', () => {
-        mindmapView.classList.remove('hidden');
-        listView.classList.add('hidden');
-        mindmapBtn.classList.add('bg-white/20');
-        mindmapBtn.classList.remove('bg-white/10');
-        listBtn.classList.add('bg-white/10');
-        listBtn.classList.remove('bg-white/20');
+    // Controls
+    document.getElementById('reset-graph').addEventListener('click', () => {
+        camera.x = 0;
+        camera.y = 0;
+        camera.zoom = 1;
+        createGraph(studyPlanData);
     });
     
-    listBtn.addEventListener('click', () => {
-        listView.classList.remove('hidden');
-        mindmapView.classList.add('hidden');
-        listBtn.classList.add('bg-white/20');
-        listBtn.classList.remove('bg-white/10');
-        mindmapBtn.classList.add('bg-white/10');
-        mindmapBtn.classList.remove('bg-white/20');
+    document.getElementById('toggle-physics').addEventListener('click', () => {
+        physics = !physics;
+        document.getElementById('toggle-physics').textContent = physics ? '⚡' : '🔒';
     });
     
-    // Close detail panel
-    const closeBtn = document.getElementById('close-detail');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            document.getElementById('detail-panel').classList.add('hidden');
-        });
-    }
-}
-
-function setupControls() {
-    // Zoom controls
-    document.getElementById('zoom-in').addEventListener('click', () => {
-        window.mindMapSvg.transition().duration(300).call(
-            window.mindMapZoom.scaleBy, 1.3
-        );
+    // View toggles
+    document.getElementById('view-knowledge').addEventListener('click', () => {
+        document.getElementById('knowledge-graph-view').classList.remove('hidden');
+        document.getElementById('list-view').classList.add('hidden');
+        document.getElementById('view-knowledge').classList.add('bg-white/20');
+        document.getElementById('view-knowledge').classList.remove('bg-white/10');
+        document.getElementById('view-list').classList.add('bg-white/10');
+        document.getElementById('view-list').classList.remove('bg-white/20');
     });
     
-    document.getElementById('zoom-out').addEventListener('click', () => {
-        window.mindMapSvg.transition().duration(300).call(
-            window.mindMapZoom.scaleBy, 0.7
-        );
+    document.getElementById('view-list').addEventListener('click', () => {
+        document.getElementById('list-view').classList.remove('hidden');
+        document.getElementById('knowledge-graph-view').classList.add('hidden');
+        document.getElementById('view-list').classList.add('bg-white/20');
+        document.getElementById('view-list').classList.remove('bg-white/10');
+        document.getElementById('view-knowledge').classList.add('bg-white/10');
+        document.getElementById('view-knowledge').classList.remove('bg-white/20');
     });
     
-    document.getElementById('reset-view').addEventListener('click', () => {
-        window.mindMapSvg.transition().duration(300).call(
-            window.mindMapZoom.transform, d3.zoomIdentity
-        );
-    });
-    
-    // Expand/Collapse controls
-    document.getElementById('expand-all').addEventListener('click', () => {
-        expandAll(window.mindMapRoot);
-        updateMindMap();
-    });
-    
-    document.getElementById('collapse-all').addEventListener('click', () => {
-        collapseAll(window.mindMapRoot);
-        updateMindMap();
-    });
-}
-
-function expandAll(d) {
-    if (d._children) {
-        d.children = d._children;
-        d._children = null;
-    }
-    if (d.children) {
-        d.children.forEach(expandAll);
-    }
-}
-
-function collapseAll(d) {
-    if (d.children) {
-        d._children = d.children;
-        d.children = null;
-    }
-    if (d._children) {
-        d._children.forEach(collapseAll);
-    }
-}
-
-function updateMindMap() {
-    // Re-render the mind map with current expand/collapse state
-    const data = {
-        name: window.mindMapRoot.data.name,
-        type: window.mindMapRoot.data.type,
-        children: window.mindMapRoot.children ? 
-            window.mindMapRoot.children.map(c => c.data) : 
-            []
-    };
-    initializeMindMap(data);
-}
+    // Initialize
+    createGraph(studyPlanData);
+    animate();
+});
 </script>
 
 <style>
-/* Custom styles for mind map */
-.node circle {
-    transition: all 0.3s ease;
+#visualization-container {
+    position: relative;
 }
 
-.node:hover circle {
-    transform: scale(1.2);
-    filter: brightness(1.1);
+#knowledge-graph-canvas {
+    background: #111827;
+    border-radius: 0.5rem;
 }
 
-.link {
-    transition: all 0.3s ease;
+#node-info {
+    backdrop-filter: blur(10px);
 }
 
-.node text {
-    pointer-events: none;
-    user-select: none;
+/* Dark theme for list view */
+.prose-invert {
+    color: #e5e7eb;
 }
 
-/* Responsive adjustments */
-@media (max-width: 640px) {
-    #mindmap-svg-container {
-        height: 400px;
-    }
+.prose-invert h2, .prose-invert h3 {
+    color: #f3f4f6;
+}
+
+.prose-invert a {
+    color: #60a5fa;
+}
+
+.prose-invert strong {
+    color: #f9fafb;
 }
 </style>
