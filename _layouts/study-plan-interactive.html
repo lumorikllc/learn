@@ -188,28 +188,31 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         boxes.push(titleBox);
         
-        // Define positions for 8 modules: 3 left, 2 bottom, 3 right
+        // Define positions for 8 modules: 2 top, 2 left, 2 right, 2 bottom
         const moduleWidth = 160;
         const moduleHeight = 45;
         const positions = [];
         
-        // Left side (3 modules) - evenly spaced vertically
-        const leftX = 250; // Leave space for subtopics on the left
-        const verticalSpacing = 250; // Much more vertical spacing between modules
-        positions.push({ x: leftX, y: centerY - verticalSpacing, side: 'left' });
-        positions.push({ x: leftX, y: centerY, side: 'left' });
-        positions.push({ x: leftX, y: centerY + verticalSpacing, side: 'left' });
+        // Top (2 modules) - centered horizontally with space above for subtopics
+        const topY = 280; // More space for subtopics above (2 rows)
+        positions.push({ x: centerX - 180, y: topY, side: 'top' });
+        positions.push({ x: centerX + 20, y: topY, side: 'top' });
         
-        // Bottom (2 modules) - centered horizontally with more space below for subtopics
-        const bottomY = canvasHeight - 320; // Even more space for two-row subtopic layout
+        // Left side (2 modules) - evenly spaced vertically
+        const leftX = 250; // Leave space for subtopics on the left
+        const sideSpacing = 200; // Vertical spacing between side modules
+        positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
+        positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
+        
+        // Right side (2 modules) - evenly spaced vertically
+        const rightX = canvasWidth - 410; // Leave space for subtopics on the right
+        positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
+        positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
+        
+        // Bottom (2 modules) - centered horizontally with space below for subtopics
+        const bottomY = canvasHeight - 320; // Space for subtopics underneath
         positions.push({ x: centerX - 180, y: bottomY, side: 'bottom' });
         positions.push({ x: centerX + 20, y: bottomY, side: 'bottom' });
-        
-        // Right side (3 modules) - evenly spaced vertically (using same spacing as left)
-        const rightX = canvasWidth - 410; // Leave space for subtopics on the right
-        positions.push({ x: rightX, y: centerY - verticalSpacing, side: 'right' });
-        positions.push({ x: rightX, y: centerY, side: 'right' });
-        positions.push({ x: rightX, y: centerY + verticalSpacing, side: 'right' });
         
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
@@ -258,7 +261,38 @@ document.addEventListener('DOMContentLoaded', function() {
                 let subtopicX, subtopicY;
                 
                 // Position subtopics based on which side the module is on
-                if (side === 'left') {
+                if (side === 'top') {
+                    // Top modules - subtopics ABOVE in 2 rows (2 on top, 3 on bottom)
+                    const topSubtopicSpacing = 15; // Horizontal spacing
+                    const rowSpacing = 35; // Vertical spacing between rows
+                    
+                    if (module.subtopics.length <= 3) {
+                        // For 3 or fewer, single row centered above
+                        const totalWidth = module.subtopics.length * (subtopicWidth + topSubtopicSpacing) - topSubtopicSpacing;
+                        const startX = x + (moduleWidth - totalWidth) / 2;
+                        subtopicX = startX + subIdx * (subtopicWidth + topSubtopicSpacing);
+                        subtopicY = y - subtopicHeight - 20;
+                    } else {
+                        // For 4-5 subtopics, use 2 rows (2 on top, 3 on bottom)
+                        const topRowCount = 2;
+                        const bottomRowCount = module.subtopics.length - topRowCount;
+                        
+                        if (subIdx < topRowCount) {
+                            // Top row (2 items) - further above
+                            const totalWidth = topRowCount * (subtopicWidth + topSubtopicSpacing) - topSubtopicSpacing;
+                            const startX = x + (moduleWidth - totalWidth) / 2;
+                            subtopicX = startX + subIdx * (subtopicWidth + topSubtopicSpacing);
+                            subtopicY = y - subtopicHeight - 20 - rowSpacing;
+                        } else {
+                            // Bottom row (3 items) - closer to module
+                            const rowIdx = subIdx - topRowCount;
+                            const totalWidth = bottomRowCount * (subtopicWidth + topSubtopicSpacing) - topSubtopicSpacing;
+                            const startX = x + (moduleWidth - totalWidth) / 2;
+                            subtopicX = startX + rowIdx * (subtopicWidth + topSubtopicSpacing);
+                            subtopicY = y - subtopicHeight - 20;
+                        }
+                    }
+                } else if (side === 'left') {
                     // Left side modules - subtopics to the LEFT with more vertical spacing
                     subtopicX = x - subtopicWidth - 15;
                     subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
