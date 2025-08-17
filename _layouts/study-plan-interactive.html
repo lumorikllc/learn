@@ -272,8 +272,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // Different layout for mobile vs desktop
         if (isMobile) {
             // Mobile layout: 4 modules on left, 4 on right
-            const leftX = 10;  // Very close to left edge
-            const rightX = canvasWidth - moduleWidth - 10;  // Very close to right edge
+            // Move modules more toward center since subtopics are on outside
+            const subtopicSpace = isSmallMobile ? 75 : 90; // Space needed for subtopics
+            const leftX = subtopicSpace + 15;  // Leave space for subtopics on left
+            const rightX = canvasWidth - moduleWidth - subtopicSpace - 15;  // Leave space for subtopics on right
             // Adjust vertical spacing based on canvas height for better distribution
             const availableHeight = canvasHeight - 60; // Leave some margin top and bottom
             const totalModuleHeight = 4 * moduleHeight;
@@ -362,8 +364,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'dashed'
             });
             
-            // Add subtopic boxes - make them smaller on mobile
-            const subtopicWidth = isSmallMobile ? 50 : isMobile ? 65 : 140;
+            // Add subtopic boxes - make them longer on mobile
+            const subtopicWidth = isSmallMobile ? 70 : isMobile ? 85 : 140;
             const subtopicHeight = isSmallMobile ? 15 : isMobile ? 18 : 26;
             const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
             const side = pos.side;
@@ -416,8 +418,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (side === 'left') {
                     // Left side modules
                     if (isMobile) {
-                        // On mobile, place subtopics to the RIGHT of left modules
-                        subtopicX = x + moduleWidth + 10;
+                        // On mobile, place subtopics to the LEFT of left modules (on the outside)
+                        subtopicX = x - subtopicWidth - 10;
                         subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                     } else {
                         // On desktop, subtopics to the LEFT
@@ -458,8 +460,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (side === 'right') {
                     // Right side modules
                     if (isMobile) {
-                        // On mobile, place subtopics to the LEFT of right modules (toward center)
-                        subtopicX = x - subtopicWidth - 10;
+                        // On mobile, place subtopics to the RIGHT of right modules (on the outside)
+                        subtopicX = x + moduleWidth + 10;
                         subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                     } else {
                         // On desktop, subtopics to the RIGHT
@@ -549,8 +551,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (box.side === 'left') {
                 // Left modules
                 if (isMobileLayout) {
-                    // On mobile, icon on left (outside)
-                    iconX = box.x - iconSpacing;
+                    // On mobile, icon on right (toward center)
+                    iconX = box.x + box.width + iconSpacing;
                 } else {
                     // On desktop, icon on right
                     iconX = box.x + box.width + iconSpacing;
@@ -558,8 +560,8 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (box.side === 'right') {
                 // Right modules
                 if (isMobileLayout) {
-                    // On mobile, icon on right (outside)
-                    iconX = box.x + box.width + iconSpacing;
+                    // On mobile, icon on left (toward center)
+                    iconX = box.x - iconSpacing;
                 } else {
                     // On desktop, icon on left
                     iconX = box.x - iconSpacing;
@@ -786,21 +788,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-/* Mobile landscape - 16:9 aspect ratio */
+/* Mobile landscape - Much taller canvas */
 @media (max-width: 768px) {
     #knowledge-graph-view {
-        height: calc((100vw - 30px) * 9 / 16); /* 16:9 ratio based on viewport width */
-        min-height: 400px;
-        max-height: 500px;
+        height: 600px; /* Much taller for mobile */
     }
 }
 
-/* Mobile portrait - 16:9 aspect ratio */
+/* Mobile portrait - Much taller canvas */
 @media (max-width: 480px) {
     #knowledge-graph-view {
-        height: calc((100vw - 20px) * 9 / 16); /* 16:9 ratio based on viewport width */
-        min-height: 350px;
-        max-height: 450px;
+        height: 550px; /* Much taller for mobile */
     }
 }
 </style>
