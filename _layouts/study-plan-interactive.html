@@ -40,7 +40,7 @@ layout: default
     <div id="visualization-container" class="mb-6">
         
         <!-- Knowledge Graph View -->
-        <div id="knowledge-graph-view" class="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden" style="height: 800px;">
+        <div id="knowledge-graph-view" class="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden mx-auto" style="max-width: 900px; height: 900px;">
             <!-- Canvas for Knowledge Graph -->
             <canvas id="knowledge-graph-canvas" style="width: 100%; height: 100%;"></canvas>
         </div>
@@ -119,9 +119,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let boxes = [];
     let connections = [];
     let hoveredBox = null;
-    let camera = { x: 0, y: 0 };
-    let isDragging = false;
-    let dragStart = { x: 0, y: 0 };
     
     function parseStudyPlan(html) {
         const parser = new DOMParser();
@@ -173,49 +170,50 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const canvasWidth = canvas.width / dpr;
         const canvasHeight = canvas.height / dpr;
+        const centerX = canvasWidth / 2;
+        const centerY = canvasHeight / 2;
         
-        // Calculate layout based on number of modules
-        const moduleCount = data.modules.length;
-        
-        // Center title box
+        // Center title box (main topic)
         const titleBox = {
             id: 'title',
             text: data.title,
-            x: canvasWidth / 2 - 200,
-            y: 30,
-            width: 400,
+            x: centerX - 150,
+            y: centerY - 30,
+            width: 300,
             height: 60,
             color: { bg: '#10b981', border: '#059669', text: '#ffffff' },
             type: 'title',
-            fontSize: 18,
+            fontSize: 16,
             fontWeight: 'bold'
         };
         boxes.push(titleBox);
         
-        // Layout modules in a grid pattern
-        let layoutConfig;
-        if (moduleCount <= 4) {
-            // 2x2 grid
-            layoutConfig = { cols: 2, rows: 2 };
-        } else if (moduleCount <= 6) {
-            // 3x2 grid
-            layoutConfig = { cols: 3, rows: 2 };
-        } else {
-            // 4x2 grid for 7-8 modules
-            layoutConfig = { cols: 4, rows: 2 };
+        // Define positions for 8 modules: 2 left, 4 bottom, 2 right
+        const moduleWidth = 160;
+        const moduleHeight = 45;
+        const positions = [];
+        
+        // Left side (2 modules)
+        positions.push({ x: 50, y: centerY - 150 });
+        positions.push({ x: 50, y: centerY + 100 });
+        
+        // Bottom (4 modules)
+        const bottomY = canvasHeight - 150;
+        const bottomSpacing = (canvasWidth - 100) / 4;
+        for (let i = 0; i < 4; i++) {
+            positions.push({ x: 50 + i * bottomSpacing, y: bottomY });
         }
         
-        const moduleWidth = 180;
-        const moduleHeight = 220;
-        const spacing = 40;
-        const startX = (canvasWidth - (layoutConfig.cols * moduleWidth + (layoutConfig.cols - 1) * spacing)) / 2;
-        const startY = 120;
+        // Right side (2 modules)
+        positions.push({ x: canvasWidth - 210, y: centerY - 150 });
+        positions.push({ x: canvasWidth - 210, y: centerY + 100 });
         
         data.modules.forEach((module, idx) => {
-            const col = idx % layoutConfig.cols;
-            const row = Math.floor(idx / layoutConfig.cols);
-            const x = startX + col * (moduleWidth + spacing);
-            const y = startY + row * (moduleHeight + spacing + 80);
+            if (idx >= positions.length) return; // Safety check
+            
+            const pos = positions[idx];
+            const x = pos.x;
+            const y = pos.y;
             
             // Module container box
             const moduleBox = {
@@ -240,24 +238,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'solid'
             });
             
-            // Add subtopic boxes below module
-            const subtopicHeight = 30;
-            const subtopicSpacing = 5;
-            const subtopicsStartY = y + 60;
+            // Add subtopic boxes - position based on module location
+            const subtopicWidth = 140;
+            const subtopicHeight = 28;
+            const subtopicSpacing = 4;
             
             module.subtopics.forEach((subtopic, subIdx) => {
+                let subtopicX, subtopicY;
+                
+                // Position subtopics based on which side the module is on
+                if (idx < 2) {
+                    // Left side modules - subtopics to the right
+                    subtopicX = x + moduleWidth + 10;
+                    subtopicY = y - 30 + subIdx * (subtopicHeight + subtopicSpacing);
+                } else if (idx < 6) {
+                    // Bottom modules - subtopics above
+                    subtopicX = x;
+                    subtopicY = y - (module.subtopics.length - subIdx) * (subtopicHeight + subtopicSpacing) - 10;
+                } else {
+                    // Right side modules - subtopics to the left
+                    subtopicX = x - subtopicWidth - 10;
+                    subtopicY = y - 30 + subIdx * (subtopicHeight + subtopicSpacing);
+                }
+                
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
-                    text: subtopic.name.length > 25 ? subtopic.name.substring(0, 25) + '...' : subtopic.name,
-                    x: x,
-                    y: subtopicsStartY + subIdx * (subtopicHeight + subtopicSpacing),
-                    width: moduleWidth,
+                    text: subtopic.name.length > 22 ? subtopic.name.substring(0, 22) + '...' : subtopic.name,
+                    x: subtopicX,
+                    y: subtopicY,
+                    width: subtopicWidth,
                     height: subtopicHeight,
                     color: subtopic.hasTextbook 
                         ? { bg: '#f97316', border: '#ea580c', text: '#ffffff' }
                         : { bg: '#4b5563', border: '#374151', text: '#ffffff' },
                     type: 'subtopic',
-                    fontSize: 11,
+                    fontSize: 10,
                     fontWeight: 'normal',
                     hasTextbook: subtopic.hasTextbook
                 };
@@ -426,61 +441,38 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillStyle = '#111827';
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
         
-        ctx.save();
-        ctx.translate(camera.x, camera.y);
-        
         // Draw connections first
         connections.forEach(conn => drawConnection(conn));
         
         // Draw boxes on top
         boxes.forEach(box => drawBox(box));
-        
-        ctx.restore();
     }
     
-    // Mouse interactions
-    canvas.addEventListener('mousedown', (e) => {
-        isDragging = true;
-        dragStart.x = e.offsetX - camera.x;
-        dragStart.y = e.offsetY - camera.y;
-        canvas.style.cursor = 'grabbing';
-    });
-    
+    // Simple hover interaction only (no dragging)
     canvas.addEventListener('mousemove', (e) => {
         const rect = canvas.getBoundingClientRect();
-        const x = e.clientX - rect.left - camera.x;
-        const y = e.clientY - rect.top - camera.y;
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
         
-        if (isDragging) {
-            camera.x = e.offsetX - dragStart.x;
-            camera.y = e.offsetY - dragStart.y;
-            draw();
-        } else {
-            // Check hover
-            const prevHovered = hoveredBox;
-            hoveredBox = null;
-            
-            boxes.forEach(box => {
-                if (x >= box.x && x <= box.x + box.width &&
-                    y >= box.y && y <= box.y + box.height) {
-                    hoveredBox = box;
-                    canvas.style.cursor = 'pointer';
-                }
-            });
-            
-            if (!hoveredBox) {
-                canvas.style.cursor = 'grab';
+        // Check hover
+        const prevHovered = hoveredBox;
+        hoveredBox = null;
+        
+        boxes.forEach(box => {
+            if (x >= box.x && x <= box.x + box.width &&
+                y >= box.y && y <= box.y + box.height) {
+                hoveredBox = box;
+                canvas.style.cursor = 'pointer';
             }
-            
-            if (prevHovered !== hoveredBox) {
-                draw();
-            }
+        });
+        
+        if (!hoveredBox) {
+            canvas.style.cursor = 'default';
         }
-    });
-    
-    canvas.addEventListener('mouseup', () => {
-        isDragging = false;
-        canvas.style.cursor = 'grab';
+        
+        if (prevHovered !== hoveredBox) {
+            draw();
+        }
     });
     
     // View toggles
@@ -512,11 +504,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style>
 #knowledge-graph-canvas {
-    cursor: grab;
+    cursor: default;
     image-rendering: crisp-edges;
 }
 
-#knowledge-graph-canvas:active {
-    cursor: grabbing;
+#knowledge-graph-view {
+    user-select: none;
 }
 </style>
