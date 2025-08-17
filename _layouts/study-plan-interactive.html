@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const centerX = canvasWidth / 2;
         const centerY = canvasHeight / 2;
         
-        // Center title box (main topic)
+        // Center title box (main topic) with gradient
         const titleBox = {
             id: 'title',
             text: data.title,
@@ -199,10 +199,11 @@ document.addEventListener('DOMContentLoaded', function() {
             y: centerY - 30,
             width: 300,
             height: 60,
-            color: { bg: '#10b981', border: '#059669', text: '#ffffff' },
+            color: { bg: '#9333ea', border: '#ec4899', text: '#ffffff' }, // Purple to pink gradient colors
             type: 'title',
             fontSize: 16,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            gradient: true // Flag to apply gradient
         };
         boxes.push(titleBox);
         
@@ -218,14 +219,14 @@ document.addEventListener('DOMContentLoaded', function() {
         positions.push({ x: topLeftX, y: topY, side: 'top' });
         positions.push({ x: topRightX, y: topY, side: 'top' });
         
-        // Left side (2 modules) - much more vertical spacing
-        const leftX = 180; // Leave space for subtopics on the left
-        const sideSpacing = 350; // Much more vertical spacing between side modules
+        // Left side (2 modules) - reduced vertical spacing and moved closer to center
+        const leftX = 220; // Closer to center
+        const sideSpacing = 300; // Reduced vertical spacing between side modules
         positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
         positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
         
-        // Right side (2 modules) - much more vertical spacing
-        const rightX = canvasWidth - 340; // Leave space for subtopics on the right
+        // Right side (2 modules) - reduced vertical spacing and moved closer to center
+        const rightX = canvasWidth - 380; // Closer to center
         positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
         positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
         
@@ -398,8 +399,16 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
         ctx.fillRect(box.x + 2, box.y + 2, box.width, box.height);
         
-        // Draw box background
-        ctx.fillStyle = box.color.bg;
+        // Draw box background (with gradient for title box)
+        if (box.gradient && box.type === 'title') {
+            // Create purple to pink gradient for title box
+            const gradient = ctx.createLinearGradient(box.x, box.y, box.x + box.width, box.y);
+            gradient.addColorStop(0, '#9333ea'); // Purple
+            gradient.addColorStop(1, '#ec4899'); // Pink
+            ctx.fillStyle = gradient;
+        } else {
+            ctx.fillStyle = box.color.bg;
+        }
         ctx.fillRect(box.x, box.y, box.width, box.height);
         
         // Draw border
