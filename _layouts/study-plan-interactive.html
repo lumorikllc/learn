@@ -366,13 +366,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add subtopic boxes - make them wider and taller on mobile for more text
             const subtopicWidth = isSmallMobile ? 80 : isMobile ? 95 : 140;
-            const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 26; // Taller for 4 lines on mobile
+            const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 36; // Taller on desktop for 2 lines
             const subtopicFontSize = isSmallMobile ? 7 : isMobile ? 8 : 10; // Slightly bigger font on mobile
             const side = pos.side;
             
-            // Different spacing for sides vs bottom - tighter on mobile
-            const sideSubtopicSpacing = isSmallMobile ? 5 : isMobile ? 8 : 20;
-            const bottomSubtopicSpacing = isSmallMobile ? 3 : isMobile ? 5 : 15;
+            // Different spacing for sides vs bottom - adjusted for taller desktop subtopics
+            const sideSubtopicSpacing = isSmallMobile ? 5 : isMobile ? 8 : 15; // Reduced desktop spacing
+            const bottomSubtopicSpacing = isSmallMobile ? 3 : isMobile ? 5 : 10; // Reduced desktop spacing
             
             // Calculate total height needed for side subtopics
             const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + sideSubtopicSpacing) - sideSubtopicSpacing;
