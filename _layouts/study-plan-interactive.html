@@ -87,6 +87,24 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
     
+    // Helper function to darken a color
+    function darkenColor(color, amount) {
+        // Convert hex to RGB
+        const hex = color.replace('#', '');
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        
+        // Darken by reducing RGB values
+        const newR = Math.max(0, Math.floor(r * (1 - amount)));
+        const newG = Math.max(0, Math.floor(g * (1 - amount)));
+        const newB = Math.max(0, Math.floor(b * (1 - amount)));
+        
+        // Convert back to hex
+        const toHex = (n) => n.toString(16).padStart(2, '0');
+        return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+    }
+    
     // Parse study plan data
     const listView = document.getElementById('list-view');
     const proseDiv = listView.querySelector('.prose') || listView;
@@ -338,6 +356,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                 }
                 
+                // Get parent module color and create darker version for subtopic
+                const parentColor = moduleColors[idx % moduleColors.length];
+                const subtopicBgColor = darkenColor(parentColor.bg, 0.4); // 40% darker
+                
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
                     text: subtopic.name.length > 20 ? subtopic.name.substring(0, 20) + '...' : subtopic.name,
@@ -345,9 +367,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     y: subtopicY,
                     width: subtopicWidth,
                     height: subtopicHeight,
-                    color: subtopic.hasTextbook 
-                        ? { bg: '#f97316', border: '#ea580c', text: '#ffffff' }
-                        : { bg: '#4b5563', border: '#374151', text: '#ffffff' },
+                    color: { 
+                        bg: subtopicBgColor, 
+                        border: parentColor.bg, // Use parent module color as border
+                        text: '#ffffff' 
+                    },
                     type: 'subtopic',
                     fontSize: 10,
                     fontWeight: 'normal',
