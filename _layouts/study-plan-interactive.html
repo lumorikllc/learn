@@ -40,7 +40,7 @@ layout: default
     <div id="visualization-container" class="mb-6">
         
         <!-- Knowledge Graph View -->
-        <div id="knowledge-graph-view" class="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden mx-auto" style="max-width: 900px; height: 900px;">
+        <div id="knowledge-graph-view" class="bg-gray-900 rounded-xl shadow-lg border border-gray-800 overflow-hidden" style="width: 100%; height: 900px;">
             <!-- Canvas for Knowledge Graph -->
             <canvas id="knowledge-graph-canvas" style="width: 100%; height: 100%;"></canvas>
         </div>
@@ -194,19 +194,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const positions = [];
         
         // Left side (3 modules) - evenly spaced vertically
-        const leftX = 220; // Leave space for subtopics on the left
+        const leftX = 250; // Leave space for subtopics on the left
         const verticalSpacing = 180;
         positions.push({ x: leftX, y: centerY - verticalSpacing, side: 'left' });
         positions.push({ x: leftX, y: centerY, side: 'left' });
         positions.push({ x: leftX, y: centerY + verticalSpacing, side: 'left' });
         
-        // Bottom (2 modules) - centered horizontally
-        const bottomY = canvasHeight - 200;
+        // Bottom (2 modules) - centered horizontally with more space below for subtopics
+        const bottomY = canvasHeight - 250; // More space for subtopics underneath
         positions.push({ x: centerX - 180, y: bottomY, side: 'bottom' });
         positions.push({ x: centerX + 20, y: bottomY, side: 'bottom' });
         
         // Right side (3 modules) - evenly spaced vertically
-        const rightX = canvasWidth - 380; // Leave space for subtopics on the right
+        const rightX = canvasWidth - 410; // Leave space for subtopics on the right
         positions.push({ x: rightX, y: centerY - verticalSpacing, side: 'right' });
         positions.push({ x: rightX, y: centerY, side: 'right' });
         positions.push({ x: rightX, y: centerY + verticalSpacing, side: 'right' });
@@ -260,9 +260,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     subtopicX = x - subtopicWidth - 15;
                     subtopicY = y + startOffset + subIdx * (subtopicHeight + subtopicSpacing);
                 } else if (side === 'bottom') {
-                    // Bottom modules - subtopics above
+                    // Bottom modules - subtopics UNDERNEATH (below)
                     subtopicX = x + (moduleWidth - subtopicWidth) / 2;
-                    subtopicY = y - (module.subtopics.length - subIdx) * (subtopicHeight + subtopicSpacing) - 15;
+                    subtopicY = y + moduleHeight + 15 + subIdx * (subtopicHeight + subtopicSpacing);
                 } else if (side === 'right') {
                     // Right side modules - subtopics to the RIGHT (like reference)
                     subtopicX = x + moduleWidth + 15;
