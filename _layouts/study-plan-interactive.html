@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Left-side modules: icon on the right
         // Right-side modules: icon on the left
         if (box.type === 'module' && box.icon) {
-            ctx.font = '24px system-ui, -apple-system, sans-serif';
+            ctx.font = '32px system-ui, -apple-system, sans-serif';  // Increased from 24px to 32px
             ctx.fillStyle = box.color.text;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
@@ -446,29 +446,29 @@ document.addEventListener('DOMContentLoaded', function() {
             let iconX;
             if (box.side === 'left') {
                 // Left modules: icon on the right side
-                iconX = box.x + box.width + 20;
+                iconX = box.x + box.width + 25;  // Adjusted spacing for larger icon
             } else if (box.side === 'right') {
                 // Right modules: icon on the left side
-                iconX = box.x - 20;
+                iconX = box.x - 25;  // Adjusted spacing for larger icon
             } else if (box.side === 'top') {
                 // Top modules: decide based on x position relative to center
                 const canvasCenter = canvas.width / (2 * dpr);
                 if (box.x < canvasCenter) {
                     // Left-side top module: icon on right
-                    iconX = box.x + box.width + 20;
+                    iconX = box.x + box.width + 25;
                 } else {
                     // Right-side top module: icon on left
-                    iconX = box.x - 20;
+                    iconX = box.x - 25;
                 }
             } else if (box.side === 'bottom') {
                 // Bottom modules: decide based on x position relative to center
                 const canvasCenter = canvas.width / (2 * dpr);
                 if (box.x < canvasCenter) {
                     // Left-side bottom module: icon on right
-                    iconX = box.x + box.width + 20;
+                    iconX = box.x + box.width + 25;
                 } else {
                     // Right-side bottom module: icon on left
-                    iconX = box.x - 20;
+                    iconX = box.x - 25;
                 }
             }
             
@@ -540,21 +540,21 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Different connection styles based on connection type
         if (conn.from.type === 'title' && conn.to.type === 'module') {
-            // Title to module connections - straight dashed lines (same as module to subtopic)
+            // Title to module connections - all start from center of title
             const side = conn.to.side || 'left';
-            let fromPoint, toPoint;
+            let toPoint;
             
+            // All connections start from the center of the title box
+            const fromPoint = { x: fromCenter.x, y: fromCenter.y };
+            
+            // Determine the connection point on the module based on its side
             if (side === 'top') {
-                fromPoint = { x: fromCenter.x, y: conn.from.y };
                 toPoint = { x: toCenter.x, y: conn.to.y + conn.to.height };
             } else if (side === 'bottom') {
-                fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
                 toPoint = { x: toCenter.x, y: conn.to.y };
             } else if (side === 'left') {
-                fromPoint = { x: conn.from.x, y: fromCenter.y };
                 toPoint = { x: conn.to.x + conn.to.width, y: toCenter.y };
             } else if (side === 'right') {
-                fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
                 toPoint = { x: conn.to.x, y: toCenter.y };
             }
             
