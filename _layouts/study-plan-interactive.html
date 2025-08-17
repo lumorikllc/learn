@@ -212,26 +212,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const moduleHeight = 45;
         const positions = [];
         
-        // Top (2 modules) - more towards top-left and top-right corners
-        const topY = 200; // Much higher up
+        // Top (2 modules) - more vertical spacing from center
+        const topY = 180; // Higher up with more spacing
         const topLeftX = centerX - 300; // More to the left
         const topRightX = centerX + 140; // More to the right
         positions.push({ x: topLeftX, y: topY, side: 'top' });
         positions.push({ x: topRightX, y: topY, side: 'top' });
         
-        // Left side (2 modules) - reduced vertical spacing and moved closer to center
+        // Left side (2 modules) - slightly less vertical spacing
         const leftX = 220; // Closer to center
-        const sideSpacing = 300; // Reduced vertical spacing between side modules
+        const sideSpacing = 260; // Less vertical spacing between side modules
         positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
         positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
         
-        // Right side (2 modules) - reduced vertical spacing and moved closer to center
+        // Right side (2 modules) - slightly less vertical spacing
         const rightX = canvasWidth - 380; // Closer to center
         positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
         positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
         
-        // Bottom (2 modules) - more towards bottom-left and bottom-right corners
-        const bottomY = canvasHeight - 200; // Much lower
+        // Bottom (2 modules) - more vertical spacing from center
+        const bottomY = canvasHeight - 180; // Lower with more spacing
         const bottomLeftX = centerX - 300; // More to the left
         const bottomRightX = centerX + 140; // More to the right
         positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
@@ -487,58 +487,83 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Different connection styles based on connection type
         if (conn.from.type === 'title' && conn.to.type === 'module') {
-            // Title to module connections - curved lines
+            // Title to module connections - straight lines with quarter circles
             const side = conn.to.side || 'left';
             let fromPoint, toPoint;
+            const radius = 20; // Radius for quarter circles
             
             if (side === 'top') {
                 fromPoint = { x: fromCenter.x, y: conn.from.y };
                 toPoint = { x: toCenter.x, y: conn.to.y + conn.to.height };
                 
-                // Curved path upward
-                const midY = (fromPoint.y + toPoint.y) / 2;
+                // Straight up then quarter circle to module
                 ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.bezierCurveTo(
-                    fromPoint.x, midY - 30,
-                    toPoint.x, midY - 30,
-                    toPoint.x, toPoint.y
-                );
+                if (Math.abs(fromPoint.x - toPoint.x) > radius) {
+                    // Need horizontal adjustment
+                    const midY = fromPoint.y - Math.abs(fromPoint.y - toPoint.y) / 2;
+                    ctx.lineTo(fromPoint.x, midY);
+                    // Quarter circle
+                    const dir = toPoint.x > fromPoint.x ? 1 : -1;
+                    ctx.arcTo(fromPoint.x, midY - radius, toPoint.x, midY - radius, radius);
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                } else {
+                    // Straight line
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                }
             } else if (side === 'bottom') {
                 fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
                 toPoint = { x: toCenter.x, y: conn.to.y };
                 
-                // Curved path downward
-                const midY = (fromPoint.y + toPoint.y) / 2;
+                // Straight down then quarter circle to module
                 ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.bezierCurveTo(
-                    fromPoint.x, midY + 30,
-                    toPoint.x, midY + 30,
-                    toPoint.x, toPoint.y
-                );
+                if (Math.abs(fromPoint.x - toPoint.x) > radius) {
+                    // Need horizontal adjustment
+                    const midY = fromPoint.y + Math.abs(toPoint.y - fromPoint.y) / 2;
+                    ctx.lineTo(fromPoint.x, midY);
+                    // Quarter circle
+                    const dir = toPoint.x > fromPoint.x ? 1 : -1;
+                    ctx.arcTo(fromPoint.x, midY + radius, toPoint.x, midY + radius, radius);
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                } else {
+                    // Straight line
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                }
             } else if (side === 'left') {
                 fromPoint = { x: conn.from.x, y: fromCenter.y };
                 toPoint = { x: conn.to.x + conn.to.width, y: toCenter.y };
                 
-                // Curved path to left
-                const midX = (fromPoint.x + toPoint.x) / 2;
+                // Straight left then quarter circle to module
                 ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.bezierCurveTo(
-                    midX - 30, fromPoint.y,
-                    midX - 30, toPoint.y,
-                    toPoint.x, toPoint.y
-                );
+                if (Math.abs(fromPoint.y - toPoint.y) > radius) {
+                    // Need vertical adjustment
+                    const midX = fromPoint.x - Math.abs(fromPoint.x - toPoint.x) / 2;
+                    ctx.lineTo(midX, fromPoint.y);
+                    // Quarter circle
+                    const dir = toPoint.y > fromPoint.y ? 1 : -1;
+                    ctx.arcTo(midX - radius, fromPoint.y, midX - radius, toPoint.y, radius);
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                } else {
+                    // Straight line
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                }
             } else if (side === 'right') {
                 fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
                 toPoint = { x: conn.to.x, y: toCenter.y };
                 
-                // Curved path to right
-                const midX = (fromPoint.x + toPoint.x) / 2;
+                // Straight right then quarter circle to module
                 ctx.moveTo(fromPoint.x, fromPoint.y);
-                ctx.bezierCurveTo(
-                    midX + 30, fromPoint.y,
-                    midX + 30, toPoint.y,
-                    toPoint.x, toPoint.y
-                );
+                if (Math.abs(fromPoint.y - toPoint.y) > radius) {
+                    // Need vertical adjustment
+                    const midX = fromPoint.x + Math.abs(toPoint.x - fromPoint.x) / 2;
+                    ctx.lineTo(midX, fromPoint.y);
+                    // Quarter circle
+                    const dir = toPoint.y > fromPoint.y ? 1 : -1;
+                    ctx.arcTo(midX + radius, fromPoint.y, midX + radius, toPoint.y, radius);
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                } else {
+                    // Straight line
+                    ctx.lineTo(toPoint.x, toPoint.y);
+                }
             }
         } else if (conn.to.type === 'subtopic') {
             // Module to subtopic connections - straight dashed lines
