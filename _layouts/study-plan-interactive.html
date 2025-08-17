@@ -366,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Add subtopic boxes - make them wider and taller on mobile for more text
             const subtopicWidth = isSmallMobile ? 80 : isMobile ? 95 : 140;
-            const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 36; // Taller on desktop for 2 lines
+            const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 40; // Increased height on desktop for padding
             const subtopicFontSize = isSmallMobile ? 7 : isMobile ? 8 : 10; // Slightly bigger font on mobile
             const side = pos.side;
             
@@ -564,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textBaseline = 'middle';
         
         // Draw text (handle multiline for long text)
-        // Zero padding on mobile to fit maximum text
-        const padding = isMobileLayout ? 0 : 20;
+        // Zero padding on mobile, small padding on desktop for visual comfort
+        const padding = isMobileLayout ? 0 : 10;
         const maxWidth = box.width - padding;
         // For modules on mobile, prepend icon to text
         const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
