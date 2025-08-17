@@ -245,11 +245,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const titleHeight = isSmallMobile ? 28 : isMobile ? 35 : 60;
         const titleFontSize = isSmallMobile ? 8 : isMobile ? 10 : 16;
         
+        // For mobile, position title at the center horizontally and vertically
+        const titleY = isMobile ? (canvasHeight / 2 - titleHeight / 2) : (centerY - titleHeight / 2);
+        
         const titleBox = {
             id: 'title',
             text: data.title,
             x: centerX - titleWidth / 2,
-            y: centerY - titleHeight / 2,
+            y: titleY,
             width: titleWidth,
             height: titleHeight,
             color: { bg: '#9333ea', border: '#ec4899', text: '#ffffff' }, // Purple to pink gradient colors
@@ -266,35 +269,62 @@ document.addEventListener('DOMContentLoaded', function() {
         const moduleFontSize = isSmallMobile ? 7 : isMobile ? 8 : 13;
         const positions = [];
         
-        // Adjust spacing based on screen size - MUCH tighter on mobile to use full space
-        const verticalSpacing = isSmallMobile ? 45 : isMobile ? 60 : 180;
-        const horizontalSpacing = isSmallMobile ? 35 : isMobile ? 45 : 160;
-        const sideOffset = isSmallMobile ? 10 : isMobile ? 15 : 220;
-        
-        // Top (2 modules)
-        const topY = isMobile ? centerY - verticalSpacing : 180;
-        const topLeftX = centerX - horizontalSpacing - (moduleWidth / 2);
-        const topRightX = centerX + horizontalSpacing - (moduleWidth / 2);
-        positions.push({ x: topLeftX, y: topY, side: 'top' });
-        positions.push({ x: topRightX, y: topY, side: 'top' });
-        
-        // Left side (2 modules)
-        const leftX = isMobile ? sideOffset : 220;
-        const sideSpacing = isMobile ? 80 : 260;
-        positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
-        positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
-        
-        // Right side (2 modules)
-        const rightX = canvasWidth - sideOffset - moduleWidth;
-        positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
-        positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
-        
-        // Bottom (2 modules)
-        const bottomY = isMobile ? centerY + verticalSpacing : canvasHeight - 180;
-        const bottomLeftX = centerX - horizontalSpacing - (moduleWidth / 2);
-        const bottomRightX = centerX + horizontalSpacing - (moduleWidth / 2);
-        positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
-        positions.push({ x: bottomRightX, y: bottomY, side: 'bottom' });
+        // Different layout for mobile vs desktop
+        if (isMobile) {
+            // Mobile layout: 4 modules on left, 4 on right
+            const leftX = 10;  // Very close to left edge
+            const rightX = canvasWidth - moduleWidth - 10;  // Very close to right edge
+            const verticalSpacing = isSmallMobile ? 35 : 45;  // Spacing between modules vertically
+            const startY = isSmallMobile ? 30 : 40;  // Start position from top
+            
+            // Left side (4 modules)
+            for (let i = 0; i < 4; i++) {
+                positions.push({ 
+                    x: leftX, 
+                    y: startY + i * (moduleHeight + verticalSpacing), 
+                    side: 'left' 
+                });
+            }
+            
+            // Right side (4 modules)
+            for (let i = 0; i < 4; i++) {
+                positions.push({ 
+                    x: rightX, 
+                    y: startY + i * (moduleHeight + verticalSpacing), 
+                    side: 'right' 
+                });
+            }
+        } else {
+            // Desktop layout: Original circular arrangement
+            const verticalSpacing = 180;
+            const horizontalSpacing = 160;
+            const sideOffset = 220;
+            
+            // Top (2 modules)
+            const topY = 180;
+            const topLeftX = centerX - horizontalSpacing - (moduleWidth / 2);
+            const topRightX = centerX + horizontalSpacing - (moduleWidth / 2);
+            positions.push({ x: topLeftX, y: topY, side: 'top' });
+            positions.push({ x: topRightX, y: topY, side: 'top' });
+            
+            // Left side (2 modules)
+            const leftX = 220;
+            const sideSpacing = 260;
+            positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
+            positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
+            
+            // Right side (2 modules)
+            const rightX = canvasWidth - sideOffset - moduleWidth;
+            positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
+            positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
+            
+            // Bottom (2 modules)
+            const bottomY = canvasHeight - 180;
+            const bottomLeftX = centerX - horizontalSpacing - (moduleWidth / 2);
+            const bottomRightX = centerX + horizontalSpacing - (moduleWidth / 2);
+            positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
+            positions.push({ x: bottomRightX, y: bottomY, side: 'bottom' });
+        }
         
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
@@ -381,9 +411,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 } else if (side === 'left') {
-                    // Left side modules - subtopics to the LEFT with more vertical spacing
-                    subtopicX = x - subtopicWidth - 15;
-                    subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    // Left side modules
+                    if (isMobile) {
+                        // On mobile, place subtopics to the RIGHT of left modules (toward center)
+                        subtopicX = x + moduleWidth + 10;
+                        subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    } else {
+                        // On desktop, subtopics to the LEFT
+                        subtopicX = x - subtopicWidth - 15;
+                        subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    }
                 } else if (side === 'bottom') {
                     // Bottom modules - subtopics UNDERNEATH in 2 rows (2 on top, 3 on bottom)
                     const bottomSubtopicSpacing = 15; // Horizontal spacing
@@ -416,9 +453,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 } else if (side === 'right') {
-                    // Right side modules - subtopics to the RIGHT with more vertical spacing
-                    subtopicX = x + moduleWidth + 15;
-                    subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    // Right side modules
+                    if (isMobile) {
+                        // On mobile, place subtopics to the LEFT of right modules (toward center)
+                        subtopicX = x - subtopicWidth - 10;
+                        subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    } else {
+                        // On desktop, subtopics to the RIGHT
+                        subtopicX = x + moduleWidth + 15;
+                        subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
+                    }
                 }
                 
                 // Get parent module color and create darker version for subtopic
@@ -497,12 +541,26 @@ document.addEventListener('DOMContentLoaded', function() {
             // Position icon based on module side
             const iconSpacing = canvasWidth < 480 ? 8 : canvasWidth < 768 ? 12 : 25;  // Much smaller spacing on mobile
             let iconX;
+            const isMobileLayout = canvasWidth < 768;
+            
             if (box.side === 'left') {
-                // Left modules: icon on the right side
-                iconX = box.x + box.width + iconSpacing;
+                // Left modules
+                if (isMobileLayout) {
+                    // On mobile, icon on left (outside)
+                    iconX = box.x - iconSpacing;
+                } else {
+                    // On desktop, icon on right
+                    iconX = box.x + box.width + iconSpacing;
+                }
             } else if (box.side === 'right') {
-                // Right modules: icon on the left side
-                iconX = box.x - iconSpacing;
+                // Right modules
+                if (isMobileLayout) {
+                    // On mobile, icon on right (outside)
+                    iconX = box.x + box.width + iconSpacing;
+                } else {
+                    // On desktop, icon on left
+                    iconX = box.x - iconSpacing;
+                }
             } else if (box.side === 'top') {
                 // Top modules: decide based on x position relative to center
                 const canvasCenter = canvas.width / (2 * dpr);
