@@ -274,8 +274,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Mobile layout: 4 modules on left, 4 on right
             const leftX = 10;  // Very close to left edge
             const rightX = canvasWidth - moduleWidth - 10;  // Very close to right edge
-            const verticalSpacing = isSmallMobile ? 35 : 45;  // Spacing between modules vertically
-            const startY = isSmallMobile ? 30 : 40;  // Start position from top
+            // Adjust vertical spacing based on canvas height for better distribution
+            const availableHeight = canvasHeight - 60; // Leave some margin top and bottom
+            const totalModuleHeight = 4 * moduleHeight;
+            const verticalSpacing = (availableHeight - totalModuleHeight) / 3; // Spacing between 4 modules
+            const startY = 30;  // Start position from top
             
             // Left side (4 modules)
             for (let i = 0; i < 4; i++) {
@@ -413,7 +416,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (side === 'left') {
                     // Left side modules
                     if (isMobile) {
-                        // On mobile, place subtopics to the RIGHT of left modules (toward center)
+                        // On mobile, place subtopics to the RIGHT of left modules
                         subtopicX = x + moduleWidth + 10;
                         subtopicY = y + startOffset + subIdx * (subtopicHeight + sideSubtopicSpacing);
                     } else {
@@ -783,17 +786,21 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-/* Mobile landscape */
+/* Mobile landscape - 16:9 aspect ratio */
 @media (max-width: 768px) {
     #knowledge-graph-view {
-        height: 380px;
+        height: calc((100vw - 30px) * 9 / 16); /* 16:9 ratio based on viewport width */
+        min-height: 400px;
+        max-height: 500px;
     }
 }
 
-/* Mobile portrait */
+/* Mobile portrait - 16:9 aspect ratio */
 @media (max-width: 480px) {
     #knowledge-graph-view {
-        height: 320px;
+        height: calc((100vw - 20px) * 9 / 16); /* 16:9 ratio based on viewport width */
+        min-height: 350px;
+        max-height: 450px;
     }
 }
 </style>
