@@ -80,17 +80,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set actual canvas size
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
-        // Only resize if the canvas is visible (has dimensions)
+        // Only resize if canvas is visible
         if (rect.width > 0 && rect.height > 0) {
             canvas.width = rect.width * dpr;
             canvas.height = rect.height * dpr;
             ctx.scale(dpr, dpr);
+            return true;
         }
+        return false;
     }
-    
-    // Don't resize initially since view is hidden
-    // resizeCanvas() will be called when knowledge view is shown
-    window.addEventListener('resize', resizeCanvas);
+    // Don't resize initially - will be done when view is shown
+    window.addEventListener('resize', () => {
+        // Only resize and redraw if canvas is visible
+        if (resizeCanvas()) {
+            draw();
+        }
+    });
     
     // Helper function to darken a color
     function darkenColor(color, amount) {
@@ -658,6 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // View toggles
+    let graphInitialized = false;
     document.getElementById('view-knowledge').addEventListener('click', () => {
         document.getElementById('knowledge-graph-view').classList.remove('hidden');
         document.getElementById('list-view').classList.add('hidden');
@@ -665,13 +671,13 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-knowledge').classList.remove('bg-white/10');
         document.getElementById('view-list').classList.add('bg-white/10');
         document.getElementById('view-list').classList.remove('bg-white/20');
-        // Initialize the graph if not already done
-        initializeGraph();
-        // If already initialized, just resize and redraw
-        if (initialized) {
+        
+        // Need to wait for next frame for the element to be visible
+        setTimeout(() => {
             resizeCanvas();
             draw();
-        }
+            graphInitialized = true;
+        }, 0);
     });
     
     document.getElementById('view-list').addEventListener('click', () => {
@@ -683,17 +689,8 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById('view-knowledge').classList.remove('bg-white/20');
     });
     
-    // Initialize - defer drawing until knowledge graph is shown
-    let initialized = false;
-    
-    function initializeGraph() {
-        if (!initialized) {
-            createLayout(studyPlanData);
-            resizeCanvas();
-            draw();
-            initialized = true;
-        }
-    }
+    // Initialize layout data only (don't draw yet since view is hidden)
+    createLayout(studyPlanData);
 });
 </script>
 
