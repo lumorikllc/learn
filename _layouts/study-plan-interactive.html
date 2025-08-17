@@ -266,7 +266,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Define positions for modules - adjust height for more text lines on mobile
         const moduleWidth = isSmallMobile ? 80 : isMobile ? 100 : 160;
         const moduleHeight = isSmallMobile ? 40 : isMobile ? 45 : 45; // Taller on mobile for 4 lines
-        const moduleFontSize = isSmallMobile ? 7 : isMobile ? 8 : 13;
+        const moduleFontSize = isSmallMobile ? 9 : isMobile ? 10 : 13; // Bigger font on mobile
         const positions = [];
         
         // Different layout for mobile vs desktop
@@ -341,7 +341,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Module container box with icon
             const moduleBox = {
                 id: `module-${idx}`,
-                text: module.name.length > 25 ? module.name.substring(0, 25) + '...' : module.name,
+                text: module.name, // No truncation, let word wrap handle it
                 icon: module.icon || '📚',  // Use module icon or default
                 x: x,
                 y: y,
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Add subtopic boxes - make them wider and taller on mobile for more text
             const subtopicWidth = isSmallMobile ? 80 : isMobile ? 95 : 140;
             const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 26; // Taller for 4 lines on mobile
-            const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
+            const subtopicFontSize = isSmallMobile ? 7 : isMobile ? 8 : 10; // Slightly bigger font on mobile
             const side = pos.side;
             
             // Different spacing for sides vs bottom - tighter on mobile
@@ -475,7 +475,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
-                    text: subtopic.name.length > 20 ? subtopic.name.substring(0, 20) + '...' : subtopic.name,
+                    text: subtopic.name, // No truncation on mobile, let word wrap handle it
                     x: subtopicX,
                     y: subtopicY,
                     width: subtopicWidth,
@@ -564,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textBaseline = 'middle';
         
         // Draw text (handle multiline for long text)
-        // Minimal padding on mobile to fit more text
-        const padding = isMobileLayout ? 2 : 20;
+        // Zero padding on mobile to fit maximum text
+        const padding = isMobileLayout ? 0 : 20;
         const maxWidth = box.width - padding;
         // For modules on mobile, prepend icon to text
         const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
@@ -593,8 +593,8 @@ document.addEventListener('DOMContentLoaded', function() {
             lines = lines.slice(0, maxLines);
         }
         
-        // Very tight line spacing on mobile to fit more text
-        const lineHeight = box.fontSize + (isMobileLayout ? 1 : 4);
+        // Zero extra line spacing on mobile to fit maximum text
+        const lineHeight = box.fontSize + (isMobileLayout ? 0 : 4);
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
         const textX = box.x + box.width / 2;
         lines.forEach((text, idx) => {
