@@ -221,7 +221,8 @@ document.addEventListener('DOMContentLoaded', function() {
         boxes.push(titleBox);
         
         // Define positions for 8 modules: 2 top, 2 left, 2 right, 2 bottom
-        const moduleWidth = 160;
+        const moduleMinWidth = 120;  // Minimum width
+        const moduleMaxWidth = 220;  // Maximum width
         const moduleHeight = 45;
         const positions = [];
         
@@ -250,17 +251,26 @@ document.addEventListener('DOMContentLoaded', function() {
         positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
         positions.push({ x: bottomRightX, y: bottomY, side: 'bottom' });
         
+        // Pre-calculate module widths based on text content
+        ctx.font = 'bold 13px system-ui, -apple-system, sans-serif';
+        const moduleWidths = data.modules.map(module => {
+            const textWidth = ctx.measureText(module.name).width;
+            // Add padding and constrain between min and max
+            return Math.min(moduleMaxWidth, Math.max(moduleMinWidth, textWidth + 40));
+        });
+        
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
             
             const pos = positions[idx];
+            const moduleWidth = moduleWidths[idx];
             const x = pos.x;
             const y = pos.y;
             
-            // Module container box with icon
+            // Module container box with icon - no truncation
             const moduleBox = {
                 id: `module-${idx}`,
-                text: module.name.length > 25 ? module.name.substring(0, 25) + '...' : module.name,
+                text: module.name,  // Use full text, no truncation
                 icon: module.icon || '📚',  // Use module icon or default
                 x: x,
                 y: y,
@@ -376,12 +386,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 const parentColor = moduleColors[idx % moduleColors.length];
                 const subtopicBgColor = darkenColor(parentColor.bg, 0.4); // 40% darker
                 
+                // Calculate dynamic width for subtopic
+                ctx.font = 'normal 10px system-ui, -apple-system, sans-serif';
+                const subtopicTextWidth = ctx.measureText(subtopic.name).width;
+                const dynamicSubtopicWidth = Math.min(180, Math.max(100, subtopicTextWidth + 30));
+                
                 const subtopicBox = {
                     id: `subtopic-${idx}-${subIdx}`,
-                    text: subtopic.name.length > 20 ? subtopic.name.substring(0, 20) + '...' : subtopic.name,
+                    text: subtopic.name,  // Use full text, no truncation
                     x: subtopicX,
                     y: subtopicY,
-                    width: subtopicWidth,
+                    width: dynamicSubtopicWidth,
                     height: subtopicHeight,
                     color: { 
                         bg: subtopicBgColor, 
@@ -478,38 +493,49 @@ document.addEventListener('DOMContentLoaded', function() {
         // Draw text
         ctx.fillStyle = box.color.text;
         ctx.font = `${box.fontWeight} ${box.fontSize}px system-ui, -apple-system, sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
         
-        // Draw text (handle multiline for long text, max 2 lines without ellipsis)
-        const maxWidth = box.width - 20;
-        const words = box.text.split(' ');
-        let line = '';
-        let lines = [];
-        
-        words.forEach(word => {
-            const testLine = line + (line ? ' ' : '') + word;
-            const metrics = ctx.measureText(testLine);
-            if (metrics.width > maxWidth && line) {
-                lines.push(line);
-                line = word;
-            } else {
-                line = testLine;
+        // Use left alignment for modules and subtopics, center for title
+        if (box.type === 'title') {
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            // Single line centered for title
+            ctx.fillText(box.text, box.x + box.width / 2, box.y + box.height / 2);
+        } else {
+            // Left-aligned text for modules and subtopics
+            ctx.textAlign = 'left';
+            ctx.textBaseline = 'middle';
+            
+            // Draw text (handle multiline for long text, max 2 lines without ellipsis)
+            const padding = 10;
+            const maxWidth = box.width - (padding * 2);
+            const words = box.text.split(' ');
+            let line = '';
+            let lines = [];
+            
+            words.forEach(word => {
+                const testLine = line + (line ? ' ' : '') + word;
+                const metrics = ctx.measureText(testLine);
+                if (metrics.width > maxWidth && line) {
+                    lines.push(line);
+                    line = word;
+                } else {
+                    line = testLine;
+                }
+            });
+            if (line) lines.push(line);
+            
+            // Limit to 2 lines max (no ellipsis, just show what fits)
+            if (lines.length > 2) {
+                lines = lines.slice(0, 2);
             }
-        });
-        if (line) lines.push(line);
-        
-        // Limit to 2 lines max (no ellipsis, just show what fits)
-        if (lines.length > 2) {
-            lines = lines.slice(0, 2);
+            
+            const lineHeight = box.fontSize + 4;
+            const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
+            const textX = box.x + padding;  // Left-aligned with padding
+            lines.forEach((text, idx) => {
+                ctx.fillText(text, textX, startY + idx * lineHeight);
+            });
         }
-        
-        const lineHeight = box.fontSize + 4;
-        const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
-        const textX = box.x + box.width / 2;
-        lines.forEach((text, idx) => {
-            ctx.fillText(text, textX, startY + idx * lineHeight);
-        });
         
         // Add textbook icon if applicable
         if (box.hasTextbook) {
