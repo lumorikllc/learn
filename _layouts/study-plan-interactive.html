@@ -258,7 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
             color: { bg: '#9333ea', border: '#ec4899', text: '#ffffff' }, // Purple to pink gradient colors
             type: 'title',
             fontSize: titleFontSize,
-            fontWeight: 'bold',
+            fontWeight: isMobile ? 'normal' : 'bold', // No bold on mobile
             gradient: true // Flag to apply gradient
         };
         boxes.push(titleBox);
@@ -350,7 +350,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 color: moduleColors[idx % moduleColors.length],
                 type: 'module',
                 fontSize: moduleFontSize,
-                fontWeight: 'bold',
+                fontWeight: isMobile ? 'normal' : 'bold', // No bold on mobile
                 module: module,
                 side: pos.side,  // Add side property for connection drawing
                 maxLines: isMobile ? 4 : 2  // Allow 4 lines on mobile, 2 on desktop
