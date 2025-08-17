@@ -257,6 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 fontSize: 13,
                 fontWeight: 'bold',
                 module: module,
+                side: pos.side,  // Add side property for connection drawing
                 maxLines: 2  // Enforce max 2 lines
             };
             boxes.push(moduleBox);
@@ -383,7 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Connect to module with dashed line
                 connections.push({
-                    from: moduleBox,
+                    from: { ...moduleBox, side: pos.side },
                     to: subtopicBox,
                     style: 'dashed'
                 });
@@ -411,10 +412,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         ctx.fillRect(box.x, box.y, box.width, box.height);
         
-        // Draw border
-        ctx.strokeStyle = box.color.border;
-        ctx.lineWidth = box === hoveredBox ? 3 : 2;
-        ctx.strokeRect(box.x, box.y, box.width, box.height);
+        // Draw border (skip for main modules and title)
+        if (box.type !== 'module' && box.type !== 'title') {
+            ctx.strokeStyle = box.color.border;
+            ctx.lineWidth = box === hoveredBox ? 3 : 2;
+            ctx.strokeRect(box.x, box.y, box.width, box.height);
+        }
         
         // Draw text
         ctx.fillStyle = box.color.text;
@@ -471,42 +474,8 @@ document.addEventListener('DOMContentLoaded', function() {
             y: conn.to.y + conn.to.height / 2
         };
         
-        // Calculate connection points on box edges
-        let fromPoint, toPoint;
-        
-        // From point (bottom of from box)
-        if (conn.from.type === 'title') {
-            fromPoint = {
-                x: fromCenter.x,
-                y: conn.from.y + conn.from.height
-            };
-        } else {
-            fromPoint = {
-                x: conn.from.x + conn.from.width,
-                y: fromCenter.y
-            };
-        }
-        
-        // To point (top of to box)
-        if (conn.to.type === 'module' && conn.from.type === 'title') {
-            toPoint = {
-                x: toCenter.x,
-                y: conn.to.y
-            };
-        } else if (conn.to.type === 'subtopic') {
-            toPoint = {
-                x: conn.to.x,
-                y: conn.to.y + conn.to.height / 2
-            };
-        } else {
-            toPoint = {
-                x: conn.to.x,
-                y: toCenter.y
-            };
-        }
-        
         ctx.strokeStyle = conn.color || '#6b7280';
-        ctx.lineWidth = 1;
+        ctx.lineWidth = conn.style === 'dashed' ? 1 : 2;
         
         if (conn.style === 'dashed') {
             ctx.setLineDash([5, 5]);
@@ -515,32 +484,82 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         ctx.beginPath();
-        ctx.moveTo(fromPoint.x, fromPoint.y);
         
-        if (conn.style === 'arrow') {
-            // Draw curved arrow for module connections
-            const cp1x = fromPoint.x + (toPoint.x - fromPoint.x) * 0.5;
-            const cp1y = fromPoint.y;
-            const cp2x = toPoint.x - (toPoint.x - fromPoint.x) * 0.5;
-            const cp2y = toPoint.y;
+        // Different connection styles based on connection type
+        if (conn.from.type === 'title' && conn.to.type === 'module') {
+            // Title to module connections - curved lines
+            const side = conn.to.side || 'left';
+            let fromPoint, toPoint;
             
-            ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, toPoint.x, toPoint.y);
+            if (side === 'top') {
+                fromPoint = { x: fromCenter.x, y: conn.from.y };
+                toPoint = { x: toCenter.x, y: conn.to.y + conn.to.height };
+                
+                // Curved path upward
+                const midY = (fromPoint.y + toPoint.y) / 2;
+                ctx.moveTo(fromPoint.x, fromPoint.y);
+                ctx.bezierCurveTo(
+                    fromPoint.x, midY - 30,
+                    toPoint.x, midY - 30,
+                    toPoint.x, toPoint.y
+                );
+            } else if (side === 'bottom') {
+                fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
+                toPoint = { x: toCenter.x, y: conn.to.y };
+                
+                // Curved path downward
+                const midY = (fromPoint.y + toPoint.y) / 2;
+                ctx.moveTo(fromPoint.x, fromPoint.y);
+                ctx.bezierCurveTo(
+                    fromPoint.x, midY + 30,
+                    toPoint.x, midY + 30,
+                    toPoint.x, toPoint.y
+                );
+            } else if (side === 'left') {
+                fromPoint = { x: conn.from.x, y: fromCenter.y };
+                toPoint = { x: conn.to.x + conn.to.width, y: toCenter.y };
+                
+                // Curved path to left
+                const midX = (fromPoint.x + toPoint.x) / 2;
+                ctx.moveTo(fromPoint.x, fromPoint.y);
+                ctx.bezierCurveTo(
+                    midX - 30, fromPoint.y,
+                    midX - 30, toPoint.y,
+                    toPoint.x, toPoint.y
+                );
+            } else if (side === 'right') {
+                fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
+                toPoint = { x: conn.to.x, y: toCenter.y };
+                
+                // Curved path to right
+                const midX = (fromPoint.x + toPoint.x) / 2;
+                ctx.moveTo(fromPoint.x, fromPoint.y);
+                ctx.bezierCurveTo(
+                    midX + 30, fromPoint.y,
+                    midX + 30, toPoint.y,
+                    toPoint.x, toPoint.y
+                );
+            }
+        } else if (conn.to.type === 'subtopic') {
+            // Module to subtopic connections - straight dashed lines
+            const side = conn.from.side || 'left';
+            let fromPoint, toPoint;
             
-            // Draw arrowhead
-            const angle = Math.atan2(toPoint.y - cp2y, toPoint.x - cp2x);
-            const arrowLength = 10;
-            ctx.moveTo(toPoint.x, toPoint.y);
-            ctx.lineTo(
-                toPoint.x - arrowLength * Math.cos(angle - Math.PI / 6),
-                toPoint.y - arrowLength * Math.sin(angle - Math.PI / 6)
-            );
-            ctx.moveTo(toPoint.x, toPoint.y);
-            ctx.lineTo(
-                toPoint.x - arrowLength * Math.cos(angle + Math.PI / 6),
-                toPoint.y - arrowLength * Math.sin(angle + Math.PI / 6)
-            );
-        } else {
-            // Simple line
+            if (side === 'left') {
+                fromPoint = { x: conn.from.x, y: fromCenter.y };
+                toPoint = { x: conn.to.x + conn.to.width, y: toCenter.y };
+            } else if (side === 'right') {
+                fromPoint = { x: conn.from.x + conn.from.width, y: fromCenter.y };
+                toPoint = { x: conn.to.x, y: toCenter.y };
+            } else if (side === 'top') {
+                fromPoint = { x: fromCenter.x, y: conn.from.y };
+                toPoint = { x: toCenter.x, y: conn.to.y + conn.to.height };
+            } else if (side === 'bottom') {
+                fromPoint = { x: fromCenter.x, y: conn.from.y + conn.from.height };
+                toPoint = { x: toCenter.x, y: conn.to.y };
+            }
+            
+            ctx.moveTo(fromPoint.x, fromPoint.y);
             ctx.lineTo(toPoint.x, toPoint.y);
         }
         
