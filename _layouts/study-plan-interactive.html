@@ -37,26 +37,21 @@ layout: default
     </div>
 
     <!-- Take it as mine CTA -->
-    <div class="mb-6 p-6 bg-gradient-to-r from-purple-600 via-pink-600 to-purple-600 rounded-xl relative overflow-hidden animate-glow">
-        <!-- Animated background effect -->
-        <div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer"></div>
-        
-        <div class="relative z-10 text-center">
-            <h3 class="text-2xl font-bold text-white mb-3">🎯 Ready to Master This Topic?</h3>
-            <p class="text-white/90 mb-4 max-w-2xl mx-auto">
-                Start your personalized learning journey with AI-powered guidance, interactive lessons, and real-time feedback.
-            </p>
-            <a href="https://ai.tutor.lumorik.com" 
-               class="inline-flex items-center px-8 py-4 bg-white text-purple-700 rounded-lg font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-2xl hover:shadow-white/25 animate-pulse-slow">
-                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"></path>
-                </svg>
-                Take It As Mine - Start Learning Now
-            </a>
-            <p class="text-white/80 text-sm mt-3">
-                ✨ Join 10,000+ learners • 🚀 Get started in 30 seconds • 💯 Free to try
-            </p>
-        </div>
+    <div class="mb-6 text-center">
+        <h3 class="text-2xl font-bold text-gray-900 mb-3">🎯 Ready to Master This Topic?</h3>
+        <p class="text-gray-600 mb-4 max-w-2xl mx-auto">
+            Start your personalized learning journey with AI-powered guidance, interactive lessons, and real-time feedback.
+        </p>
+        <button onclick="initiateClone()" 
+               class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-bold text-lg hover:scale-105 transform transition-all duration-300 shadow-xl hover:shadow-2xl">
+            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+            </svg>
+            Take It As Mine - Start Learning Now
+        </button>
+        <p class="text-gray-500 text-sm mt-3">
+            ✨ Join 10,000+ learners • 🚀 Get started in 30 seconds • 💯 Free to try
+        </p>
     </div>
 
     <!-- Interactive Visualization Container -->
@@ -682,49 +677,7 @@ document.addEventListener('DOMContentLoaded', function() {
     image-rendering: crisp-edges;
 }
 
-/* Glow animation for the CTA container */
-@keyframes glow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(147, 51, 234, 0.5), 0 0 40px rgba(236, 72, 153, 0.3);
-    }
-    50% {
-        box-shadow: 0 0 30px rgba(147, 51, 234, 0.7), 0 0 60px rgba(236, 72, 153, 0.5);
-    }
-}
-
-.animate-glow {
-    animation: glow 3s ease-in-out infinite;
-}
-
-/* Shimmer effect animation */
-@keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(200%);
-    }
-}
-
-.animate-shimmer {
-    animation: shimmer 3s linear infinite;
-}
-
-/* Slow pulse for the button */
-@keyframes pulse-slow {
-    0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.95;
-        transform: scale(1.02);
-    }
-}
-
-.animate-pulse-slow {
-    animation: pulse-slow 2s ease-in-out infinite;
-}
+/* Removed unnecessary animations - keeping page clean and static */
 
 #knowledge-graph-view {
     user-select: none;
