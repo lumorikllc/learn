@@ -241,9 +241,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const isSmallMobile = canvasWidth < 480;
         
         // Center title box (main topic) with gradient - responsive sizing
-        const titleWidth = isMobile ? Math.min(canvasWidth - 40, 250) : 300;
-        const titleHeight = isMobile ? 50 : 60;
-        const titleFontSize = isSmallMobile ? 12 : isMobile ? 14 : 16;
+        const titleWidth = isSmallMobile ? 180 : isMobile ? 220 : 300;
+        const titleHeight = isSmallMobile ? 35 : isMobile ? 40 : 60;
+        const titleFontSize = isSmallMobile ? 8 : isMobile ? 10 : 16;
         
         const titleBox = {
             id: 'title',
@@ -260,16 +260,16 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         boxes.push(titleBox);
         
-        // Define positions for modules - responsive sizing
-        const moduleWidth = isMobile ? Math.min(canvasWidth * 0.35, 140) : 160;
-        const moduleHeight = isMobile ? 40 : 45;
-        const moduleFontSize = isSmallMobile ? 10 : isMobile ? 11 : 13;
+        // Define positions for modules - much smaller on mobile
+        const moduleWidth = isSmallMobile ? 80 : isMobile ? 100 : 160;
+        const moduleHeight = isSmallMobile ? 25 : isMobile ? 30 : 45;
+        const moduleFontSize = isSmallMobile ? 7 : isMobile ? 8 : 13;
         const positions = [];
         
-        // Adjust spacing based on screen size
-        const verticalSpacing = isMobile ? 100 : 180;
-        const horizontalSpacing = isMobile ? 80 : 160;
-        const sideOffset = isMobile ? 60 : 220;
+        // Adjust spacing based on screen size - tighter on mobile
+        const verticalSpacing = isSmallMobile ? 60 : isMobile ? 80 : 180;
+        const horizontalSpacing = isSmallMobile ? 50 : isMobile ? 60 : 160;
+        const sideOffset = isSmallMobile ? 30 : isMobile ? 40 : 220;
         
         // Top (2 modules)
         const topY = isMobile ? centerY - verticalSpacing : 180;
@@ -329,21 +329,23 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'dashed'
             });
             
-            // Add subtopic boxes - position based on module location (skip on mobile for cleaner look)
-            if (!isMobile) {
-                const subtopicWidth = 140;
-                const subtopicHeight = 26;
-                const side = pos.side;
+            // Add subtopic boxes - make them smaller on mobile
+            const subtopicWidth = isSmallMobile ? 60 : isMobile ? 80 : 140;
+            const subtopicHeight = isSmallMobile ? 18 : isMobile ? 20 : 26;
+            const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
+            const side = pos.side;
             
-            // Different spacing for sides vs bottom
-            const sideSubtopicSpacing = 20; // Much more vertical spacing for sides to prevent overlap
-            const bottomSubtopicSpacing = 15; // Horizontal spacing for bottom
+            // Different spacing for sides vs bottom - tighter on mobile
+            const sideSubtopicSpacing = isSmallMobile ? 8 : isMobile ? 12 : 20;
+            const bottomSubtopicSpacing = isSmallMobile ? 5 : isMobile ? 8 : 15;
             
             // Calculate total height needed for side subtopics
             const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + sideSubtopicSpacing) - sideSubtopicSpacing;
             const startOffset = -totalSubtopicHeight / 2 + moduleHeight / 2;
             
-            module.subtopics.forEach((subtopic, subIdx) => {
+            // Limit subtopics on mobile to save space
+            const maxSubtopics = isSmallMobile ? 2 : isMobile ? 3 : 5;
+            module.subtopics.slice(0, maxSubtopics).forEach((subtopic, subIdx) => {
                 let subtopicX, subtopicY;
                 
                 // Position subtopics based on which side the module is on
@@ -436,7 +438,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         text: '#ffffff' 
                     },
                     type: 'subtopic',
-                    fontSize: 10,
+                    fontSize: subtopicFontSize,
                     fontWeight: 'normal',
                     hasTextbook: subtopic.hasTextbook,
                     maxLines: 2  // Enforce max 2 lines
@@ -450,7 +452,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     style: 'dashed'
                 });
             });
-            } // End of if (!isMobile)
             
             // Connect modules in learning sequence (optional - can be removed if too cluttered)
             // We'll skip sequential connections to keep it cleaner like the reference
@@ -485,16 +486,16 @@ document.addEventListener('DOMContentLoaded', function() {
         // Left-side modules: icon on the right
         // Right-side modules: icon on the left
         if (box.type === 'module' && box.icon) {
-            // Responsive icon size
+            // Responsive icon size - much smaller on mobile
             const canvasWidth = canvas.width / dpr;
-            const iconSize = canvasWidth < 480 ? '20px' : canvasWidth < 768 ? '24px' : '32px';
+            const iconSize = canvasWidth < 480 ? '12px' : canvasWidth < 768 ? '16px' : '32px';
             ctx.font = `${iconSize} system-ui, -apple-system, sans-serif`;
             ctx.fillStyle = box.color.text;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             
             // Position icon based on module side
-            const iconSpacing = canvasWidth < 768 ? 15 : 25;  // Smaller spacing on mobile
+            const iconSpacing = canvasWidth < 480 ? 8 : canvasWidth < 768 ? 12 : 25;  // Much smaller spacing on mobile
             let iconX;
             if (box.side === 'left') {
                 // Left modules: icon on the right side
