@@ -273,14 +273,14 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isMobile) {
             // Mobile layout: 4 modules on left, 4 on right
             // Move modules more toward center since subtopics are on outside
-            const subtopicSpace = isSmallMobile ? 75 : 90; // Space needed for subtopics
-            const leftX = subtopicSpace + 15;  // Leave space for subtopics on left
-            const rightX = canvasWidth - moduleWidth - subtopicSpace - 15;  // Leave space for subtopics on right
+            const subtopicSpace = isSmallMobile ? 85 : 100; // Space needed for subtopics
+            const leftX = subtopicSpace + 10;  // Leave space for subtopics on left
+            const rightX = canvasWidth - moduleWidth - subtopicSpace - 10;  // Leave space for subtopics on right
             // Adjust vertical spacing based on canvas height for better distribution
-            const availableHeight = canvasHeight - 60; // Leave some margin top and bottom
+            const availableHeight = canvasHeight - 100; // More margin for tall canvas
             const totalModuleHeight = 4 * moduleHeight;
             const verticalSpacing = (availableHeight - totalModuleHeight) / 3; // Spacing between 4 modules
-            const startY = 30;  // Start position from top
+            const startY = 50;  // Start position from top
             
             // Left side (4 modules)
             for (let i = 0; i < 4; i++) {
@@ -365,7 +365,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Add subtopic boxes - make them wider and taller on mobile for more text
-            const subtopicWidth = isSmallMobile ? 80 : isMobile ? 95 : 140;
+            const subtopicWidth = isSmallMobile ? 85 : isMobile ? 100 : 140;
             const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 26; // Taller for 4 lines on mobile
             const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
             const side = pos.side;
@@ -564,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textBaseline = 'middle';
         
         // Draw text (handle multiline for long text)
-        // Reduce padding on mobile to fit more text
-        const padding = isMobileLayout ? 6 : 20;
+        // Minimal padding on mobile to fit more text
+        const padding = isMobileLayout ? 2 : 20;
         const maxWidth = box.width - padding;
         // For modules on mobile, prepend icon to text
         const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
@@ -593,8 +593,8 @@ document.addEventListener('DOMContentLoaded', function() {
             lines = lines.slice(0, maxLines);
         }
         
-        // Tighter line spacing on mobile to fit more text
-        const lineHeight = box.fontSize + (isMobileLayout ? 2 : 4);
+        // Very tight line spacing on mobile to fit more text
+        const lineHeight = box.fontSize + (isMobileLayout ? 1 : 4);
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
         const textX = box.x + box.width / 2;
         lines.forEach((text, idx) => {
@@ -762,17 +762,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-/* Mobile landscape - Even taller canvas */
+/* Mobile landscape - Much taller canvas */
 @media (max-width: 768px) {
     #knowledge-graph-view {
-        height: 750px; /* Even taller for mobile to show all content */
+        height: 1000px; /* Much taller to fit all subtopics */
     }
 }
 
-/* Mobile portrait - Even taller canvas */
+/* Mobile portrait - Much taller canvas */
 @media (max-width: 480px) {
     #knowledge-graph-view {
-        height: 700px; /* Even taller for mobile to show all content */
+        height: 950px; /* Much taller to fit all subtopics */
     }
 }
 </style>
