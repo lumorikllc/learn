@@ -96,6 +96,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // High DPI support
     const dpr = window.devicePixelRatio || 1;
     
+    // Layout configuration - declare at top level
+    let boxes = [];
+    let connections = [];
+    let hoveredBox = null;
+    let studyPlanData = null;
+    
     // Set actual canvas size
     function resizeCanvas() {
         const rect = canvas.getBoundingClientRect();
@@ -104,7 +110,7 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.scale(dpr, dpr);
         
         // Adjust layout for mobile if needed
-        if (rect.width < 768 && boxes.length > 0) {
+        if (rect.width < 768 && boxes.length > 0 && studyPlanData) {
             // Recalculate layout for mobile
             createLayout(studyPlanData);
             draw();
@@ -113,7 +119,9 @@ document.addEventListener('DOMContentLoaded', function() {
     resizeCanvas();
     window.addEventListener('resize', () => {
         resizeCanvas();
-        draw();
+        if (boxes.length > 0) {
+            draw();
+        }
     });
     
     // Helper function to darken a color
@@ -137,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Parse study plan data
     const listView = document.getElementById('list-view');
     const proseDiv = listView.querySelector('.prose') || listView;
-    const studyPlanData = parseStudyPlan(proseDiv.innerHTML);
+    studyPlanData = parseStudyPlan(proseDiv.innerHTML);
     
     // Color schemes for different module categories
     const colorSchemes = {
@@ -161,11 +169,6 @@ document.addEventListener('DOMContentLoaded', function() {
         colorSchemes.monitoring,
         colorSchemes.advanced
     ];
-    
-    // Layout configuration
-    let boxes = [];
-    let connections = [];
-    let hoveredBox = null;
     
     function parseStudyPlan(html) {
         const parser = new DOMParser();
