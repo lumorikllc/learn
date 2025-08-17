@@ -563,14 +563,22 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
+        // Draw icon at top for mobile modules
+        if (box.type === 'module' && box.icon && isMobileLayout) {
+            // Draw icon at the top of the container
+            ctx.font = `14px system-ui, -apple-system, sans-serif`;
+            ctx.fillStyle = box.color.text;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(box.icon, box.x + box.width / 2, box.y + 10);
+        }
+        
         // Draw text (handle multiline for long text)
         // Zero padding on mobile, small padding on desktop for visual comfort
         const padding = isMobileLayout ? 0 : 10;
         const maxWidth = box.width - padding;
-        // For modules on mobile, prepend icon to text
-        const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
-            ? `${box.icon} ${box.text}` 
-            : box.text;
+        // Don't include icon in text for mobile modules (it's drawn separately above)
+        const displayText = box.text;
         const words = displayText.split(' ');
         let line = '';
         let lines = [];
@@ -595,7 +603,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Zero extra line spacing on mobile to fit maximum text
         const lineHeight = box.fontSize + (isMobileLayout ? 0 : 4);
-        const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
+        // Adjust start position if icon is at top (mobile modules only)
+        const iconOffset = (box.type === 'module' && box.icon && isMobileLayout) ? 8 : 0;
+        const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2 + iconOffset;
         const textX = box.x + box.width / 2;
         lines.forEach((text, idx) => {
             ctx.fillText(text, textX, startY + idx * lineHeight);
