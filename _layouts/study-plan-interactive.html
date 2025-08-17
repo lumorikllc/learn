@@ -364,9 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'dashed'
             });
             
-            // Add subtopic boxes - make them longer and taller on mobile for more text
-            const subtopicWidth = isSmallMobile ? 70 : isMobile ? 85 : 140;
-            const subtopicHeight = isSmallMobile ? 30 : isMobile ? 35 : 26; // Taller for 4 lines on mobile
+            // Add subtopic boxes - make them wider and taller on mobile for more text
+            const subtopicWidth = isSmallMobile ? 80 : isMobile ? 95 : 140;
+            const subtopicHeight = isSmallMobile ? 35 : isMobile ? 40 : 26; // Taller for 4 lines on mobile
             const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
             const side = pos.side;
             
@@ -564,7 +564,9 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textBaseline = 'middle';
         
         // Draw text (handle multiline for long text)
-        const maxWidth = box.width - 20;
+        // Reduce padding on mobile to fit more text
+        const padding = isMobileLayout ? 6 : 20;
+        const maxWidth = box.width - padding;
         // For modules on mobile, prepend icon to text
         const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
             ? `${box.icon} ${box.text}` 
@@ -585,12 +587,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         if (line) lines.push(line);
         
-        // Limit to 2 lines max (no ellipsis, just show what fits)
-        if (lines.length > 2) {
-            lines = lines.slice(0, 2);
+        // Limit lines based on maxLines property (4 on mobile, 2 on desktop)
+        const maxLines = box.maxLines || 2;
+        if (lines.length > maxLines) {
+            lines = lines.slice(0, maxLines);
         }
         
-        const lineHeight = box.fontSize + 4;
+        // Tighter line spacing on mobile to fit more text
+        const lineHeight = box.fontSize + (isMobileLayout ? 2 : 4);
         const startY = box.y + box.height / 2 - (lines.length - 1) * lineHeight / 2;
         const textX = box.x + box.width / 2;
         lines.forEach((text, idx) => {
@@ -758,17 +762,17 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 }
 
-/* Mobile landscape - Much taller canvas */
+/* Mobile landscape - Even taller canvas */
 @media (max-width: 768px) {
     #knowledge-graph-view {
-        height: 600px; /* Much taller for mobile */
+        height: 750px; /* Even taller for mobile to show all content */
     }
 }
 
-/* Mobile portrait - Much taller canvas */
+/* Mobile portrait - Even taller canvas */
 @media (max-width: 480px) {
     #knowledge-graph-view {
-        height: 550px; /* Much taller for mobile */
+        height: 700px; /* Even taller for mobile to show all content */
     }
 }
 </style>
