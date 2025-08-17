@@ -263,9 +263,9 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         boxes.push(titleBox);
         
-        // Define positions for modules - much smaller on mobile
+        // Define positions for modules - adjust height for more text lines on mobile
         const moduleWidth = isSmallMobile ? 80 : isMobile ? 100 : 160;
-        const moduleHeight = isSmallMobile ? 25 : isMobile ? 30 : 45;
+        const moduleHeight = isSmallMobile ? 40 : isMobile ? 45 : 45; // Taller on mobile for 4 lines
         const moduleFontSize = isSmallMobile ? 7 : isMobile ? 8 : 13;
         const positions = [];
         
@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 fontWeight: 'bold',
                 module: module,
                 side: pos.side,  // Add side property for connection drawing
-                maxLines: 2  // Enforce max 2 lines
+                maxLines: isMobile ? 4 : 2  // Allow 4 lines on mobile, 2 on desktop
             };
             boxes.push(moduleBox);
             
@@ -364,9 +364,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 style: 'dashed'
             });
             
-            // Add subtopic boxes - make them longer on mobile
+            // Add subtopic boxes - make them longer and taller on mobile for more text
             const subtopicWidth = isSmallMobile ? 70 : isMobile ? 85 : 140;
-            const subtopicHeight = isSmallMobile ? 15 : isMobile ? 18 : 26;
+            const subtopicHeight = isSmallMobile ? 30 : isMobile ? 35 : 26; // Taller for 4 lines on mobile
             const subtopicFontSize = isSmallMobile ? 6 : isMobile ? 7 : 10;
             const side = pos.side;
             
@@ -378,9 +378,8 @@ document.addEventListener('DOMContentLoaded', function() {
             const totalSubtopicHeight = module.subtopics.length * (subtopicHeight + sideSubtopicSpacing) - sideSubtopicSpacing;
             const startOffset = -totalSubtopicHeight / 2 + moduleHeight / 2;
             
-            // Limit subtopics on mobile to save space
-            const maxSubtopics = isSmallMobile ? 2 : isMobile ? 3 : 5;
-            module.subtopics.slice(0, maxSubtopics).forEach((subtopic, subIdx) => {
+            // Show all subtopics on mobile (no limit)
+            module.subtopics.forEach((subtopic, subIdx) => {
                 let subtopicX, subtopicY;
                 
                 // Position subtopics based on which side the module is on
@@ -490,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     fontSize: subtopicFontSize,
                     fontWeight: 'normal',
                     hasTextbook: subtopic.hasTextbook,
-                    maxLines: 2  // Enforce max 2 lines
+                    maxLines: isMobile ? 4 : 2  // Allow 4 lines on mobile, 2 on desktop
                 };
                 boxes.push(subtopicBox);
                 
@@ -531,61 +530,28 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.strokeRect(box.x, box.y, box.width, box.height);
         }
         
-        // Draw icon for modules (outside the box)
-        // Left-side modules: icon on the right
-        // Right-side modules: icon on the left
-        if (box.type === 'module' && box.icon) {
-            // Responsive icon size - much smaller on mobile
-            const canvasWidth = canvas.width / dpr;
-            const iconSize = canvasWidth < 480 ? '12px' : canvasWidth < 768 ? '16px' : '32px';
+        // Draw icon for modules (outside the box) - DESKTOP ONLY
+        const canvasWidth = canvas.width / dpr;
+        const isMobileLayout = canvasWidth < 768;
+        
+        if (box.type === 'module' && box.icon && !isMobileLayout) {
+            // Only draw external icons on desktop
+            const iconSize = '32px';
             ctx.font = `${iconSize} system-ui, -apple-system, sans-serif`;
             ctx.fillStyle = box.color.text;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             
             // Position icon based on module side
-            const iconSpacing = canvasWidth < 480 ? 8 : canvasWidth < 768 ? 12 : 25;  // Much smaller spacing on mobile
+            const iconSpacing = 25;
             let iconX;
-            const isMobileLayout = canvasWidth < 768;
             
-            if (box.side === 'left') {
-                // Left modules
-                if (isMobileLayout) {
-                    // On mobile, icon on right (toward center)
-                    iconX = box.x + box.width + iconSpacing;
-                } else {
-                    // On desktop, icon on right
-                    iconX = box.x + box.width + iconSpacing;
-                }
-            } else if (box.side === 'right') {
-                // Right modules
-                if (isMobileLayout) {
-                    // On mobile, icon on left (toward center)
-                    iconX = box.x - iconSpacing;
-                } else {
-                    // On desktop, icon on left
-                    iconX = box.x - iconSpacing;
-                }
-            } else if (box.side === 'top') {
-                // Top modules: decide based on x position relative to center
-                const canvasCenter = canvas.width / (2 * dpr);
-                if (box.x < canvasCenter) {
-                    // Left-side top module: icon on right
-                    iconX = box.x + box.width + iconSpacing;
-                } else {
-                    // Right-side top module: icon on left
-                    iconX = box.x - iconSpacing;
-                }
-            } else if (box.side === 'bottom') {
-                // Bottom modules: decide based on x position relative to center
-                const canvasCenter = canvas.width / (2 * dpr);
-                if (box.x < canvasCenter) {
-                    // Left-side bottom module: icon on right
-                    iconX = box.x + box.width + iconSpacing;
-                } else {
-                    // Right-side bottom module: icon on left
-                    iconX = box.x - iconSpacing;
-                }
+            if (box.side === 'left' || box.side === 'top') {
+                // Left and top modules: icon on right
+                iconX = box.x + box.width + iconSpacing;
+            } else if (box.side === 'right' || box.side === 'bottom') {
+                // Right and bottom modules: icon on left
+                iconX = box.x - iconSpacing;
             }
             
             ctx.fillText(box.icon, iconX, box.y + box.height / 2);
@@ -597,9 +563,13 @@ document.addEventListener('DOMContentLoaded', function() {
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         
-        // Draw text (handle multiline for long text, max 2 lines without ellipsis)
+        // Draw text (handle multiline for long text)
         const maxWidth = box.width - 20;
-        const words = box.text.split(' ');
+        // For modules on mobile, prepend icon to text
+        const displayText = (box.type === 'module' && box.icon && isMobileLayout) 
+            ? `${box.icon} ${box.text}` 
+            : box.text;
+        const words = displayText.split(' ');
         let line = '';
         let lines = [];
         
