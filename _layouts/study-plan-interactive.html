@@ -238,10 +238,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const isMobile = canvasWidth < 768;
         const isSmallMobile = canvasWidth < 480;
         
-        // Center title box (main topic) with gradient - responsive sizing
-        const titleWidth = isSmallMobile ? 140 : isMobile ? 180 : 300;
-        const titleHeight = isSmallMobile ? 28 : isMobile ? 35 : 60;
-        const titleFontSize = isSmallMobile ? 8 : isMobile ? 10 : 16;
+        // Center title box (main topic) with gradient - larger on mobile
+        const titleWidth = isSmallMobile ? 200 : isMobile ? 240 : 300;
+        const titleHeight = isSmallMobile ? 45 : isMobile ? 50 : 60;
+        const titleFontSize = isSmallMobile ? 12 : isMobile ? 14 : 16;
         
         // For mobile, position title at the center horizontally and vertically
         const titleY = isMobile ? (canvasHeight / 2 - titleHeight / 2) : (centerY - titleHeight / 2);
