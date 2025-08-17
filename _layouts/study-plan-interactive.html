@@ -193,27 +193,30 @@ document.addEventListener('DOMContentLoaded', function() {
         const moduleHeight = 45;
         const positions = [];
         
-        // Top (2 modules) - centered horizontally with space above for subtopics
-        const topY = 250; // Much higher up for more spacing from center
-        const horizontalModuleSpacing = 250; // Much more horizontal spacing between modules
-        positions.push({ x: centerX - horizontalModuleSpacing/2 - moduleWidth/2, y: topY, side: 'top' });
-        positions.push({ x: centerX + horizontalModuleSpacing/2 - moduleWidth/2, y: topY, side: 'top' });
+        // Top (2 modules) - more towards top-left and top-right corners
+        const topY = 200; // Much higher up
+        const topLeftX = centerX - 300; // More to the left
+        const topRightX = centerX + 140; // More to the right
+        positions.push({ x: topLeftX, y: topY, side: 'top' });
+        positions.push({ x: topRightX, y: topY, side: 'top' });
         
-        // Left side (2 modules) - evenly spaced vertically
-        const leftX = 200; // Leave space for subtopics on the left
-        const sideSpacing = 280; // Much more vertical spacing between side modules
+        // Left side (2 modules) - much more vertical spacing
+        const leftX = 180; // Leave space for subtopics on the left
+        const sideSpacing = 350; // Much more vertical spacing between side modules
         positions.push({ x: leftX, y: centerY - sideSpacing/2, side: 'left' });
         positions.push({ x: leftX, y: centerY + sideSpacing/2, side: 'left' });
         
-        // Right side (2 modules) - evenly spaced vertically
-        const rightX = canvasWidth - 360; // Leave space for subtopics on the right
+        // Right side (2 modules) - much more vertical spacing
+        const rightX = canvasWidth - 340; // Leave space for subtopics on the right
         positions.push({ x: rightX, y: centerY - sideSpacing/2, side: 'right' });
         positions.push({ x: rightX, y: centerY + sideSpacing/2, side: 'right' });
         
-        // Bottom (2 modules) - centered horizontally with space below for subtopics
-        const bottomY = canvasHeight - 250; // Much lower for more spacing from center
-        positions.push({ x: centerX - horizontalModuleSpacing/2 - moduleWidth/2, y: bottomY, side: 'bottom' });
-        positions.push({ x: centerX + horizontalModuleSpacing/2 - moduleWidth/2, y: bottomY, side: 'bottom' });
+        // Bottom (2 modules) - more towards bottom-left and bottom-right corners
+        const bottomY = canvasHeight - 200; // Much lower
+        const bottomLeftX = centerX - 300; // More to the left
+        const bottomRightX = centerX + 140; // More to the right
+        positions.push({ x: bottomLeftX, y: bottomY, side: 'bottom' });
+        positions.push({ x: bottomRightX, y: bottomY, side: 'bottom' });
         
         data.modules.forEach((module, idx) => {
             if (idx >= positions.length) return; // Safety check
