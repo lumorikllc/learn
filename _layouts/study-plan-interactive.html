@@ -385,8 +385,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Position subtopics based on which side the module is on
                 if (side === 'top') {
                     // Top modules - subtopics ABOVE in 2 rows (2 on top, 3 on bottom)
-                    const topSubtopicSpacing = 15; // Horizontal spacing
-                    const rowSpacing = 35; // Vertical spacing between rows
+                    const topSubtopicSpacing = isMobile ? 15 : 20; // More horizontal spacing on desktop
+                    const rowSpacing = isMobile ? 35 : 45; // More vertical spacing on desktop
                     
                     if (module.subtopics.length <= 3) {
                         // For 3 or fewer, single row centered above
@@ -427,8 +427,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 } else if (side === 'bottom') {
                     // Bottom modules - subtopics UNDERNEATH in 2 rows (2 on top, 3 on bottom)
-                    const bottomSubtopicSpacing = 15; // Horizontal spacing
-                    const rowSpacing = 35; // Vertical spacing between rows
+                    const bottomSubtopicSpacing = isMobile ? 15 : 20; // More horizontal spacing on desktop
+                    const rowSpacing = isMobile ? 35 : 45; // More vertical spacing on desktop
                     
                     if (module.subtopics.length <= 3) {
                         // For 3 or fewer, single row centered
