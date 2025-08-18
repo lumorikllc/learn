@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "AI Engineering Mastery: From Fundamentals to RAG"
-date: 2025-08-18T16:29:12.099792
+date: 2025-08-18T16:29:24.063841
 modules: 7
 lessons: 35
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Understand the role of an AI Engineer, core AI/ML concepts, and the essential sk
 
 **Topics covered:**
 
-- Define the responsibilities and scope of an AI Engineer
+- [Define the responsibilities and scope of an AI Engineer 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/195fb804-c8da-4d44-888d-4c1864400692)
 - Differentiate between machine learning, deep learning, and data science
 - Review essential mathematics: linear algebra, probability, and statistics
 - Set up a Python environment and key ML libraries (NumPy, pandas, scikit-learn)
