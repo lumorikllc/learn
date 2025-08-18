@@ -19,6 +19,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 Kubernetes Mastery: From Zero to Expert - Principles of containers and orchestration](./6c7d157e-5a7f-4d55-9a8f-ff4f4917c907/) - Textbook published on August 16, 2025
 - [Kubernetes for DevOps: A Comprehensive Hands-On Learning Journey](./f3159a20-58aa-413d-bad0-a77700220b01/) - Published on August 17, 2025
 - [AI Engineering Mastery: From Fundamentals to RAG](./856adc61-f4d4-42e1-ac67-efeed3542e7e/) - Published on August 18, 2025
+- [📖 AI Engineering Mastery: From Fundamentals to RAG - Define the responsibilities and scope of an AI Engineer](./195fb804-c8da-4d44-888d-4c1864400692/) - Textbook published on August 18, 2025
 ---
 
 # Published Study Plans
