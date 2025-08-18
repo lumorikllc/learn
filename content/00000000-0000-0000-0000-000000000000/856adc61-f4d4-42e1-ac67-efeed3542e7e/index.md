@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "AI Engineering Mastery: From Fundamentals to RAG"
-date: 2025-08-18T16:29:24.063841
+date: 2025-08-18T16:29:44.306614
 modules: 7
 lessons: 35
 author: "dev@example.com"
