@@ -22,6 +22,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 AI Engineering Mastery: From Fundamentals to RAG - Define the responsibilities and scope of an AI Engineer](./195fb804-c8da-4d44-888d-4c1864400692/) - Textbook published on August 18, 2025
 - [Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data](./ef324032-6866-4512-9547-ae247ba94cbf/) - Published on August 19, 2025
 - [📖 Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data - Understand the role and lifecycle of data engineering](./4825ad01-6f8d-4f78-8eaf-04d5ff59b4d3/) - Textbook published on August 19, 2025
+- [Data Engineering Mastery: From Fundamentals to Advanced Practices](./ec5057fb-87af-4325-b934-5dc9a1e77c68/) - Published on August 19, 2025
 ---
 
 # Published Study Plans
