@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Data Engineering Mastery: From Fundamentals to Advanced Practices"
-date: 2025-08-19T15:53:19.763771
+date: 2025-08-19T15:53:34.561148
 modules: 6
 lessons: 30
 author: "dev@example.com"
