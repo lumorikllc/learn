@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Data Engineering Mastery: From Fundamentals to Advanced Practices"
-date: 2025-08-19T15:53:07.915859
+date: 2025-08-19T15:53:19.763771
 modules: 6
 lessons: 30
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Establish a strong base in Python programming and SQL querying to manipulate and
 
 **Topics covered:**
 
-- Understand Python data types, control flow, and functions
+- [Understand Python data types, control flow, and functions 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/a800c8c0-182a-4b28-b8bc-c3665dac3a48)
 - Write and execute basic SQL DDL (CREATE, ALTER) and DML (SELECT, INSERT) statements
 - Filter and sort query results using WHERE, ORDER BY, and LIMIT
 - Perform basic aggregations with GROUP BY and HAVING
