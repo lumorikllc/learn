@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data"
-date: 2025-08-19T15:31:39.657142
+date: 2025-08-19T15:31:57.094735
 modules: 7
 lessons: 34
 author: "dev@example.com"
