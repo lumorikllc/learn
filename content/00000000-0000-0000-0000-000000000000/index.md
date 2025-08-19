@@ -23,6 +23,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data](./ef324032-6866-4512-9547-ae247ba94cbf/) - Published on August 19, 2025
 - [📖 Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data - Understand the role and lifecycle of data engineering](./4825ad01-6f8d-4f78-8eaf-04d5ff59b4d3/) - Textbook published on August 19, 2025
 - [Data Engineering Mastery: From Fundamentals to Advanced Practices](./ec5057fb-87af-4325-b934-5dc9a1e77c68/) - Published on August 19, 2025
+- [📖 Data Engineering Mastery: From Fundamentals to Advanced Practices - Understand Python data types, control flow, and functions](./a800c8c0-182a-4b28-b8bc-c3665dac3a48/) - Textbook published on August 19, 2025
 ---
 
 # Published Study Plans
