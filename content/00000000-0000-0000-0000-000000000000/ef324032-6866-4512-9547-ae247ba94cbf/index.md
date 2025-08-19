@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Data Engineering Mastery: A Comprehensive Roadmap from Fundamentals to Big Data"
-date: 2025-08-19T15:31:27.916958
+date: 2025-08-19T15:31:39.657142
 modules: 7
 lessons: 34
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Get acquainted with the core responsibilities of a data engineer, establish a so
 
 **Topics covered:**
 
-- Understand the role and lifecycle of data engineering
+- [Understand the role and lifecycle of data engineering 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/4825ad01-6f8d-4f78-8eaf-04d5ff59b4d3)
 - Set up a Linux environment and master essential shell commands
 - Version control with Git: clone, commit, branch, merge
 - Introduction to Python: data types, control flow, and scripts
