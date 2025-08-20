@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features"
-date: 2025-08-20T16:54:52.684795
+date: 2025-08-20T16:57:56.127307
 modules: 7
 lessons: 28
 author: "dev@example.com"
