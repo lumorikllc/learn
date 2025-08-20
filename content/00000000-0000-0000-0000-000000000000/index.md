@@ -25,6 +25,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Data Engineering Mastery: From Fundamentals to Advanced Practices](./ec5057fb-87af-4325-b934-5dc9a1e77c68/) - Published on August 19, 2025
 - [📖 Data Engineering Mastery: From Fundamentals to Advanced Practices - Understand Python data types, control flow, and functions](./a800c8c0-182a-4b28-b8bc-c3665dac3a48/) - Textbook published on August 19, 2025
 - [Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features](./eb870ab4-00f8-4ac2-afdd-eaf709166c03/) - Published on August 20, 2025
+- [📖 Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features - Dissecting transformer blocks: embeddings, self-attention, and feed-forward networks](./9e328f99-3042-4cb2-a2d7-b676fb97410a/) - Textbook published on August 20, 2025
 ---
 
 # Published Study Plans
