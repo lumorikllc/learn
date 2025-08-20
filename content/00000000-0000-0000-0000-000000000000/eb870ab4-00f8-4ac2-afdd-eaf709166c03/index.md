@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features"
-date: 2025-08-20T16:54:41.667567
+date: 2025-08-20T16:54:52.684795
 modules: 7
 lessons: 28
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Get grounded in the core architecture of large language models and the key princ
 
 **Topics covered:**
 
-- Dissecting transformer blocks: embeddings, self-attention, and feed-forward networks
+- [Dissecting transformer blocks: embeddings, self-attention, and feed-forward networks 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/9e328f99-3042-4cb2-a2d7-b676fb97410a)
 - Understanding hidden states vs. feature activations
 - Overview of interpretability methods: probing classifiers, attribution, and visualization
 - Key metrics for evaluating interpretability
