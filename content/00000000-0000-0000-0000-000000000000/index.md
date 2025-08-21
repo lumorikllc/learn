@@ -27,6 +27,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features](./eb870ab4-00f8-4ac2-afdd-eaf709166c03/) - Published on August 20, 2025
 - [📖 Mapping the Mind of LLMs: Interpreting and Manipulating Neural Features - Dissecting transformer blocks: embeddings, self-attention, and feed-forward networks](./9e328f99-3042-4cb2-a2d7-b676fb97410a/) - Textbook published on August 20, 2025
 - [Rigorous Statistical Evaluation for AI Models](./88dfcaa9-8bfd-4083-a70a-30542d016412/) - Published on August 21, 2025
+- [📖 Rigorous Statistical Evaluation for AI Models - Understanding data distributions in AI benchmarks](./152e434c-d212-4bb3-8b74-6640d245d4d1/) - Textbook published on August 21, 2025
 ---
 
 # Published Study Plans
