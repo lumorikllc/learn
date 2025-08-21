@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Rigorous Statistical Evaluation for AI Models"
-date: 2025-08-21T16:53:00.823495
+date: 2025-08-21T16:53:12.834807
 modules: 6
 lessons: 24
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Learn the basics of statistical thinking and sampling distributions, focusing on
 
 **Topics covered:**
 
-- Understanding data distributions in AI benchmarks
+- [Understanding data distributions in AI benchmarks 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/152e434c-d212-4bb3-8b74-6640d245d4d1)
 - Applying the Central Limit Theorem to model metrics
 - Calculating the standard error of the mean
 - Interpreting sampling distributions in practice
