@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Rigorous Statistical Evaluation for AI Models"
-date: 2025-08-21T20:40:54.036217
+date: 2025-08-21T20:41:18.475100
 modules: 6
 lessons: 24
 author: "dev@example.com"
