@@ -1,7 +1,7 @@
 ---
 layout: textbook
 title: "Rigorous Statistical Evaluation for AI Models - Understanding data distributions in AI benchmarks"
-date: 2025-08-21T16:53:10.312149
+date: 2025-08-21T20:40:52.737904
 study_plan_url: "https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/88dfcaa9-8bfd-4083-a70a-30542d016412/"
 chapters: 8
 author: "00000000-0000-0000-0000-000000000000"
