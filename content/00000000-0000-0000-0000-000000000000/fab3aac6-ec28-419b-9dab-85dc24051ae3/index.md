@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mastering SpaceX Starship: Engineering, Regulations & Safety"
-date: 2025-08-22T17:51:57.599396
+date: 2025-08-22T17:52:09.943228
 modules: 7
 lessons: 35
 author: "dev@example.com"
