@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mastering GPT-5: Visible Thinking & 272k Context for Professional Workflows"
-date: 2025-08-22T22:26:03.305326
+date: 2025-08-22T22:26:14.015624
 modules: 7
 lessons: 30
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Learn the core principles of chain-of-thought reasoning in GPT-5 and how to craf
 
 **Topics covered:**
 
-- Explain the principles of chain-of-thought reasoning
+- [Explain the principles of chain-of-thought reasoning 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/6e4511e3-b7b7-4270-a759-f625c824381e)
 - Craft prompts that encourage transparent reasoning traces
 - Visualize intermediate reasoning steps in responses
 - Assess the clarity of visible thinking outputs
