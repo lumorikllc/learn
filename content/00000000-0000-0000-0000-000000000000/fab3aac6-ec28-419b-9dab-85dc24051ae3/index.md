@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mastering SpaceX Starship: Engineering, Regulations & Safety"
-date: 2025-08-22T17:51:46.291180
+date: 2025-08-22T17:51:57.599396
 modules: 7
 lessons: 35
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Get introduced to the principles of orbital rocketry and the overall architectur
 
 **Topics covered:**
 
-- Fundamentals of orbital mechanics
+- [Fundamentals of orbital mechanics 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/6c716b49-d10b-49f1-998e-ed52e40ad667)
 - Basic rocket propulsion principles
 - Starship system architecture
 - Overview of Raptor engine design
