@@ -30,6 +30,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 Rigorous Statistical Evaluation for AI Models - Understanding data distributions in AI benchmarks](./152e434c-d212-4bb3-8b74-6640d245d4d1/) - Textbook published on August 21, 2025
 - [Mastering SpaceX Starship: Engineering, Regulations & Safety](./fab3aac6-ec28-419b-9dab-85dc24051ae3/) - Published on August 22, 2025
 - [📖 Mastering SpaceX Starship: Engineering, Regulations & Safety - Fundamentals of orbital mechanics](./6c716b49-d10b-49f1-998e-ed52e40ad667/) - Textbook published on August 22, 2025
+- [Mastering GPT-5: Visible Thinking & 272k Context for Professional Workflows](./4c4fd723-0eb4-49ef-82a7-087a977e350e/) - Published on August 22, 2025
 ---
 
 # Published Study Plans
