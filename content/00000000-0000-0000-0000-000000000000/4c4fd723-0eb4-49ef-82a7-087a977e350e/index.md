@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mastering GPT-5: Visible Thinking & 272k Context for Professional Workflows"
-date: 2025-08-22T22:26:14.015624
+date: 2025-08-22T22:26:27.780657
 modules: 7
 lessons: 30
 author: "dev@example.com"
