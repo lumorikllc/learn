@@ -35,6 +35,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Guardians of the Machine: AI Ethics, Welfare, and Rights](./4a909e71-4c9d-47fa-bfa6-b59c87074d17/) - Published on August 24, 2025
 - [📖 Guardians of the Machine: AI Ethics, Welfare, and Rights - Survey of ethical frameworks (utilitarianism, deontology, virtue ethics)](./2b4ee865-b085-459d-b96a-fcd60afcd462/) - Textbook published on August 24, 2025
 - [Ethical Horizons: AI Rights, Welfare, and Responsible Development](./0f2d08a9-7666-4a5b-991f-2aa84e0211fb/) - Published on August 24, 2025
+- [📖 Ethical Horizons: AI Rights, Welfare, and Responsible Development - Trace the history and key milestones in AI ethics](./a78e84c4-bb0e-432f-80a9-cf65e8d4baa5/) - Textbook published on August 24, 2025
 ---
 
 # Published Study Plans
