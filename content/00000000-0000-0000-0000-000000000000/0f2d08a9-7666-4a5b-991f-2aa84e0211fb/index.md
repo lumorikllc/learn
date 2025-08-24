@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Ethical Horizons: AI Rights, Welfare, and Responsible Development"
-date: 2025-08-24T04:24:32.288388
+date: 2025-08-24T04:24:42.763869
 modules: 6
 lessons: 29
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Establish core concepts and historical context of AI ethics, exploring classical
 
 **Topics covered:**
 
-- Trace the history and key milestones in AI ethics
+- [Trace the history and key milestones in AI ethics 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/a78e84c4-bb0e-432f-80a9-cf65e8d4baa5)
 - Compare utilitarian, deontological, and virtue‐ethics approaches
 - Identify AI-specific ethical challenges (bias, privacy, autonomy)
 - Map stakeholders and their responsibilities in AI deployment
