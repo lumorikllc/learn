@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Guardians of the Machine: AI Ethics, Welfare, and Rights"
-date: 2025-08-24T04:14:11.752365
+date: 2025-08-24T04:14:24.478618
 modules: 6
 lessons: 30
 author: "dev@example.com"
