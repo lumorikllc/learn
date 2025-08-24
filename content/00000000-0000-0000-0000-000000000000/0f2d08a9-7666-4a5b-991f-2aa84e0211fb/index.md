@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Ethical Horizons: AI Rights, Welfare, and Responsible Development"
-date: 2025-08-24T04:24:42.763869
+date: 2025-08-24T04:24:55.022305
 modules: 6
 lessons: 29
 author: "dev@example.com"
