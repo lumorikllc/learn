@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Guardians of the Machine: AI Ethics, Welfare, and Rights"
-date: 2025-08-24T04:13:58.852810
+date: 2025-08-24T04:14:11.752365
 modules: 6
 lessons: 30
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Explore core ethical theories and how they apply to artificial intelligence. Lay
 
 **Topics covered:**
 
-- Survey of ethical frameworks (utilitarianism, deontology, virtue ethics)
+- [Survey of ethical frameworks (utilitarianism, deontology, virtue ethics) 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/2b4ee865-b085-459d-b96a-fcd60afcd462)
 - History of AI development and ethical turning points
 - Definitions of AI personhood, agency, and sentience
 - Key philosophical thought experiments (e.g., Trolley Problem, Chinese Room)
