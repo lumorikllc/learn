@@ -34,6 +34,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 Mastering GPT-5: Visible Thinking & 272k Context for Professional Workflows - Explain the principles of chain-of-thought reasoning](./6e4511e3-b7b7-4270-a759-f625c824381e/) - Textbook published on August 22, 2025
 - [Guardians of the Machine: AI Ethics, Welfare, and Rights](./4a909e71-4c9d-47fa-bfa6-b59c87074d17/) - Published on August 24, 2025
 - [📖 Guardians of the Machine: AI Ethics, Welfare, and Rights - Survey of ethical frameworks (utilitarianism, deontology, virtue ethics)](./2b4ee865-b085-459d-b96a-fcd60afcd462/) - Textbook published on August 24, 2025
+- [Ethical Horizons: AI Rights, Welfare, and Responsible Development](./0f2d08a9-7666-4a5b-991f-2aa84e0211fb/) - Published on August 24, 2025
 ---
 
 # Published Study Plans
