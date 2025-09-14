@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Mastering Post-Training and RLHF for Large Language Models"
-date: 2025-09-14T06:54:00.920866
+date: 2025-09-14T06:54:11.762707
 modules: 6
 lessons: 30
 author: "markmatech@gmail.com"
@@ -18,7 +18,7 @@ Establish the core concepts of post-training for large language models. You will
 **Topics covered:**
 
 - Contrast pretraining vs. post-training objectives in LLMs
-- Implement a supervised fine-tuning (SFT) pipeline
+- [Implement a supervised fine-tuning (SFT) pipeline 📖](https://lumorikllc.github.io/learn/content/a23f2f35-2cd5-455f-b58b-fa1815dadfd1/73ef50c6-8566-4a13-8dfe-d7424b4af8ca)
 - Choose and compute common loss functions for text tasks
 - Curate and preprocess datasets for fine-tuning
 - Evaluate model outputs using BLEU, ROUGE, and human judgments
