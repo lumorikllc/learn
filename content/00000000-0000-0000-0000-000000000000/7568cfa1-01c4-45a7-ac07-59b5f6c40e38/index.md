@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Skyrocket Your AWS Data Engineering Skills in 6 Weeks"
-date: 2025-11-19T20:48:52.644235
+date: 2025-11-19T20:49:03.429251
 modules: 6
 lessons: 24
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Establish a solid base in AWS core services and principles vital for a data engi
 
 **Topics covered:**
 
-- Explain AWS global infrastructure and shared responsibility model
+- [Explain AWS global infrastructure and shared responsibility model 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/0b87f481-3183-4e18-aaa0-68b3e527f277)
 - Configure IAM roles, policies, and user groups for data workflows
 - Design VPC subnets, routing tables, and security groups
 - Launch EC2 instances and author Lambda functions for data tasks
