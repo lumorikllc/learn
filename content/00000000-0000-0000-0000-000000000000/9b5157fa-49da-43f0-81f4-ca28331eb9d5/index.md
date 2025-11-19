@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "From A+ to CCNA: A Step-by-Step Networking Mastery Roadmap"
-date: 2025-11-19T21:23:52.522025
+date: 2025-11-19T21:24:03.377782
 modules: 7
 lessons: 34
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Begin with the core components of modern PCs and peripherals to build a solid ha
 
 **Topics covered:**
 
-- Identify motherboard form factors, chipsets, and expansion slots
+- [Identify motherboard form factors, chipsets, and expansion slots 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/576b04ce-4c3e-4005-a2ae-f36bc37779d4)
 - Install and configure RAM modules and storage drives (HDD, SSD, NVMe)
 - Select and install appropriate CPU sockets, coolers, and thermal paste
 - Configure power supply connectors and troubleshoot power delivery issues
