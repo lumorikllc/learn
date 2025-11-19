@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "8-Week CompTIA Network+ to Security+ Fast-Track with Labs & Reviews"
-date: 2025-11-19T20:57:49.170019
+date: 2025-11-19T20:58:00.657919
 modules: 8
 lessons: 32
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Establish a solid foundation by exploring core networking models, IP addressing,
 
 **Topics covered:**
 
-- Compare OSI and TCP/IP model layers and their functions
+- [Compare OSI and TCP/IP model layers and their functions 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/b15ec9ad-3c3f-4cc4-accf-3492b0bbffe3)
 - Perform IPv4 and IPv6 addressing, subnetting, and VLSM
 - Identify common network topologies, cables, and connectors
 - Examine key protocols and well-known ports (HTTP, DNS, DHCP)
