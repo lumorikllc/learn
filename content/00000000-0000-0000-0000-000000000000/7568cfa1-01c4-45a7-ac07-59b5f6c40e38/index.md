@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Skyrocket Your AWS Data Engineering Skills in 6 Weeks"
-date: 2025-11-19T20:49:03.429251
+date: 2025-11-19T20:49:16.965933
 modules: 6
 lessons: 24
 author: "dev@example.com"
