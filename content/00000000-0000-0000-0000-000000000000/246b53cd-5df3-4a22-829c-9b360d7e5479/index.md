@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "8-Week CompTIA Network+ to Security+ Fast-Track with Labs & Reviews"
-date: 2025-11-19T20:58:00.657919
+date: 2025-11-19T20:58:13.670761
 modules: 8
 lessons: 32
 author: "dev@example.com"
