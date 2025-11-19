@@ -37,6 +37,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Ethical Horizons: AI Rights, Welfare, and Responsible Development](./0f2d08a9-7666-4a5b-991f-2aa84e0211fb/) - Published on August 24, 2025
 - [📖 Ethical Horizons: AI Rights, Welfare, and Responsible Development - Trace the history and key milestones in AI ethics](./a78e84c4-bb0e-432f-80a9-cf65e8d4baa5/) - Textbook published on August 24, 2025
 - [AWS Architect Accelerator: 30-Day Plan for Working Professionals](./1eda3473-bcb3-43c1-90f1-968c9d998089/) - Published on November 19, 2025
+- [📖 AWS Architect Accelerator: 30-Day Plan for Working Professionals - Understand IaaS, PaaS, SaaS and shared responsibility model](./a4475ca7-d9cd-446a-a91f-a888d99ca150/) - Textbook published on November 19, 2025
 ---
 
 # Published Study Plans
