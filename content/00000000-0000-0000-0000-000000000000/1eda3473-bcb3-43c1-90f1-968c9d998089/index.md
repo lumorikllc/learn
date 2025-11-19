@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "AWS Architect Accelerator: 30-Day Plan for Working Professionals"
-date: 2025-11-19T02:20:21.215737
+date: 2025-11-19T02:20:34.674719
 modules: 7
 lessons: 35
 author: "dev@example.com"
