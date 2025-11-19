@@ -41,6 +41,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [Skyrocket Your AWS Data Engineering Skills in 6 Weeks](./7568cfa1-01c4-45a7-ac07-59b5f6c40e38/) - Published on November 19, 2025
 - [📖 Skyrocket Your AWS Data Engineering Skills in 6 Weeks - Explain AWS global infrastructure and shared responsibility model](./0b87f481-3183-4e18-aaa0-68b3e527f277/) - Textbook published on November 19, 2025
 - [8-Week CompTIA Network+ to Security+ Fast-Track with Labs & Reviews](./246b53cd-5df3-4a22-829c-9b360d7e5479/) - Published on November 19, 2025
+- [📖 8-Week CompTIA Network+ to Security+ Fast-Track with Labs & Reviews - Compare OSI and TCP/IP model layers and their functions](./b15ec9ad-3c3f-4cc4-accf-3492b0bbffe3/) - Textbook published on November 19, 2025
 ---
 
 # Published Study Plans
