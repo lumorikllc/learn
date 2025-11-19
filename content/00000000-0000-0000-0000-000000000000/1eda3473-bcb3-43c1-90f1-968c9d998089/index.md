@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "AWS Architect Accelerator: 30-Day Plan for Working Professionals"
-date: 2025-11-19T02:20:09.853046
+date: 2025-11-19T02:20:21.215737
 modules: 7
 lessons: 35
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Establish a solid foundation by exploring key cloud concepts and the AWS global 
 
 **Topics covered:**
 
-- Understand IaaS, PaaS, SaaS and shared responsibility model
+- [Understand IaaS, PaaS, SaaS and shared responsibility model 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/a4475ca7-d9cd-446a-a91f-a888d99ca150)
 - Navigate AWS Management Console and configure CLI access
 - Explore AWS global regions, Availability Zones, and edge locations
 - Review the AWS Well-Architected Framework pillars
