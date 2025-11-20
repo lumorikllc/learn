@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm"
-date: 2025-11-20T01:29:23.443790
+date: 2025-11-20T01:29:35.178056
 modules: 6
 lessons: 29
 author: "dev@example.com"
@@ -17,7 +17,7 @@ Begin with a quick diagnostic to pinpoint strengths and weaknesses across all to
 
 **Topics covered:**
 
-- Complete a 30-minute timed diagnostic covering key FE subjects
+- [Complete a 30-minute timed diagnostic covering key FE subjects 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/92e41509-8c3a-4804-a851-dd99ae34dce5)
 - Analyze results to identify top three weak areas
 - Rank topics by error frequency and allotted study time
 - Draft a detailed 48-hour loop schedule with study and rest blocks
