@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Sprint to Certification: 3-Week Network+ Catch-Up & Security+ Week 4 Handoff"
-date: 2025-11-20T01:35:29.614935
+date: 2025-11-20T01:35:40.319115
 modules: 7
 lessons: 28
 author: "dev@example.com"
@@ -17,7 +17,7 @@ In this initial step, you'll audit and triage your existing Network+ notes to es
 
 **Topics covered:**
 
-- Review and categorize existing notes by Network+ exam domains
+- [Review and categorize existing notes by Network+ exam domains 📖](https://lumorikllc.github.io/learn/content/00000000-0000-0000-0000-000000000000/0b42b57e-0a25-43f1-ba07-5bdc00624e01)
 - Identify high-priority topics and knowledge gaps
 - Consolidate key formulas, definitions, and acronyms
 - Develop a daily study schedule mapped to each domain
