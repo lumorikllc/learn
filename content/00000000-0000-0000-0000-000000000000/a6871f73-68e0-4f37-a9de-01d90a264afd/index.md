@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "Sprint to Certification: 3-Week Network+ Catch-Up & Security+ Week 4 Handoff"
-date: 2025-11-20T01:35:40.319115
+date: 2025-11-20T01:35:50.305020
 modules: 7
 lessons: 28
 author: "dev@example.com"
