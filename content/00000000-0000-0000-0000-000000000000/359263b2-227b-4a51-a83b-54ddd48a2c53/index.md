@@ -1,7 +1,7 @@
 ---
 layout: study-plan-interactive
 title: "48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm"
-date: 2025-11-20T01:29:35.178056
+date: 2025-11-20T01:29:47.021233
 modules: 6
 lessons: 29
 author: "dev@example.com"
