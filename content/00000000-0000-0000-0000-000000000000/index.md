@@ -44,6 +44,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 8-Week CompTIA Network+ to Security+ Fast-Track with Labs & Reviews - Compare OSI and TCP/IP model layers and their functions](./b15ec9ad-3c3f-4cc4-accf-3492b0bbffe3/) - Textbook published on November 19, 2025
 - [From A+ to CCNA: A Step-by-Step Networking Mastery Roadmap](./9b5157fa-49da-43f0-81f4-ca28331eb9d5/) - Published on November 19, 2025
 - [📖 From A+ to CCNA: A Step-by-Step Networking Mastery Roadmap - Identify motherboard form factors, chipsets, and expansion slots](./576b04ce-4c3e-4005-a2ae-f36bc37779d4/) - Textbook published on November 19, 2025
+- [48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm](./359263b2-227b-4a51-a83b-54ddd48a2c53/) - Published on November 20, 2025
 ---
 
 # Published Study Plans
