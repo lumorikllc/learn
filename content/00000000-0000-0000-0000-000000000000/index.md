@@ -47,6 +47,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm](./359263b2-227b-4a51-a83b-54ddd48a2c53/) - Published on November 20, 2025
 - [📖 48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm - Complete a 30-minute timed diagnostic covering key FE subjects](./92e41509-8c3a-4804-a851-dd99ae34dce5/) - Textbook published on November 20, 2025
 - [Sprint to Certification: 3-Week Network+ Catch-Up & Security+ Week 4 Handoff](./a6871f73-68e0-4f37-a9de-01d90a264afd/) - Published on November 20, 2025
+- [📖 Sprint to Certification: 3-Week Network+ Catch-Up & Security+ Week 4 Handoff - Review and categorize existing notes by Network+ exam domains](./0b42b57e-0a25-43f1-ba07-5bdc00624e01/) - Textbook published on November 20, 2025
 ---
 
 # Published Study Plans
