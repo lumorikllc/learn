@@ -46,6 +46,7 @@ user_id: 00000000-0000-0000-0000-000000000000
 - [📖 From A+ to CCNA: A Step-by-Step Networking Mastery Roadmap - Identify motherboard form factors, chipsets, and expansion slots](./576b04ce-4c3e-4005-a2ae-f36bc37779d4/) - Textbook published on November 19, 2025
 - [48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm](./359263b2-227b-4a51-a83b-54ddd48a2c53/) - Published on November 20, 2025
 - [📖 48-Hour Mechanical FE Exam: Structured Loops for Mastery & Calm - Complete a 30-minute timed diagnostic covering key FE subjects](./92e41509-8c3a-4804-a851-dd99ae34dce5/) - Textbook published on November 20, 2025
+- [Sprint to Certification: 3-Week Network+ Catch-Up & Security+ Week 4 Handoff](./a6871f73-68e0-4f37-a9de-01d90a264afd/) - Published on November 20, 2025
 ---
 
 # Published Study Plans
